@@ -1,0 +1,36 @@
+plugins {
+    id 'java-library'
+}
+
+targetCompatibility = '8'
+sourceCompatibility = '8'
+
+version = "0.0.1-SNAPSHOT"
+
+final def parserVersion
+if (project.version.endsWith("-SNAPSHOT")) {
+    parserVersion = '2.9.14-SNAPSHOT'
+} else {
+    parserVersion = '2.9.13'
+}
+
+dependencies {
+    // TODO: check needed dependencies
+    implementation group: "de.hhu.stups", name: "bparser", version: parserVersion, changing: true
+    implementation group: "de.hhu.stups", name: "parserbase", version: parserVersion, changing: true
+    // TODO: migrate to junit 5 
+    testImplementation 'junit:junit:4.12'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        name "sonatype snapshots"
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+    maven {
+        name "sonatype snapshots"
+        url "https://oss.sonatype.org/content/repositories/releases"
+    }
+}
