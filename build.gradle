@@ -1,5 +1,7 @@
 plugins {
     id 'java-library'
+    id "com.github.spotbugs" version "1.6.6"
+    id 'checkstyle'
 }
 
 targetCompatibility = '8'
@@ -7,7 +9,7 @@ sourceCompatibility = '8'
 
 version = "0.0.1-SNAPSHOT"
 
-final def parserVersion
+def parserVersion
 if (project.version.endsWith("-SNAPSHOT")) {
     parserVersion = '2.9.14-SNAPSHOT'
 } else {
@@ -15,10 +17,8 @@ if (project.version.endsWith("-SNAPSHOT")) {
 }
 
 dependencies {
-    // TODO: check needed dependencies
     implementation group: "de.hhu.stups", name: "bparser", version: parserVersion, changing: true
-    implementation group: "de.hhu.stups", name: "parserbase", version: parserVersion, changing: true
-    // TODO: migrate to junit 5 
+    testCompile 'com.github.spotbugs:spotbugs-annotations:3.1.9'
     testImplementation 'junit:junit:4.12'
 }
 
