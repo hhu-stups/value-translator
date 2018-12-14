@@ -66,10 +66,12 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
         this.setResult(BNumber.build(text));
     }
 
+    @Override
     public void inAUnaryMinusExpression(final AUnaryMinusExpression node) {
         this.inUnaryMinus = true;
     }
 
+    @Override
     public void outAUnaryMinusExpression(final AUnaryMinusExpression node) {
         this.inUnaryMinus = false;
     }
@@ -100,7 +102,11 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
 
     @Override
     public void caseACoupleExpression(final ACoupleExpression node) {
-        assert node.getList().size() == 2;
+        if (node.getList().size() != 2) {
+            // TODO: custom exception
+            throw new AssertionError();
+        }
+
         final List<BValue> results = new ArrayList<>();
 
         this.inACoupleExpression(node);
