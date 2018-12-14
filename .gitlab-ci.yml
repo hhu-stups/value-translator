@@ -1,0 +1,43 @@
+image: openjdk:8u181-jdk-slim
+
+variables:
+  GRADLE_ARGS: --no-daemon --stacktrace
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+tests:
+  stage: test
+  script: ./gradlew ${GRADLE_ARGS} test
+  artifacts:
+    paths:
+      - build/reports/tests/
+    when: on_failure
+
+tests:jdk-11:
+  extends: tests
+  image: openjdk:11-jdk-sid
+
+spotbugs:
+  stage: analyze
+  script: ./gradlew ${GRADLE_ARGS} spotBugsMain spotBugsTest
+  artifacts:
+    paths:
+      - build/reports/spotbugs/
+    when: on_failure
+
+sonarqube:
+  stage: analyze
+  script: ./gradlew ${GRADLE_ARGS} -Dsonar.token=${SONAR_TOKEN} sonarqube
+
+
+publish:
+  stage: deploy
+  script: echo "TODO"
+  when: manual
+  allow_failure: true
