@@ -35,7 +35,7 @@ public class BRelation<K extends BValue, V extends BValue> extends BSet<BTuple<K
                                                        Collections::unmodifiableList))));
     }
 
-    private final static class Pair<M, N>{
+    private static final class Pair<M, N>{
         private final M key;
         private final N value;
 
