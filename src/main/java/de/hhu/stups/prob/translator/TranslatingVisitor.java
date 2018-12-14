@@ -180,7 +180,7 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
         }).collect(Collectors.toSet());
     }
 
-    private final static class RecordEntry implements BValue{
+    private static final class RecordEntry implements BValue{
         private final BValue value;
         private final String key;
 
