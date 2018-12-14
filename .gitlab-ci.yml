@@ -1,5 +1,10 @@
 image: openjdk:8u181-jdk-slim
 
+stages:
+  - test
+  - analyze
+  - deploy
+
 variables:
   GRADLE_ARGS: --no-daemon --stacktrace
 
