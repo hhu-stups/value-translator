@@ -1,6 +1,6 @@
 # Value Translator
 
-Translates *Classical B* values into Java objects.
+Translates **Classical B** values into Java objects.
 
 ## Usage
 
