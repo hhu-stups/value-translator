@@ -1,5 +1,11 @@
-package de.hhu.stups.prob.translator;
+package de.hhu.stups.prob.translator.interpretations;
 
+import de.hhu.stups.prob.translator.BAtom;
+import de.hhu.stups.prob.translator.BNumber;
+import de.hhu.stups.prob.translator.BSet;
+import de.hhu.stups.prob.translator.BTuple;
+import de.hhu.stups.prob.translator.BValue;
+import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Test;
 

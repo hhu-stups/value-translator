@@ -1,5 +1,11 @@
-package de.hhu.stups.prob.translator;
+package de.hhu.stups.prob.translator.interpretations;
 
+import de.hhu.stups.prob.translator.BAtom;
+import de.hhu.stups.prob.translator.BNumber;
+import de.hhu.stups.prob.translator.BSet;
+import de.hhu.stups.prob.translator.BTuple;
+import de.hhu.stups.prob.translator.BValue;
+import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Test;
 
@@ -62,6 +68,19 @@ public class BFunctionTest{
         assertEquals("a", map.get(1));
         assertEquals("b", map.get(2));
         assertEquals("c", map.get(3));
+    }
+
+    @SuppressWarnings("unused")
+    @Test(expected = ClassCastException.class)
+    public void translateToFunction() throws TranslationException {
+        final BFunction<BNumber, BAtom> set = Translator.translate("{(1,a), (2, b), (3,c)}");
+    }
+
+    @SuppressWarnings("unused")
+    @Test(expected = ClassCastException.class)
+    public void translateToSetOfFunctions() throws TranslationException {
+        final BSet<BFunction<BNumber, BAtom>> set = Translator.translate("{{(1,a), (2, b), (3,c)}}");
+        final BFunction<BNumber, BAtom> func = set.toSet().iterator().next();
     }
 
 }

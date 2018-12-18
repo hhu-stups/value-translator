@@ -1,4 +1,8 @@
-package de.hhu.stups.prob.translator;
+package de.hhu.stups.prob.translator.interpretations;
+
+import de.hhu.stups.prob.translator.BSet;
+import de.hhu.stups.prob.translator.BTuple;
+import de.hhu.stups.prob.translator.BValue;
 
 import java.util.Collections;
 import java.util.List;
