@@ -7,7 +7,6 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import de.hhu.stups.prob.translator.interpretations.BRelation;
 import org.junit.Test;
 
 import java.util.Arrays;
