@@ -3,6 +3,7 @@ package de.hhu.stups.prob.translator.interpretations;
 import de.hhu.stups.prob.translator.BNumber;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
+import de.hhu.stups.prob.translator.exceptions.RepeatedKeyException;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,8 +44,8 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V>{
         return this.values.stream()
                        .peek(t -> {
                            if (!seen.add(t.first())) {
-                               // TODO: custom exception
-                               throw new RuntimeException("Repeated key");
+                               throw new RepeatedKeyException(
+                                       String.format("Repeated Key in Sequence: key=%s", t.first()));
                            }
                        })
                        .sorted(Comparator.comparingInt(value -> value.first().intValue()))

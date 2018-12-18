@@ -5,6 +5,7 @@ import de.hhu.stups.prob.translator.BNumber;
 import de.hhu.stups.prob.translator.BSet;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.Translator;
+import de.hhu.stups.prob.translator.exceptions.RepeatedKeyException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Test;
 
@@ -50,14 +51,14 @@ public class BSequenceTest{
         Translator.<BSet<?>>translate("{1,2,3}").asSequence().toList();
     }
 
-    @Test(expected = RuntimeException.class) // TODO: custom error class
+    @Test(expected = RepeatedKeyException.class)
     public void sequenceToMapDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (2,c)}");
         final BSequence<BAtom> function = set.asSequence();
         function.toList();
     }
 
-    @Test(expected = RuntimeException.class) // TODO: custom error class
+    @Test(expected = RepeatedKeyException.class)
     public void sequenceToMapWithExtractorDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (3,c)}");
         final BSequence<BAtom> function = set.asSequence();
