@@ -1,7 +1,7 @@
 package de.hhu.stups.prob.translator;
 
 
-import de.be4.classicalb.core.parser.exceptions.BCompoundException;
+import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class BStringTest{
     private BString str2;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws TranslationException {
         this.str1 = Translator.translate("\"lorem ipsum\"");
         this.str2 = Translator.translate("\"\"");
     }
@@ -25,7 +25,7 @@ public class BStringTest{
     }
 
     @Test
-    public void testEqualsObject() throws BCompoundException {
+    public void testEqualsObject() throws TranslationException {
         final BString other = Translator.translate("\"lorem ipsum\"");
         assertEquals(other, this.str1);
     }

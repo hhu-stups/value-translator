@@ -1,6 +1,6 @@
 package de.hhu.stups.prob.translator;
 
-import de.be4.classicalb.core.parser.exceptions.BCompoundException;
+import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class BSetTest{
     private BSet<BValue> set2;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws TranslationException {
         this.set1 = Translator.translate("{1,2,3}");
         this.set2 = Translator.translate("{}");
     }
@@ -31,13 +31,13 @@ public class BSetTest{
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test(expected = ClassCastException.class)
-    public void testCast() throws BCompoundException {
+    public void testCast() throws TranslationException {
         final BSet<BNumber> bSet = Translator.translate("{a,b,c}");
         bSet.toSet().stream().map(BNumber::intValue).collect(Collectors.toList());
     }
 
     @Test(expected = ClassCastException.class)
-    public void testCastInNestedSet() throws BCompoundException {
+    public void testCastInNestedSet() throws TranslationException {
         final BSet<BSet<BNumber>> nestedSet = Translator.translate("{{a,b,c}}");
 
         final Set<BSet<BNumber>> sets = nestedSet.toSet();
@@ -53,14 +53,14 @@ public class BSetTest{
     }
 
     @Test
-    public void testToSet() throws BCompoundException {
+    public void testToSet() throws TranslationException {
         final BSet<BNumber> x = Translator.translate("{3,2,1}");
         final Set<BNumber> expected = Stream.of(1, 2, 3).map(BNumber::new).collect(Collectors.toSet());
         assertEquals(expected, x.toSet());
     }
 
     @Test
-    public void testToStream() throws BCompoundException {
+    public void testToStream() throws TranslationException {
         final BSet<BNumber> x = Translator.translate("{3,2,1}");
         final Set<BNumber> expected = Stream.of(1, 2, 3).map(BNumber::new).collect(Collectors.toSet());
         final Set<BNumber> result = x.stream().collect(Collectors.toSet());

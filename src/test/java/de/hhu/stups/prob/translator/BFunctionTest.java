@@ -1,6 +1,6 @@
 package de.hhu.stups.prob.translator;
 
-import de.be4.classicalb.core.parser.exceptions.BCompoundException;
+import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Test;
 
 import java.util.Map;
@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class BFunctionTest{
 
     @Test
-    public void functionToMap() throws BCompoundException {
+    public void functionToMap() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (2, b), (3,c)}");
         final Map<BNumber, BAtom> map = set.asFunction(BNumber.class, BAtom.class).toMap();
         assertEquals(new BAtom("a"), map.get(new BNumber(1)));
@@ -20,27 +20,27 @@ public class BFunctionTest{
     }
 
     @Test(expected = RuntimeException.class) // TODO: custom error class
-    public void functionToMapDuplicateKeys() throws BCompoundException {
+    public void functionToMapDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (3,c)}");
         final BFunction<BNumber, BAtom> function = set.asFunction();
         function.toMap();
     }
 
     @Test(expected = RuntimeException.class) // TODO: custom error class
-    public void functionToMapWithExtractorDuplicateKeys() throws BCompoundException {
+    public void functionToMapWithExtractorDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (3,c)}");
         final BFunction<BNumber, BAtom> function = set.asFunction();
         function.toMap(BNumber::intValue, BAtom::stringValue);
     }
 
     @Test(expected = RuntimeException.class) // TODO: custom error class
-    public void newFunction() throws BCompoundException {
+    public void newFunction() throws TranslationException {
         final BSet<BNumber> set = Translator.translate("{1,2,3}");
         set.asFunction();
     }
 
     @Test
-    public void newFunction2() throws BCompoundException {
+    public void newFunction2() throws TranslationException {
         final BSet<BValue> set = Translator.translate("{(1 |-> 2 |-> 3), (2 |-> 3 |-> 4)}");
         final BFunction<BTuple<BNumber, BNumber>, BNumber> function = set.asFunction();
         final Map<Long, Long> map = function.toMap(
@@ -52,7 +52,7 @@ public class BFunctionTest{
     }
 
     @Test
-    public void functionToMapExtractValues() throws BCompoundException {
+    public void functionToMapExtractValues() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (2, b), (3,c)}");
 
         final Map<Integer, String> map

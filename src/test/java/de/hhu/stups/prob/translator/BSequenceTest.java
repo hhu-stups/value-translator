@@ -1,6 +1,6 @@
 package de.hhu.stups.prob.translator;
 
-import de.be4.classicalb.core.parser.exceptions.BCompoundException;
+import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class BSequenceTest{
 
     @Test
-    public void setAsSequence() throws BCompoundException {
+    public void setAsSequence() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> value = Translator.translate("[c, b, a]");
         final BSequence<BAtom> sequence = value.asSequence();
         final Map<Integer, String> map = sequence.toMap(BNumber::intValue, BAtom::stringValue);
@@ -22,7 +22,7 @@ public class BSequenceTest{
 
     @SuppressWarnings("FeatureEnvy")
     @Test
-    public void toList2() throws BCompoundException {
+    public void toList2() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> value = Translator.translate("{(1, a), (2, b), (3, c)}");
         final List<BAtom> list = value.asSequence(BAtom.class).toList();
         assertEquals("a", list.get(0).stringValue());
@@ -31,7 +31,7 @@ public class BSequenceTest{
     }
 
     @Test
-    public void toList() throws BCompoundException {
+    public void toList() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> value = Translator.translate("[c, b, a]");
         final List<BAtom> list = value.asSequence(BAtom.class).toList();
 
@@ -41,19 +41,19 @@ public class BSequenceTest{
     }
 
     @Test(expected = RuntimeException.class) // TODO: improve error generated here
-    public void toListError() throws BCompoundException {
+    public void toListError() throws TranslationException {
         Translator.<BSet<?>>translate("{1,2,3}").asSequence().toList();
     }
 
     @Test(expected = RuntimeException.class) // TODO: custom error class
-    public void sequenceToMapDuplicateKeys() throws BCompoundException {
+    public void sequenceToMapDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (2,c)}");
         final BSequence<BAtom> function = set.asSequence();
         function.toList();
     }
 
     @Test(expected = RuntimeException.class) // TODO: custom error class
-    public void sequenceToMapWithExtractorDuplicateKeys() throws BCompoundException {
+    public void sequenceToMapWithExtractorDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (3,c)}");
         final BSequence<BAtom> function = set.asSequence();
         function.toList(BAtom::stringValue);

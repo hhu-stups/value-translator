@@ -1,6 +1,6 @@
 package de.hhu.stups.prob.translator;
 
-import de.be4.classicalb.core.parser.exceptions.BCompoundException;
+import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ import static junit.framework.TestCase.assertSame;
 public class BNumberTest{
 
     @Test
-    public void testNumbers() throws BCompoundException {
+    public void testNumbers() throws TranslationException {
         final BNumber one = Translator.translate("1");
         final BNumber two = Translator.translate("2");
         assertEquals(1, one.intValue());
@@ -24,18 +24,18 @@ public class BNumberTest{
     @Test(expected = ClassCastException.class)
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
             justification = "Type of the variable is needed to trigger a ClassCastException.")
-    public void testNumberCast() throws BCompoundException {
+    public void testNumberCast() throws TranslationException {
         final BString string = Translator.translate("1");
     }
 
     @Test
-    public void testNumberCastUp() throws BCompoundException {
+    public void testNumberCastUp() throws TranslationException {
         final BValue value = Translator.translate("1");
         assertSame(BNumber.class, value.getClass());
     }
 
     @Test
-    public void testNegativeNumber() throws BCompoundException {
+    public void testNegativeNumber() throws TranslationException {
         final BNumber number = Translator.translate("-1");
         assertEquals(-1, number.intValue());
     }

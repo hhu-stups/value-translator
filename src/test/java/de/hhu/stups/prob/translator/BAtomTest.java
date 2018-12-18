@@ -1,33 +1,34 @@
 package de.hhu.stups.prob.translator;
 
-import de.be4.classicalb.core.parser.exceptions.BCompoundException;
+import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class BAtomTest{
 
-	BAtom atom;
+    BAtom atom;
 
-	@Before
-	public void setUp() throws Exception {
-		this.atom = Translator.translate("atom");
-	}
+    @Before
+    public void setUp() throws TranslationException {
+        this.atom = Translator.translate("atom");
+    }
 
-	@Test
-	public void testToString() {
-		assertEquals("atom", this.atom.toString());
-	}
+    @Test
+    public void testToString() {
+        assertEquals("atom", this.atom.toString());
+    }
 
-	@Test
-	public void testEquals() throws BCompoundException {
-	    assertEquals(Translator.translate("atom"), this.atom);
-	    assertNotEquals(Translator.translate("other"), this.atom);
-	}
+    @Test
+    public void testEquals() throws TranslationException {
+        assertEquals(Translator.translate("atom"), this.atom);
+        assertNotEquals(Translator.translate("other"), this.atom);
+    }
 
-	@Test
-	public void testStringValue() {
-		assertEquals("atom", this.atom.stringValue());
-	}
+    @Test
+    public void testStringValue() {
+        assertEquals("atom", this.atom.stringValue());
+    }
 }

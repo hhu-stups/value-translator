@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+// TODO: hide classes from main interface
 @SuppressWarnings("WeakerAccess")
 public class BRelation<K extends BValue, V extends BValue> extends BSet<BTuple<K, V>>{
     @SuppressWarnings("unchecked")
@@ -26,7 +27,7 @@ public class BRelation<K extends BValue, V extends BValue> extends BSet<BTuple<K
         return this.values
                        .stream()
                        .map(tuple -> new Pair<>(keyMapper.apply(tuple.first()),
-                                            valueMapper.apply(tuple.second())))
+                               valueMapper.apply(tuple.second())))
                        .collect(
                                Collectors.groupingBy(o -> o.key,
                                        Collectors.mapping(o -> o.value,

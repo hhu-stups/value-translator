@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+// TODO: hide classes from main interface
 public class BSequence<V extends BValue> extends BFunction<BNumber, V>{
     @SuppressWarnings("unchecked")
     public BSequence(final Set<? extends BValue> bValues) {

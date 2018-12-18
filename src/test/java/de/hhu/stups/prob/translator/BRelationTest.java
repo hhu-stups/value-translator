@@ -1,6 +1,6 @@
 package de.hhu.stups.prob.translator;
 
-import de.be4.classicalb.core.parser.exceptions.BCompoundException;
+import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import static junit.framework.TestCase.assertEquals;
 
 public class BRelationTest{
     @Test
-    public void relationToMap() throws BCompoundException {
+    public void relationToMap() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (2, b), (3,c)}");
         final Map<BNumber, List<BAtom>> map = set.asRelation(BNumber.class, BAtom.class).toRelationalMap();
         assertEquals(Collections.singletonList(new BAtom("a")), map.get(new BNumber(1)));
@@ -24,7 +24,7 @@ public class BRelationTest{
     }
 
     @Test
-    public void relationToMapDuplicateKeys() throws BCompoundException {
+    public void relationToMapDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (3,c)}");
         final Map<BNumber, List<BAtom>> map = set.asRelation(BNumber.class, BAtom.class).toRelationalMap();
 
@@ -33,7 +33,7 @@ public class BRelationTest{
     }
 
     @Test
-    public void functionToMapWithExtractorDuplicateKeys() throws BCompoundException {
+    public void functionToMapWithExtractorDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (3,c)}");
         final BRelation<BNumber, BAtom> function = set.asFunction();
         final Map<Integer, List<String>> map = function.toRelationalMap(BNumber::intValue, BAtom::stringValue);
@@ -42,13 +42,13 @@ public class BRelationTest{
     }
 
     @Test(expected = RuntimeException.class) // TODO: custom exception
-    public void newRelation() throws BCompoundException {
+    public void newRelation() throws TranslationException {
         final BSet<BNumber> set = Translator.translate("{1,2,3}");
         set.asRelation();
     }
 
     @Test
-    public void newFunction2() throws BCompoundException {
+    public void newFunction2() throws TranslationException {
         final BSet<BValue> set = Translator.translate("{(1 |-> 2 |-> 3), (2 |-> 3 |-> 4)}");
         final BRelation<BTuple<BNumber, BNumber>, BNumber> function = set.asRelation();
         final Map<Long, List<Long>> map = function.toRelationalMap(
@@ -60,7 +60,7 @@ public class BRelationTest{
     }
 
     @Test
-    public void functionToMapExtractValues() throws BCompoundException {
+    public void functionToMapExtractValues() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (2, b), (3,c)}");
 
         final Map<Integer, String> map
