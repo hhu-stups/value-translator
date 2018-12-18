@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-// TODO: hide classes from main interface
 @SuppressWarnings("WeakerAccess")
 public class BRelation<K extends BValue, V extends BValue> extends BSet<BTuple<K, V>>{
     @SuppressWarnings("unchecked")

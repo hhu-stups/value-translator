@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-// TODO: hide classes from main interface
 @SuppressWarnings("WeakerAccess")
 public class BFunction<K extends BValue, V extends BValue> extends BRelation<K, V>{
 
@@ -16,7 +15,6 @@ public class BFunction<K extends BValue, V extends BValue> extends BRelation<K, 
         super(bValues);
     }
 
-    // TODO: improve use of generics with extends and super
     public <M, N> Map<M, N> toMap(
             final Function<? super K, ? extends M> keyMapper,
             final Function<? super V, ? extends N> valueMapper) {
