@@ -6,6 +6,7 @@ import de.hhu.stups.prob.translator.BSet;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.Translator;
+import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Test;
@@ -26,14 +27,14 @@ public class BFunctionTest{
 
     }
 
-    @Test(expected = RuntimeException.class) // TODO: custom error class
+    @Test(expected = DuplicateKeyException.class)
     public void functionToMapDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (3,c)}");
         final BFunction<BNumber, BAtom> function = set.asFunction();
         function.toMap();
     }
 
-    @Test(expected = RuntimeException.class) // TODO: custom error class
+    @Test(expected = DuplicateKeyException.class)
     public void functionToMapWithExtractorDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (1, b), (3,c)}");
         final BFunction<BNumber, BAtom> function = set.asFunction();

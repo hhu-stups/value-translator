@@ -1,6 +1,7 @@
 package de.hhu.stups.prob.translator.interpretations;
 
 import de.hhu.stups.prob.translator.BValue;
+import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 
 import java.util.Collections;
 import java.util.Map;
@@ -19,12 +20,16 @@ public class BFunction<K extends BValue, V extends BValue> extends BRelation<K, 
             final Function<? super K, ? extends M> keyMapper,
             final Function<? super V, ? extends N> valueMapper) {
 
-        return this.values.stream().collect(
-                Collectors.collectingAndThen(
-                        Collectors.toMap(
-                                o -> keyMapper.apply(o.first()),
-                                o -> valueMapper.apply(o.second())),
-                        Collections::unmodifiableMap));
+        try {
+            return this.values.stream().collect(
+                    Collectors.collectingAndThen(
+                            Collectors.toMap(
+                                    o -> keyMapper.apply(o.first()),
+                                    o -> valueMapper.apply(o.second())),
+                            Collections::unmodifiableMap));
+        } catch (final IllegalStateException exception) {
+            throw new DuplicateKeyException(exception.getMessage());
+        }
     }
 
     public Map<K, V> toMap() {
