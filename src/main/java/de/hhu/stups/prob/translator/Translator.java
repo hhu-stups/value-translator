@@ -14,8 +14,10 @@ public final class Translator{
         final Node ast;
         try {
             ast = BParser.parse("#EXPRESSION" + expression);
-        } catch (final BCompoundException e) {
-            throw new TranslationException(e);
+        } catch (final BCompoundException
+                               | TranslatingVisitor.UnexpectedTypeException
+                               | TranslatingVisitor.IllegalStateException exception) {
+            throw new TranslationException(exception);
         }
         final TranslatingVisitor<T> v = new TranslatingVisitor<>();
         ast.apply(v);

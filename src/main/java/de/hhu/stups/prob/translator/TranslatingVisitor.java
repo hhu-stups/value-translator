@@ -34,16 +34,15 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
         try {
             return (E) result;
         } catch (final ClassCastException exception) {
-            // TODO: custom exception
-            throw new RuntimeException("Foo", exception);
+            throw new UnexpectedTypeException(exception.getMessage());
         }
     }
 
     @SuppressWarnings("WeakerAccess")
     public T getResult() {
         if (this.result == null) {
-            throw new IllegalStateException(
-                    "Trying to read a missing intermediate result. This might be a missing case in the translator");
+            throw new TranslatingVisitor.IllegalStateException(
+                    "Trying to read a missing intermediate result. This might be a missing case in the class TranslatingVisitor.");
         }
         final T res = this.result;
         this.result = null;
@@ -194,6 +193,18 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
             super();
             this.key = key;
             this.value = value;
+        }
+    }
+
+    static class UnexpectedTypeException extends RuntimeException{
+        UnexpectedTypeException(final String message) {
+            super(message);
+        }
+    }
+
+    static class IllegalStateException extends RuntimeException{
+        IllegalStateException(final String message) {
+            super(message);
         }
     }
 }
