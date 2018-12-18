@@ -7,6 +7,7 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Test;
 
 import java.util.Map;
@@ -71,11 +72,15 @@ public class BFunctionTest{
     }
 
     @SuppressWarnings("unused")
+    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
+            justification = "Type of the variable is needed to trigger a ClassCastException.")
     @Test(expected = ClassCastException.class)
     public void translateToFunction() throws TranslationException {
         final BFunction<BNumber, BAtom> set = Translator.translate("{(1,a), (2, b), (3,c)}");
     }
 
+    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
+            justification = "Type of the variable is needed to trigger a ClassCastException.")
     @SuppressWarnings("unused")
     @Test(expected = ClassCastException.class)
     public void translateToSetOfFunctions() throws TranslationException {
