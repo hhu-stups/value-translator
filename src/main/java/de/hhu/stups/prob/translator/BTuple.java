@@ -12,11 +12,11 @@ public class BTuple<T, S> implements BValue {
         this.second = secondValue;
     }
 
-    public T first() {
+    public T getFirst() {
         return this.first;
     }
 
-    public S second() {
+    public S getSecond() {
         return this.second;
     }
 

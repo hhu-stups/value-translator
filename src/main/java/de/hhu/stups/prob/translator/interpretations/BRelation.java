@@ -36,8 +36,8 @@ public class BRelation<K extends BValue, V extends BValue>
 
         return this.getValues()
                        .stream()
-                       .map(tuple -> new Pair<>(keyMapper.apply(tuple.first()),
-                               valueMapper.apply(tuple.second()))).collect(
+                       .map(tuple -> new Pair<>(keyMapper.apply(tuple.getFirst()),
+                               valueMapper.apply(tuple.getSecond()))).collect(
                         Collectors.groupingBy(o -> o.key,
                                 Collectors.mapping(o -> o.value,
                                         Collectors.collectingAndThen(

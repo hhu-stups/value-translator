@@ -23,8 +23,8 @@ public class BSequenceParsingTest {
                 = Translator.translate("[a, b, c]");
         final Map<Integer, String> map
                 = value.stream().collect(Collectors.toMap(
-                i -> i.first().intValue(),
-                j -> j.second().stringValue()));
+                i -> i.getFirst().intValue(),
+                j -> j.getSecond().stringValue()));
         assertEquals("a", map.get(1));
         assertEquals("b", map.get(2));
         assertEquals("c", map.get(3));
@@ -36,8 +36,8 @@ public class BSequenceParsingTest {
                 = Translator.translate("[a, b, c]");
         final Map<Integer, String> map
                 = value.stream().collect(Collectors.toMap(
-                i -> i.first().intValue(),
-                j -> j.second().stringValue()));
+                i -> i.getFirst().intValue(),
+                j -> j.getSecond().stringValue()));
         assertEquals("a", map.get(1));
         assertEquals("b", map.get(2));
         assertEquals("c", map.get(3));

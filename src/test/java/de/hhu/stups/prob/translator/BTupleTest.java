@@ -11,26 +11,26 @@ public class BTupleTest {
     public void testComponents() throws TranslationException {
         final BTuple<BNumber, BNumber> t1
                 = Translator.translate("(1 |-> 2)");
-        assertEquals(new BNumber(1), t1.first());
-        assertEquals(new BNumber(2), t1.second());
+        assertEquals(new BNumber(1), t1.getFirst());
+        assertEquals(new BNumber(2), t1.getSecond());
     }
 
     @Test
     public void testNested() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> result
                 = Translator.translate("(a |-> 1 |-> b)");
-        assertEquals("a", result.first().first().stringValue());
-        assertEquals(1, result.first().second().intValue());
-        assertEquals("b", result.second().stringValue());
+        assertEquals("a", result.getFirst().getFirst().stringValue());
+        assertEquals(1, result.getFirst().getSecond().intValue());
+        assertEquals("b", result.getSecond().stringValue());
     }
 
     @Test
     public void testManualNested() throws TranslationException {
         final BTuple<BAtom, BTuple<BNumber, BAtom>> result
                 = Translator.translate("(a |-> (1 |-> b))");
-        assertEquals("a", result.first().stringValue());
-        assertEquals(1, result.second().first().intValue());
-        assertEquals("b", result.second().second().stringValue());
+        assertEquals("a", result.getFirst().stringValue());
+        assertEquals(1, result.getSecond().getFirst().intValue());
+        assertEquals("b", result.getSecond().getSecond().stringValue());
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -38,7 +38,7 @@ public class BTupleTest {
     public void testNestedTyping() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> result2
                 = Translator.translate("(99 |-> 1 |-> b)");
-        final BNumber actual = ((BNumber) ((Object) result2.first().first()));
+        final BNumber actual = ((BNumber) ((Object) result2.getFirst().getFirst()));
         final int expected = 99;
         assertEquals(expected, actual.intValue());
     }
@@ -49,6 +49,6 @@ public class BTupleTest {
     public void testNestedTyping2() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> tuple
                 = Translator.translate("(99 |-> 1 |-> b)");
-        tuple.first().first().stringValue();
+        tuple.getFirst().getFirst().stringValue();
     }
 }

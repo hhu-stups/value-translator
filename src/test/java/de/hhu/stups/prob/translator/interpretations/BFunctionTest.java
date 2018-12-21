@@ -61,7 +61,7 @@ public class BFunctionTest {
         final BFunction<BTuple<BNumber, BNumber>, BNumber> function
                 = set.asFunction();
         final Map<Long, Long> map = function.toMap(
-                tuple -> tuple.first().longValue() + tuple.second().longValue(),
+                tuple -> tuple.getFirst().longValue() + tuple.getSecond().longValue(),
                 BNumber::longValue);
         assertEquals(Long.valueOf(3), map.get(3L));
         assertEquals(Long.valueOf(4), map.get(5L));
@@ -82,7 +82,7 @@ public class BFunctionTest {
         assertEquals("c", map.get(3));
     }
 
-    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings( {"unused", "PMD.DataflowAnomalyAnalysis"})
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
             justification = "Type of the variable is needed to trigger "
                                     + "a ClassCastException.")
@@ -95,7 +95,7 @@ public class BFunctionTest {
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
             justification = "Type of the variable is needed to trigger "
                                     + "a ClassCastException.")
-    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings( {"unused", "PMD.DataflowAnomalyAnalysis"})
     @Test(expected = ClassCastException.class)
     public void translateToSetOfFunctions() throws TranslationException {
         final BSet<BFunction<BNumber, BAtom>> set

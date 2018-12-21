@@ -21,7 +21,7 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
             if (!t.getClass().equals(BTuple.class)) {
                 return false;
             }
-            return ((BTuple<BValue, ?>) t).first()
+            return ((BTuple<BValue, ?>) t).getFirst()
                            .getClass().equals(BNumber.class);
         });
         if (!isValid) {
@@ -45,15 +45,15 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
         final Set<BNumber> seen = new HashSet<>();
         return this.getValues().stream()
                        .peek(t -> {
-                           if (!seen.add(t.first())) {
+                           if (!seen.add(t.getFirst())) {
                                throw new DuplicateKeyException(String.format(
                                        "Repeated Key in Sequence: key=%s",
-                                       t.first()));
+                                       t.getFirst()));
                            }
                        })
                        .sorted(Comparator.comparingInt(
-                               value -> value.first().intValue()))
-                       .map(BTuple::second)
+                               value -> value.getFirst().intValue()))
+                       .map(BTuple::getSecond)
                        .map(mapper)
                        .collect(
                                Collectors.collectingAndThen(
