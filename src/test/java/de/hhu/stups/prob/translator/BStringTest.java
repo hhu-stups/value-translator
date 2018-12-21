@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class BStringTest{
+public class BStringTest {
 
     private BString str1;
     private BString str2;

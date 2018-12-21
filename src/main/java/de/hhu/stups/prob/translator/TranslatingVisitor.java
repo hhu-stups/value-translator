@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
+public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     private T result;
     private boolean inUnaryMinus;
 
@@ -42,18 +42,22 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
     public T getResult() {
         if (this.result == null) {
             throw new TranslatingVisitor.IllegalStateException(
-                    "Trying to read a missing intermediate result. This might be a missing case in the class TranslatingVisitor.");
+                    "Trying to read a missing intermediate result. "
+                            + "This might be a missing case in the class "
+                            + "TranslatingVisitor.");
         }
         final T res = this.result;
         this.result = null;
         return res;
     }
 
-    private void setResult(final BValue result) {
+    private void setResult(final BValue bValue) {
         if (this.result != null) {
-            throw new IllegalStateException("Trying to overwrite an intermediate result before reading it.");
+            throw new IllegalStateException("Trying to overwrite an "
+                                                    + "intermediate result "
+                                                    + "before reading it.");
         }
-        this.result = cast(result);
+        this.result = cast(bValue);
     }
 
     @Override
@@ -87,8 +91,10 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseASetExtensionExpression(final ASetExtensionExpression node) {
-        final java.util.Set<BValue> elements = this.listToSet(node.getExpressions());
+    public void caseASetExtensionExpression(
+            final ASetExtensionExpression node) {
+        final java.util.Set<BValue> elements
+                = this.listToSet(node.getExpressions());
         this.setResult(new BSet<>(elements));
     }
 
@@ -136,7 +142,7 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
     @Override
     public void caseARecEntry(final ARecEntry node) {
         final String[] identifier = {null};
-        node.getIdentifier().apply(new DepthFirstAdapter(){
+        node.getIdentifier().apply(new DepthFirstAdapter() {
             @Override
             public void caseTIdentifierLiteral(final TIdentifierLiteral node) {
                 identifier[0] = node.getText();
@@ -149,21 +155,24 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseASequenceExtensionExpression(final ASequenceExtensionExpression node) {
+    public void caseASequenceExtensionExpression(
+            final ASequenceExtensionExpression node) {
         final Set<BTuple<BNumber, ?>> values = new HashSet<>();
 
         int counter = 1;
         for (final PExpression e : node.getExpression()) {
             e.apply(this);
 
-            final BTuple<BNumber, ?> tuple = new BTuple<>(new BNumber(counter++), this.getResult());
+            final BTuple<BNumber, ?> tuple
+                    = new BTuple<>(new BNumber(counter++), this.getResult());
             values.add(tuple);
         }
         this.setResult(new BSet<>(values));
     }
 
     @Override
-    public void caseAEmptySequenceExpression(final AEmptySequenceExpression node) {
+    public void caseAEmptySequenceExpression(
+            final AEmptySequenceExpression node) {
         this.setResult(new BSet<>());
     }
 
@@ -173,36 +182,38 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseABooleanFalseExpression(final ABooleanFalseExpression node) {
+    public void caseABooleanFalseExpression(
+            final ABooleanFalseExpression node) {
         this.setResult(new BBoolean(false));
     }
 
     private Set<BValue> listToSet(final LinkedList<PExpression> elements) {
         return elements.stream().map(p -> {
-            final TranslatingVisitor<BValue> visitor = new TranslatingVisitor<>();
+            final TranslatingVisitor<BValue> visitor
+                    = new TranslatingVisitor<>();
             p.apply(visitor);
             return visitor.getResult();
         }).collect(Collectors.toSet());
     }
 
-    private static final class RecordEntry implements BValue{
+    private static final class RecordEntry implements BValue {
         private final BValue value;
         private final String key;
 
-        RecordEntry(final String key, final BValue value) {
+        RecordEntry(final String stringKey, final BValue bValue) {
             super();
-            this.key = key;
-            this.value = value;
+            this.key = stringKey;
+            this.value = bValue;
         }
     }
 
-    static class UnexpectedTypeException extends RuntimeException{
+    static class UnexpectedTypeException extends RuntimeException {
         UnexpectedTypeException(final String message) {
             super(message);
         }
     }
 
-    static class IllegalStateException extends RuntimeException{
+    static class IllegalStateException extends RuntimeException {
         IllegalStateException(final String message) {
             super(message);
         }

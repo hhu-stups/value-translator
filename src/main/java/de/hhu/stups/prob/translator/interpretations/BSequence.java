@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BSequence<V extends BValue> extends BFunction<BNumber, V>{
+public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     @SuppressWarnings("unchecked")
     public BSequence(final Set<? extends BValue> bValues) {
         super(bValues);
@@ -21,15 +21,18 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V>{
             if (!t.getClass().equals(BTuple.class)) {
                 return false;
             }
-            return ((BTuple<BValue, ?>) t).first().getClass().equals(BNumber.class);
+            return ((BTuple<BValue, ?>) t).first()
+                           .getClass().equals(BNumber.class);
         });
         if (!isValid) {
-            throw new RuntimeException("Incompatible set for conversion to sequence");
+            throw new RuntimeException(
+                    "Incompatible set for conversion to sequence");
         }
     }
 
     /**
-     * Converts a sequence-type set (pairs of index, value) to a list of values ordered by their index.
+     * Converts a sequence-type set (pairs of index, value) to a list of values
+     * ordered by their index.
      *
      * @return list of values
      */
@@ -40,14 +43,16 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V>{
 
     public <K> List<K> toList(final Function<V, K> mapper) {
         final Set<BNumber> seen = new HashSet<>();
-        return this.values.stream()
+        return this.getValues().stream()
                        .peek(t -> {
                            if (!seen.add(t.first())) {
-                               throw new DuplicateKeyException(
-                                       String.format("Repeated Key in Sequence: key=%s", t.first()));
+                               throw new DuplicateKeyException(String.format(
+                                       "Repeated Key in Sequence: key=%s",
+                                       t.first()));
                            }
                        })
-                       .sorted(Comparator.comparingInt(value -> value.first().intValue()))
+                       .sorted(Comparator.comparingInt(
+                               value -> value.first().intValue()))
                        .map(BTuple::second)
                        .map(mapper)
                        .collect(

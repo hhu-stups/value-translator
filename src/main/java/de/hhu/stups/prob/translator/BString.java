@@ -2,7 +2,8 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
-public class BString implements BValue{
+public class BString implements BValue {
+
     private final String value;
 
     public BString(final String text) {
@@ -12,8 +13,12 @@ public class BString implements BValue{
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
         final BString bString = (BString) o;
         return this.value.equals(bString.value);
     }

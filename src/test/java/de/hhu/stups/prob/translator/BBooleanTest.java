@@ -8,7 +8,7 @@ import java.util.Set;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-public class BBooleanTest{
+public class BBooleanTest {
     @Test
     public void testTrue() throws TranslationException {
         final BBoolean v = Translator.translate("TRUE");

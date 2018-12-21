@@ -10,7 +10,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("WeakerAccess")
-public class BFunction<K extends BValue, V extends BValue> extends BRelation<K, V>{
+public class BFunction<K extends BValue, V extends BValue>
+        extends BRelation<K, V> {
 
     public BFunction(final Set<? extends BValue> bValues) {
         super(bValues);
@@ -21,7 +22,7 @@ public class BFunction<K extends BValue, V extends BValue> extends BRelation<K, 
             final Function<? super V, ? extends N> valueMapper) {
 
         try {
-            return this.values.stream().collect(
+            return this.getValues().stream().collect(
                     Collectors.collectingAndThen(
                             Collectors.toMap(
                                     o -> keyMapper.apply(o.first()),

@@ -12,7 +12,8 @@ import java.util.stream.Stream;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-public class BSetTest{
+@SuppressWarnings("checkstyle:magicnumber")
+public class BSetTest {
     private BSet<BNumber> set1;
     private BSet<BValue> set2;
 
@@ -25,7 +26,8 @@ public class BSetTest{
 
     @Test
     public void testSize() {
-        assertEquals(3, this.set1.toSet().size());
+        final int setSize = 3;
+        assertEquals(setSize, this.set1.toSet().size());
         assertTrue(this.set2.toSet().isEmpty());
     }
 
@@ -33,7 +35,9 @@ public class BSetTest{
     @Test(expected = ClassCastException.class)
     public void testCast() throws TranslationException {
         final BSet<BNumber> bSet = Translator.translate("{a,b,c}");
-        bSet.toSet().stream().map(BNumber::intValue).collect(Collectors.toList());
+        bSet.toSet().stream()
+                .map(BNumber::intValue)
+                .collect(Collectors.toList());
     }
 
     @Test(expected = ClassCastException.class)
@@ -46,23 +50,32 @@ public class BSetTest{
                 = sets.stream()
                           .flatMap(bNumberBSet -> bNumberBSet.toSet().stream())
                           .collect(Collectors.toList());
-        assertEquals(3, number.size());
+        final int setSize = 3;
+        assertEquals(setSize, number.size());
 
         //noinspection ResultOfMethodCallIgnored
         number.stream().mapToInt(BNumber::intValue).sum();
     }
 
     @Test
+    @SuppressWarnings("CheckStyle")
     public void testToSet() throws TranslationException {
         final BSet<BNumber> x = Translator.translate("{3,2,1}");
-        final Set<BNumber> expected = Stream.of(1, 2, 3).map(BNumber::new).collect(Collectors.toSet());
+        final Set<BNumber> expected
+                = Stream.of(1, 2, 3)
+                          .map(BNumber::new)
+                          .collect(Collectors.toSet());
         assertEquals(expected, x.toSet());
     }
 
     @Test
     public void testToStream() throws TranslationException {
         final BSet<BNumber> x = Translator.translate("{3,2,1}");
-        final Set<BNumber> expected = Stream.of(1, 2, 3).map(BNumber::new).collect(Collectors.toSet());
+        //noinspection CheckStyle
+        final Set<BNumber> expected
+                = Stream.of(1, 2, 3)
+                          .map(BNumber::new)
+                          .collect(Collectors.toSet());
         final Set<BNumber> result = x.stream().collect(Collectors.toSet());
         assertEquals(expected, result);
     }

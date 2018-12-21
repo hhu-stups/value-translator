@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
 
-public class BRecordTest{
+public class BRecordTest {
 
     @Test
     public void parseRecord() throws TranslationException {

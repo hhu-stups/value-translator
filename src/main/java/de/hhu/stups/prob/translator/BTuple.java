@@ -2,13 +2,14 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
-public class BTuple<T, S> implements BValue{
+public class BTuple<T, S> implements BValue {
+
     private final T first;
     private final S second;
 
-    public BTuple(final T first, final S second) {
-        this.first = first;
-        this.second = second;
+    public BTuple(final T firstValue, final S secondValue) {
+        this.first = firstValue;
+        this.second = secondValue;
     }
 
     public T first() {
@@ -21,11 +22,15 @@ public class BTuple<T, S> implements BValue{
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
         final BTuple<?, ?> bTuple = (BTuple<?, ?>) o;
-        return this.first.equals(bTuple.first) &&
-                       this.second.equals(bTuple.second);
+        return this.first.equals(bTuple.first)
+                       && this.second.equals(bTuple.second);
     }
 
     @Override

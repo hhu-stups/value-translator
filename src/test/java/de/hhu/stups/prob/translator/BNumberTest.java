@@ -9,7 +9,7 @@ import static junit.framework.TestCase.assertNotSame;
 import static junit.framework.TestCase.assertSame;
 
 @SuppressWarnings({"MagicNumber", "FeatureEnvy"})
-public class BNumberTest{
+public class BNumberTest {
 
     @Test
     public void testNumbers() throws TranslationException {
@@ -23,7 +23,8 @@ public class BNumberTest{
     @SuppressWarnings("unused")
     @Test(expected = ClassCastException.class)
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
-            justification = "Type of the variable is needed to trigger a ClassCastException.")
+            justification = "Type of the variable is needed to"
+                                    + " trigger a ClassCastException.")
     public void testNumberCast() throws TranslationException {
         final BString string = Translator.translate("1");
     }

@@ -10,15 +10,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BSet<T extends BValue> implements BValue{
-    protected final Set<T> values;
+public class BSet<T extends BValue> implements BValue {
+    private final Set<T> values;
 
-    public BSet(final Set<T> values) {
-        this.values = values;
+    public BSet(final Set<T> set) {
+        this.values = set;
     }
 
     public BSet() {
         this.values = Collections.emptyNavigableSet();
+    }
+
+    protected Set<T> getValues() {
+        return this.values;
     }
 
     @Override
@@ -57,7 +61,8 @@ public class BSet<T extends BValue> implements BValue{
 
 
     @SuppressWarnings("unused")
-    public <V extends BValue> BSequence<V> asSequence(final Class<V> valueType) {
+    public <V extends BValue> BSequence<V> asSequence(
+            final Class<V> valueType) {
         return this.asSequence();
     }
 
@@ -73,7 +78,8 @@ public class BSet<T extends BValue> implements BValue{
      * @return BFunction
      */
     @SuppressWarnings("unused")
-    public <A extends BValue, B extends BValue> BFunction<A, B> asFunction(final Class<A> domainType, final Class<B> rangeType) {
+    public <A extends BValue, B extends BValue> BFunction<A, B> asFunction(
+            final Class<A> domainType, final Class<B> rangeType) {
         return this.asFunction();
     }
 
@@ -82,7 +88,8 @@ public class BSet<T extends BValue> implements BValue{
     }
 
     @SuppressWarnings("unused")
-    public <A extends BValue, B extends BValue> BRelation<A, B> asRelation(final Class<A> domainType, final Class<B> rangeType) {
+    public <A extends BValue, B extends BValue> BRelation<A, B> asRelation(
+            final Class<A> domainType, final Class<B> rangeType) {
         return this.asRelation();
     }
 

@@ -7,9 +7,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class BAtomTest{
+public class BAtomTest {
 
-    BAtom atom;
+    private BAtom atom;
 
     @Before
     public void setUp() throws TranslationException {
