@@ -38,7 +38,8 @@ public class BTupleTest {
     public void testNestedTyping() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> result2
                 = Translator.translate("(99 |-> 1 |-> b)");
-        final BNumber actual = ((BNumber) ((Object) result2.getFirst().getFirst()));
+        final BNumber actual
+                = ((BNumber) ((Object) result2.getFirst().getFirst()));
         final int expected = 99;
         assertEquals(expected, actual.intValue());
     }

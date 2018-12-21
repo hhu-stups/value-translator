@@ -79,7 +79,8 @@ public class BRelationTest {
         final BRelation<BTuple<BNumber, BNumber>, BNumber> function
                 = set.asRelation();
         final Map<Long, List<Long>> map = function.toRelationalMap(
-                tuple -> tuple.getFirst().longValue() + tuple.getSecond().longValue(),
+                tuple -> tuple.getFirst().longValue()
+                                 + tuple.getSecond().longValue(),
                 BNumber::longValue);
         assertEquals(Collections.singletonList(3L), map.get(3L));
         assertEquals(Collections.singletonList(4L), map.get(5L));
