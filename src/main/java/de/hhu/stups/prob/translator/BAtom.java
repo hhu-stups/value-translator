@@ -3,6 +3,7 @@ package de.hhu.stups.prob.translator;
 import java.util.Objects;
 
 public class BAtom implements BValue {
+
     private final String value;
 
     public BAtom(final String text) {

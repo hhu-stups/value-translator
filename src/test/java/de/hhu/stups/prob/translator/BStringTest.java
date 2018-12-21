@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize")
 public class BStringTest {
 
     private BString str1;

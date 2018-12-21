@@ -20,7 +20,7 @@ public class BNumberTest {
         assertEquals(1L, one.longValue());
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
     @Test(expected = ClassCastException.class)
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
             justification = "Type of the variable is needed to"

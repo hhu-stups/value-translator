@@ -82,7 +82,7 @@ public class BFunctionTest {
         assertEquals("c", map.get(3));
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
             justification = "Type of the variable is needed to trigger "
                                     + "a ClassCastException.")
@@ -95,7 +95,7 @@ public class BFunctionTest {
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
             justification = "Type of the variable is needed to trigger "
                                     + "a ClassCastException.")
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
     @Test(expected = ClassCastException.class)
     public void translateToSetOfFunctions() throws TranslationException {
         final BSet<BFunction<BNumber, BAtom>> set

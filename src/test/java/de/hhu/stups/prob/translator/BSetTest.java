@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings("checkstyle:magicnumber")
+@SuppressWarnings({"checkstyle:magicnumber", "PMD.BeanMembersShouldSerialize"})
 public class BSetTest {
     private BSet<BNumber> set1;
     private BSet<BValue> set2;
