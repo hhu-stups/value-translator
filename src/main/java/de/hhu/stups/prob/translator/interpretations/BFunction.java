@@ -23,13 +23,12 @@ public class BFunction<K extends BValue, V extends BValue>
 
         try {
             return this.getValues().stream().collect(
-                    Collectors.collectingAndThen(
-                            Collectors.toMap(
-                                    o -> keyMapper.apply(o.getFirst()),
-                                    o -> valueMapper.apply(o.getSecond())),
-                            Collections::unmodifiableMap));
+                    Collectors.collectingAndThen(Collectors.toMap(
+                            tuple -> keyMapper.apply(tuple.getFirst()),
+                            tuple -> valueMapper.apply(tuple.getSecond())
+                    ), Collections::unmodifiableMap));
         } catch (final IllegalStateException exception) {
-            throw new DuplicateKeyException(exception.getMessage());
+            throw new DuplicateKeyException(exception.getMessage(), exception);
         }
     }
 

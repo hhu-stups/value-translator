@@ -21,14 +21,15 @@ public class BTuple<T, S> implements BValue {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || this.getClass() != o.getClass()) {
+        if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
-        final BTuple<?, ?> bTuple = (BTuple<?, ?>) o;
+        final BTuple<?, ?> bTuple = (BTuple<?, ?>) other;
         return this.first.equals(bTuple.first)
                        && this.second.equals(bTuple.second);
     }

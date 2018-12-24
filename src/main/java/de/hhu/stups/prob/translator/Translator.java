@@ -13,18 +13,17 @@ public final class Translator {
     public static <T extends BValue> T translate(final String expression)
             throws TranslationException {
 
-        final Node ast;
         try {
-            ast = BParser.parse("#EXPRESSION" + expression);
+            final Node ast = BParser.parse("#EXPRESSION" + expression);
+            final TranslatingVisitor<T> visitor = new TranslatingVisitor<>();
+            ast.apply(visitor);
+
+            return visitor.getResult();
         } catch (final BCompoundException
                                | TranslatingVisitor.UnexpectedTypeException
                                | TranslatingVisitor.IllegalStateException
                          exception) {
             throw new TranslationException(exception);
         }
-        final TranslatingVisitor<T> v = new TranslatingVisitor<>();
-        ast.apply(v);
-
-        return v.getResult();
     }
 }

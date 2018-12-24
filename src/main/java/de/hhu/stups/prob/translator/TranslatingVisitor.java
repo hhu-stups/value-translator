@@ -12,19 +12,17 @@ import de.be4.classicalb.core.parser.node.ASequenceExtensionExpression;
 import de.be4.classicalb.core.parser.node.ASetExtensionExpression;
 import de.be4.classicalb.core.parser.node.AUnaryMinusExpression;
 import de.be4.classicalb.core.parser.node.PExpression;
-import de.be4.classicalb.core.parser.node.PRecEntry;
 import de.be4.classicalb.core.parser.node.TIdentifierLiteral;
 import de.be4.classicalb.core.parser.node.TIntegerLiteral;
 import de.be4.classicalb.core.parser.node.TStringLiteral;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     private T result;
     private boolean inUnaryMinus;
@@ -34,11 +32,21 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         try {
             return (E) result;
         } catch (final ClassCastException exception) {
-            throw new UnexpectedTypeException(exception.getMessage());
+            throw new UnexpectedTypeException(
+                    exception.getMessage(), exception);
         }
     }
 
-    @SuppressWarnings("WeakerAccess")
+    private static Set<BValue> listToSet(final List<PExpression> elements) {
+        return elements.stream().map(expression -> {
+            final TranslatingVisitor<BValue> visitor
+                    = new TranslatingVisitor<>();
+            expression.apply(visitor);
+            return visitor.getResult();
+        }).collect(Collectors.toSet());
+    }
+
+    @SuppressWarnings({"WeakerAccess", "PMD.NullAssignment"})
     public T getResult() {
         if (this.result == null) {
             throw new TranslatingVisitor.IllegalStateException(
@@ -61,12 +69,16 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidFinalLocalVariable")
     public void caseTIntegerLiteral(final TIntegerLiteral node) {
-        java.lang.String text = node.getText();
+        final String nodeText = node.getText();
+        final String text;
         if (this.inUnaryMinus) {
-            text = "-" + text;
+            text = "-" + nodeText;
+        } else {
+            text = nodeText;
         }
-        this.setResult(BNumber.build(text));
+        this.setResult(new BNumber(text));
     }
 
     @Override
@@ -84,7 +96,6 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         this.setResult(new BAtom(node.getText()));
     }
 
-
     @Override
     public void caseAEmptySetExpression(final AEmptySetExpression node) {
         this.setResult(new BSet<>());
@@ -93,33 +104,33 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     @Override
     public void caseASetExtensionExpression(
             final ASetExtensionExpression node) {
-        final java.util.Set<BValue> elements
-                = this.listToSet(node.getExpressions());
+        final Set<BValue> elements
+                = listToSet(node.getExpressions());
         this.setResult(new BSet<>(elements));
     }
+
+    //
 
     @Override
     public void caseTStringLiteral(final TStringLiteral node) {
         this.setResult(new BString(node.getText()));
     }
 
-    //
-
     @Override
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     public void caseACoupleExpression(final ACoupleExpression node) {
         if (node.getList().size() != 2) {
-            // TODO: custom exception
-            throw new AssertionError();
+            throw new AssertionError(); // TODO: custom exception
         }
-
-        final List<BValue> results = new ArrayList<>();
 
         this.inACoupleExpression(node);
-        final List<PExpression> copy = new ArrayList<>(node.getList());
-        for (final PExpression expression : copy) {
-            expression.apply(this);
-            results.add(this.getResult());
-        }
+        final List<BValue> results
+                = node.getList().stream()
+                          .map(expression -> {
+                              expression.apply(this);
+                              return this.getResult();
+                          })
+                          .collect(Collectors.toList());
         this.outACoupleExpression(node);
 
         this.setResult(new BTuple<>(results.get(0), results.get(1)));
@@ -128,30 +139,27 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     //
     @Override
     public void caseARecExpression(final ARecExpression node) {
-        final Map<String, BValue> s = BRecord.newStorage();
-        // TODO or make the record immutable after filling it
-        for (final PRecEntry e : node.getEntries()) {
-            e.apply(this);
-            final RecordEntry entry = (RecordEntry) this.getResult();
-            s.put(entry.key, entry.value);
-        }
-        this.setResult(new BRecord(s));
+        final Map<String, BValue> map =
+                node.getEntries().stream().map(recEntry -> {
+                    recEntry.apply(this);
+                    return (RecordEntry) this.getResult();
+                }).collect(
+                        Collectors.toMap(RecordEntry::getKey,
+                                RecordEntry::getValue));
+        this.setResult(new BRecord(map));
     }
 
-
     @Override
+    @SuppressWarnings("PMD.AccessorMethodGeneration")
     public void caseARecEntry(final ARecEntry node) {
-        final String[] identifier = {null};
-        node.getIdentifier().apply(new DepthFirstAdapter() {
-            @Override
-            public void caseTIdentifierLiteral(final TIdentifierLiteral node) {
-                identifier[0] = node.getText();
-            }
-        });
+        final IdentifierDepthFirstAdapter depthFirstAdapter
+                = new IdentifierDepthFirstAdapter();
+        node.getIdentifier().apply(depthFirstAdapter);
 
         node.getValue().apply(this);
         final BValue value = this.getResult();
-        this.setResult(new RecordEntry(identifier[0], value));
+        this.setResult(
+                new RecordEntry(depthFirstAdapter.getIdentifier(), value));
     }
 
     @Override
@@ -159,12 +167,13 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
             final ASequenceExtensionExpression node) {
         final Set<BTuple<BNumber, ?>> values = new HashSet<>();
 
-        int counter = 1;
-        for (final PExpression e : node.getExpression()) {
-            e.apply(this);
+        final List<PExpression> expressions = node.getExpression();
+        for (int i = 0; i < expressions.size(); i++) {
+            final PExpression expression = expressions.get(i);
+            expression.apply(this);
 
             final BTuple<BNumber, ?> tuple
-                    = new BTuple<>(new BNumber(counter++), this.getResult());
+                    = new BTuple<>(new BNumber(i + 1), this.getResult());
             values.add(tuple);
         }
         this.setResult(new BSet<>(values));
@@ -187,35 +196,51 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         this.setResult(new BBoolean(false));
     }
 
-    private Set<BValue> listToSet(final LinkedList<PExpression> elements) {
-        return elements.stream().map(p -> {
-            final TranslatingVisitor<BValue> visitor
-                    = new TranslatingVisitor<>();
-            p.apply(visitor);
-            return visitor.getResult();
-        }).collect(Collectors.toSet());
-    }
-
     private static final class RecordEntry implements BValue {
         private final BValue value;
         private final String key;
 
-        RecordEntry(final String stringKey, final BValue bValue) {
+        /* default */ RecordEntry(final String stringKey, final BValue bValue) {
             super();
             this.key = stringKey;
             this.value = bValue;
         }
+
+        private BValue getValue() {
+            return this.value;
+        }
+
+        private String getKey() {
+            return this.key;
+        }
     }
 
-    static class UnexpectedTypeException extends RuntimeException {
-        UnexpectedTypeException(final String message) {
+    /* default */ static class UnexpectedTypeException
+            extends RuntimeException {
+        /* default */ UnexpectedTypeException(
+                final String message,
+                final ClassCastException exception) {
+            super(message, exception);
+        }
+    }
+
+    /* default */ static class IllegalStateException extends RuntimeException {
+        /* default */ IllegalStateException(final String message) {
             super(message);
         }
     }
 
-    static class IllegalStateException extends RuntimeException {
-        IllegalStateException(final String message) {
-            super(message);
+    /* default */ private static class IdentifierDepthFirstAdapter
+            extends DepthFirstAdapter {
+        private String identifier;
+
+        @Override
+        public void caseTIdentifierLiteral(final TIdentifierLiteral node) {
+            this.identifier = node.getText();
+        }
+
+        public String getIdentifier() {
+            return this.identifier;
         }
     }
 }

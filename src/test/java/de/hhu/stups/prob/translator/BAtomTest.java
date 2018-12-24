@@ -7,7 +7,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-@SuppressWarnings("PMD.BeanMembersShouldSerialize")
+@SuppressWarnings({
+        "PMD.BeanMembersShouldSerialize",
+        "JUnitAssertionsShouldIncludeMessage",
+        "AtLeastOneConstructor"})
 public class BAtomTest {
 
     private static final String ATOM = "atom";
@@ -20,13 +23,17 @@ public class BAtomTest {
 
     @Test
     public void testToString() {
-        assertEquals(ATOM, this.atom.toString());
+        assertEquals(ATOM, String.valueOf(this.atom));
     }
 
     @Test
-    public void testEquals() throws TranslationException {
-        assertEquals(Translator.translate(ATOM), this.atom);
-        assertNotEquals(Translator.translate("other"), this.atom);
+    public void testEquals() {
+        assertEquals(new BAtom(ATOM), this.atom);
+    }
+
+    @Test
+    public void testNotEquals() {
+        assertNotEquals(new BAtom("other"), this.atom);
     }
 
     @Test

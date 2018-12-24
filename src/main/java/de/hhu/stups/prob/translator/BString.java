@@ -12,14 +12,15 @@ public class BString implements BValue {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || this.getClass() != o.getClass()) {
+        if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
-        final BString bString = (BString) o;
+        final BString bString = (BString) other;
         return this.value.equals(bString.value);
     }
 

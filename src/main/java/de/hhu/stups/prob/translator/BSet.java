@@ -10,6 +10,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SuppressWarnings({
+        "PMD.ShortClassName",
+        "PMD.TooManyMethods"})
 public class BSet<T extends BValue> implements BValue {
     private final Set<T> values;
 
@@ -26,14 +29,15 @@ public class BSet<T extends BValue> implements BValue {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || this.getClass() != o.getClass()) {
+        if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
-        final BSet<?> bSet = (BSet<?>) o;
+        final BSet<?> bSet = (BSet<?>) other;
         return this.values.equals(bSet.values);
     }
 

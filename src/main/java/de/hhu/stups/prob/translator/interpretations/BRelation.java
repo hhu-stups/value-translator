@@ -20,8 +20,10 @@ public class BRelation<K extends BValue, V extends BValue>
         final boolean isValid
                 = bValues.stream()
                           .allMatch(
-                                  t -> t.getClass().equals(BTuple.class));
+                                  value -> value.getClass()
+                                                   .equals(BTuple.class));
         if (!isValid) {
+            // TODO: custom exception
             throw new RuntimeException(
                     "Incompatible set for conversion to relation/function");
         }
@@ -36,24 +38,35 @@ public class BRelation<K extends BValue, V extends BValue>
 
         return this.getValues()
                        .stream()
-                       .map(tuple -> new Pair<>(keyMapper.apply(tuple.getFirst()),
-                               valueMapper.apply(tuple.getSecond()))).collect(
-                        Collectors.groupingBy(o -> o.key,
-                                Collectors.mapping(o -> o.value,
+                       .map(tuple -> new Pair<>(
+                               keyMapper.apply(tuple.getFirst()),
+                               valueMapper.apply(tuple.getSecond())
+                       )).collect(
+                        Collectors.groupingBy(Pair::getKey,
+                                Collectors.mapping(Pair::getValue,
                                         Collectors.collectingAndThen(
                                                 Collectors.toList(),
                                                 Collections::unmodifiableList
                                         ))));
     }
 
-    private static final class Pair<M, N> {
+    @SuppressWarnings("PMD.ShortClassName")
+    /* default */ static final class Pair<M, N> {
         private final M key;
         private final N value;
 
-        Pair(final M m, final N n) {
+        /* default */ Pair(final M mKey, final N nValue) {
             super();
-            this.key = m;
-            this.value = n;
+            this.key = mKey;
+            this.value = nValue;
+        }
+
+        public M getKey() {
+            return this.key;
+        }
+
+        public N getValue() {
+            return this.value;
         }
     }
 }

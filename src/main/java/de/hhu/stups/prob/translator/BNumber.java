@@ -7,12 +7,12 @@ public class BNumber extends Number implements BValue {
     private final Long value;
 
     public BNumber(final long longValue) {
+        super();
         this.value = longValue;
     }
 
-    static BNumber build(final String text) {
-        return new BNumber(Integer.parseInt(text));
-
+    public BNumber(final String stringValue) {
+        this(Integer.parseInt(stringValue));
     }
 
     @Override
@@ -21,14 +21,15 @@ public class BNumber extends Number implements BValue {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || this.getClass() != o.getClass()) {
+        if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
-        final BNumber bNumber = (BNumber) o;
+        final BNumber bNumber = (BNumber) other;
         return this.value.equals(bNumber.value);
     }
 

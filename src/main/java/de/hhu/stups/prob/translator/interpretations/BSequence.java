@@ -17,14 +17,15 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     @SuppressWarnings("unchecked")
     public BSequence(final Set<? extends BValue> bValues) {
         super(bValues);
-        final boolean isValid = bValues.stream().allMatch(t -> {
-            if (!t.getClass().equals(BTuple.class)) {
+        final boolean isValid = bValues.stream().allMatch(tuple -> {
+            if (!tuple.getClass().equals(BTuple.class)) {
                 return false;
             }
-            return ((BTuple<BValue, ?>) t).getFirst()
+            return ((BTuple<BValue, ?>) tuple).getFirst()
                            .getClass().equals(BNumber.class);
         });
         if (!isValid) {
+            // TODO: custom exception
             throw new RuntimeException(
                     "Incompatible set for conversion to sequence");
         }
@@ -44,11 +45,11 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     public <K> List<K> toList(final Function<V, K> mapper) {
         final Set<BNumber> seen = new HashSet<>();
         return this.getValues().stream()
-                       .peek(t -> {
-                           if (!seen.add(t.getFirst())) {
+                       .peek(tuple -> {
+                           if (!seen.add(tuple.getFirst())) {
                                throw new DuplicateKeyException(String.format(
                                        "Repeated Key in Sequence: key=%s",
-                                       t.getFirst()));
+                                       tuple.getFirst()));
                            }
                        })
                        .sorted(Comparator.comparingInt(

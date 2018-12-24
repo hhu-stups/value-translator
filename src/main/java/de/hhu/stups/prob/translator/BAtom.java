@@ -12,14 +12,15 @@ public class BAtom implements BValue {
     }
 
     @Override
-    public final boolean equals(final Object o) {
-        if (this == o) {
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public final boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || this.getClass() != o.getClass()) {
+        if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
-        final BAtom bAtom = (BAtom) o;
+        final BAtom bAtom = (BAtom) other;
         return this.value.equals(bAtom.value);
     }
 

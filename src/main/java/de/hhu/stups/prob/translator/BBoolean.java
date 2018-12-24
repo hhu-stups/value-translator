@@ -15,14 +15,15 @@ public class BBoolean implements BValue {
     }
 
     @Override
-    public final boolean equals(final Object o) {
-        if (this == o) {
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public final boolean equals(final Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || this.getClass() != o.getClass()) {
+        if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
-        final BBoolean bBoolean = (BBoolean) o;
+        final BBoolean bBoolean = (BBoolean) other;
         return this.value == bBoolean.value;
     }
 
