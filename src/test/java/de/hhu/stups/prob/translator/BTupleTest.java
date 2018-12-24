@@ -2,9 +2,10 @@ package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BTupleTest {
     @Test
@@ -44,12 +45,13 @@ public class BTupleTest {
         assertEquals(expected, actual.intValue());
     }
 
-    @Test(expected = ClassCastException.class)
+    @Test
     @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
             justification = "Call used to trigger an exception.")
     public void testNestedTyping2() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> tuple
                 = Translator.translate("(99 |-> 1 |-> b)");
-        tuple.getFirst().getFirst().stringValue();
+        assertThrows(ClassCastException.class,
+                () -> tuple.getFirst().getFirst().stringValue());
     }
 }

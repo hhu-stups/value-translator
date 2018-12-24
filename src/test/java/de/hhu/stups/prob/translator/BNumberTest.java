@@ -2,13 +2,14 @@ package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotSame;
-import static junit.framework.TestCase.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings({"MagicNumber", "FeatureEnvy"})
+@SuppressWarnings( {"MagicNumber", "FeatureEnvy"})
 public class BNumberTest {
 
     @Test
@@ -20,13 +21,15 @@ public class BNumberTest {
         assertEquals(1L, one.longValue());
     }
 
-    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
-    @Test(expected = ClassCastException.class)
+    @SuppressWarnings( {"unused", "PMD.DataflowAnomalyAnalysis"})
+    @Test
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
             justification = "Type of the variable is needed to"
                                     + " trigger a ClassCastException.")
-    public void testNumberCast() throws TranslationException {
-        final BString string = Translator.translate("1");
+    public void testNumberCast() {
+        assertThrows(ClassCastException.class, () -> {
+            final BString string = Translator.translate("1");
+        });
     }
 
     @Test

@@ -23,7 +23,8 @@ if (project.version.endsWith("-SNAPSHOT")) {
 dependencies {
     implementation group: "de.hhu.stups", name: "bparser", version: parserVersion, changing: true
     testCompile 'com.github.spotbugs:spotbugs-annotations:3.1.9'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
 }
 
 repositories {
@@ -43,5 +44,11 @@ sonarqube {
     properties {
         property "sonar.host.url", "https://sonarqube.cs.uni-duesseldorf.de/"
         property "sonar.login", System.getProperty("sonar.token")
+    }
+}
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
     }
 }

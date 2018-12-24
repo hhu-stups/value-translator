@@ -7,7 +7,7 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +16,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("checkstyle:magicnumber")
 public class BRelationTest {
@@ -66,10 +67,10 @@ public class BRelationTest {
         assertEquals(Collections.singletonList("c"), map.get(3));
     }
 
-    @Test(expected = RuntimeException.class) // TODO: custom exception
+    @Test // TODO: custom exception
     public void newRelation() throws TranslationException {
         final BSet<BNumber> set = Translator.translate("{1,2,3}");
-        set.asRelation();
+        assertThrows(RuntimeException.class, set::asRelation);
     }
 
     @Test

@@ -1,46 +1,48 @@
 package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SuppressWarnings({"checkstyle:magicnumber", "PMD.BeanMembersShouldSerialize"})
+@SuppressWarnings( {"checkstyle:magicnumber", "PMD.BeanMembersShouldSerialize"})
 public class BSetTest {
-    private BSet<BNumber> set1;
-    private BSet<BValue> set2;
+    private static BSet<BNumber> set1;
+    private static BSet<BValue> set2;
 
-    @Before
-    public void setUp() throws TranslationException {
-        this.set1 = Translator.translate("{1,2,3}");
-        this.set2 = Translator.translate("{}");
+    @BeforeAll
+    public static void setUp() throws TranslationException {
+        set1 = Translator.translate("{1,2,3}");
+        set2 = Translator.translate("{}");
     }
 
 
     @Test
     public void testSize() {
         final int setSize = 3;
-        assertEquals(setSize, this.set1.toSet().size());
-        assertTrue(this.set2.toSet().isEmpty());
+        assertEquals(setSize, set1.toSet().size());
+        assertTrue(set2.toSet().isEmpty());
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    @Test(expected = ClassCastException.class)
+    @Test
     public void testCast() throws TranslationException {
         final BSet<BNumber> bSet = Translator.translate("{a,b,c}");
-        bSet.toSet().stream()
-                .map(BNumber::intValue)
-                .collect(Collectors.toList());
+        assertThrows(ClassCastException.class,
+                () -> bSet.toSet().stream()
+                              .map(BNumber::intValue)
+                              .collect(Collectors.toList()));
     }
 
-    @Test(expected = ClassCastException.class)
+    @Test
     public void testCastInNestedSet() throws TranslationException {
         final BSet<BSet<BNumber>> nestedSet = Translator.translate("{{a,b,c}}");
 
@@ -54,7 +56,8 @@ public class BSetTest {
         assertEquals(setSize, number.size());
 
         //noinspection ResultOfMethodCallIgnored
-        number.stream().mapToInt(BNumber::intValue).sum();
+        assertThrows(ClassCastException.class,
+                () -> number.stream().mapToInt(BNumber::intValue).sum());
     }
 
     @Test

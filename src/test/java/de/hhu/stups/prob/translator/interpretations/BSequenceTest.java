@@ -7,12 +7,13 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("checkstyle:magicnumber")
 public class BSequenceTest {
@@ -51,27 +52,33 @@ public class BSequenceTest {
         assertEquals("a", list.get(2).stringValue());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     // TODO: improve error generated here
     public void toListError() throws TranslationException {
-        Translator.<BSet<?>>translate("{1,2,3}").asSequence().toList();
+        assertThrows(
+                RuntimeException.class,
+                () -> Translator
+                              .<BSet<?>>translate("{1,2,3}")
+                              .asSequence()
+                              .toList());
     }
 
-    @Test(expected = DuplicateKeyException.class)
+    @Test
     public void sequenceToMapDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set
                 = Translator.translate("{(1,a), (1, b), (2,c)}");
         final BSequence<BAtom> function = set.asSequence();
-        function.toList();
+        assertThrows(DuplicateKeyException.class, function::toList);
     }
 
-    @Test(expected = DuplicateKeyException.class)
+    @Test
     public void sequenceToMapWithExtractorDuplicateKeys()
             throws TranslationException {
 
         final BSet<BTuple<BNumber, BAtom>> set
                 = Translator.translate("{(1,a), (1, b), (3,c)}");
         final BSequence<BAtom> function = set.asSequence();
-        function.toList(BAtom::stringValue);
+        assertThrows(DuplicateKeyException.class,
+                () -> function.toList(BAtom::stringValue));
     }
 }

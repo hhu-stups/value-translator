@@ -1,12 +1,10 @@
 package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.util.Set;
-
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BBooleanTest {
     @Test
@@ -19,6 +17,5 @@ public class BBooleanTest {
     public void testFalse() throws TranslationException {
         final BBoolean v = Translator.translate("FALSE");
         assertFalse(v.booleanValue());
-        Set s;
     }
 }
