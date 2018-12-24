@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SuppressWarnings( {"checkstyle:magicnumber", "PMD.BeanMembersShouldSerialize"})
+@SuppressWarnings({"checkstyle:magicnumber", "PMD.BeanMembersShouldSerialize"})
 public class BSetTest {
     private static BSet<BNumber> set1;
     private static BSet<BValue> set2;

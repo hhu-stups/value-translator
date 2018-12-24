@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings( {"MagicNumber", "FeatureEnvy"})
+@SuppressWarnings({"MagicNumber", "FeatureEnvy"})
 public class BNumberTest {
 
     @Test
@@ -21,7 +21,7 @@ public class BNumberTest {
         assertEquals(1L, one.longValue());
     }
 
-    @SuppressWarnings( {"unused", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
     @Test
     @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
             justification = "Type of the variable is needed to"

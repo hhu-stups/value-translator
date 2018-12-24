@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
 public class BTupleTest {
     @Test
     public void testComponents() throws TranslationException {
@@ -45,9 +46,8 @@ public class BTupleTest {
         assertEquals(expected, actual.intValue());
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
-            justification = "Call used to trigger an exception.")
     public void testNestedTyping2() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> tuple
                 = Translator.translate("(99 |-> 1 |-> b)");
