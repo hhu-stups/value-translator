@@ -44,14 +44,15 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
 
     public <K> List<K> toList(final Function<V, K> mapper) {
         final Set<BNumber> seen = new HashSet<>();
+        for (final BTuple<BNumber, V> tuple : this.getValues()) {
+            if (seen.add(tuple.getFirst())) {
+                continue;
+            }
+            throw new DuplicateKeyException(String.format(
+                    "Repeated Key in Sequence: key=%s",
+                    tuple.getFirst()));
+        }
         return this.getValues().stream()
-                       .peek(tuple -> {
-                           if (!seen.add(tuple.getFirst())) {
-                               throw new DuplicateKeyException(String.format(
-                                       "Repeated Key in Sequence: key=%s",
-                                       tuple.getFirst()));
-                           }
-                       })
                        .sorted(Comparator.comparingInt(
                                value -> value.getFirst().intValue()))
                        .map(BTuple::getSecond)
