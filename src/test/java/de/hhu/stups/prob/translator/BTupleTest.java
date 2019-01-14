@@ -18,6 +18,14 @@ public class BTupleTest {
     }
 
     @Test
+    public void testComponents2() throws TranslationException {
+        final BTuple<BNumber, BNumber> t1
+                = Translator.translate("(1, 2)");
+        assertEquals(new BNumber(1), t1.getFirst());
+        assertEquals(new BNumber(2), t1.getSecond());
+    }
+
+    @Test
     public void testNested() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> result
                 = Translator.translate("(a |-> 1 |-> b)");

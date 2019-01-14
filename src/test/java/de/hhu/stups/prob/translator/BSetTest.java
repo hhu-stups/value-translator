@@ -83,4 +83,12 @@ public class BSetTest {
         assertEquals(expected, result);
     }
 
+
+    @Test
+    public void testStream2() throws TranslationException {
+        final BSet<BNumber> x = Translator.translate("{1,2,3,2}");
+        final int result = x.stream().mapToInt(BNumber::intValue).sum();
+        assertEquals(6, result);
+    }
+
 }
