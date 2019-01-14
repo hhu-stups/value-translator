@@ -7,6 +7,7 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -37,70 +38,76 @@ public class BFunctionTest {
         assertThrows(DuplicateKeyException.class, function::toMap);
     }
 
-//    @Test(expected = DuplicateKeyException.class)
-//    public void functionToMapWithExtractorDuplicateKeys()
-//            throws TranslationException {
-//
-//        final BSet<BTuple<BNumber, BAtom>> set
-//                = Translator.translate("{(1,a), (1, b), (3,c)}");
-//        final BFunction<BNumber, BAtom> function = set.asFunction();
-//        function.toMap(BNumber::intValue, BAtom::stringValue);
-//    }
-//
-//    @Test(expected = RuntimeException.class) // TODO: custom error class
-//    public void newFunction() throws TranslationException {
-//        final BSet<BNumber> set = Translator.translate("{1,2,3}");
-//        set.asFunction();
-//    }
-//
-//    @Test
-//    public void newFunction2() throws TranslationException {
-//        final BSet<BValue> set
-//                = Translator.translate("{(1 |-> 2 |-> 3), (2 |-> 3 |-> 4)}");
-//        final BFunction<BTuple<BNumber, BNumber>, BNumber> function
-//                = set.asFunction();
-//        final Map<Long, Long> map = function.toMap(
-//                tuple -> tuple.getFirst().longValue()
-//                                 + tuple.getSecond().longValue(),
-//                BNumber::longValue);
-//        assertEquals(Long.valueOf(3), map.get(3L));
-//        assertEquals(Long.valueOf(4), map.get(5L));
-//
-//    }
-//
-//    @Test
-//    public void functionToMapExtractValues() throws TranslationException {
-//        final BSet<BTuple<BNumber, BAtom>> set
-//                = Translator.translate("{(1,a), (2, b), (3,c)}");
-//
-//        final Map<Integer, String> map
-//                = set.asFunction(BNumber.class, BAtom.class)
-//                          .toMap(BNumber::intValue, BAtom::stringValue);
-//
-//        assertEquals("a", map.get(1));
-//        assertEquals("b", map.get(2));
-//        assertEquals("c", map.get(3));
-//    }
-//
-//    @SuppressWarnings( {"unused", "PMD.DataflowAnomalyAnalysis"})
-//    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
-//            justification = "Type of the variable is needed to trigger "
-//                                    + "a ClassCastException.")
-//    @Test(expected = ClassCastException.class)
-//    public void translateToFunction() throws TranslationException {
-//        final BFunction<BNumber, BAtom> set
-//                = Translator.translate("{(1,a), (2, b), (3,c)}");
-//    }
-//
-//    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
-//            justification = "Type of the variable is needed to trigger "
-//                                    + "a ClassCastException.")
-//    @SuppressWarnings( {"unused", "PMD.DataflowAnomalyAnalysis"})
-//    @Test(expected = ClassCastException.class)
-//    public void translateToSetOfFunctions() throws TranslationException {
-//        final BSet<BFunction<BNumber, BAtom>> set
-//                = Translator.translate("{{(1,a), (2, b), (3,c)}}");
-//        final BFunction<BNumber, BAtom> func = set.toSet().iterator().next();
-//    }
+    @Test
+    public void functionToMapWithExtractorDuplicateKeys()
+            throws TranslationException {
+
+        final BSet<BTuple<BNumber, BAtom>> set
+                = Translator.translate("{(1,a), (1, b), (3,c)}");
+        final BFunction<BNumber, BAtom> function = set.asFunction();
+        assertThrows(DuplicateKeyException.class,
+                () -> function.toMap(BNumber::intValue, BAtom::stringValue));
+    }
+
+    @Test // TODO: custom error class
+    public void newFunction() throws TranslationException {
+        final BSet<BNumber> set = Translator.translate("{1,2,3}");
+        assertThrows(RuntimeException.class, set::asFunction);
+    }
+
+    @Test
+    public void newFunction2() throws TranslationException {
+        final BSet<?> set
+                = Translator.translate("{(1 |-> 2 |-> 3), (2 |-> 3 |-> 4)}");
+        final BFunction<BTuple<BNumber, BNumber>, BNumber> function
+                = set.asFunction();
+        final Map<Long, Long> map = function.toMap(
+                tuple -> tuple.getFirst().longValue()
+                                 + tuple.getSecond().longValue(),
+                BNumber::longValue);
+        assertEquals(Long.valueOf(3), map.get(3L));
+        assertEquals(Long.valueOf(4), map.get(5L));
+
+    }
+
+    @Test
+    public void functionToMapExtractValues() throws TranslationException {
+        final BSet<BTuple<BNumber, BAtom>> set
+                = Translator.translate("{(1,a), (2, b), (3,c)}");
+
+        final Map<Integer, String> map
+                = set.asFunction(BNumber.class, BAtom.class)
+                          .toMap(BNumber::intValue, BAtom::stringValue);
+
+        assertEquals("a", map.get(1));
+        assertEquals("b", map.get(2));
+        assertEquals("c", map.get(3));
+    }
+
+    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
+            justification = "Type of the variable is needed to trigger "
+                                    + "a ClassCastException.")
+    @Test
+    public void translateToFunction() {
+        assertThrows(ClassCastException.class, () -> {
+            final BFunction<BNumber, BAtom> set =
+                    Translator.translate("{(1,a), (2, b), (3,c)}");
+        });
+    }
+
+    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
+            justification = "Type of the variable is needed to trigger "
+                                    + "a ClassCastException.")
+    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
+    @Test
+    public void translateToSetOfFunctions() throws TranslationException {
+        final BSet<BFunction<BNumber, BAtom>> set
+                = Translator.translate("{{(1,a), (2, b), (3,c)}}");
+        assertThrows(ClassCastException.class, () -> {
+            final BFunction<BNumber, BAtom> func
+                    = set.toSet().iterator().next();
+        });
+    }
 
 }
