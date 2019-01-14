@@ -12,7 +12,7 @@ It **translates** B expressions to Java -- without evaluating them.
 
 ### Future work
 
-* [ ] Additional validations for relation, function and sequence re-interpretations
+* [ ] Additional validations for relation, function and sequence reinterpretations
 * [ ] Support for ProB/ProB 2.0 Internal AST Representation
 * [ ] Improve the interface for records (extractors, generics)
 
@@ -34,7 +34,7 @@ translate the represented values to Java objects.
     BNumber number = Translator.translator.translate("5")
     number.intValue(); // 5 
     
-### Collections 
+**Collections**:
     
 *Value Translator* supports several collection types, e.g. sets:
     
@@ -44,7 +44,7 @@ translate the represented values to Java objects.
     
 
 Some collections types are provided as interpretations of sets, e.g. functions,
-these are validated at runtime:
+these are computed and validated at runtime:
 
     BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (2, b), (3,c)}");
     Map<Integer, String> map = set
@@ -67,7 +67,7 @@ these are validated at runtime:
 
 Sets provide methods to interpret theses as either relations, sequences or
 functions. All of these interpretations represent additional constraints on the
-elements of a set. The constraints are validated then the reinterpretation
+elements of a set. The constraints are validated when the reinterpretation
 methods are invoked. 
 
 These interpretations are represented by the following types:
@@ -82,7 +82,7 @@ These interpretations are represented by the following types:
 ## Re-Interpreting Sets
 
 Relations, functions and sequences are translated as sets.
-*Value Translator* provides means to re-interpret a set as either of these
+*Value Translator* provides means to reinterpret a set as either of these
 types.
 
 All mapping methods are provided in two variants, with and without arguments.
@@ -90,7 +90,7 @@ In some cases, for instance when chaining calls, it might be necessary to pass
 the types of the values in a collection as arguments.
 
 Relations, functions and sequences are sets with additional constraints. These 
-constraints, which are not exhaustive, are validated on re-interpretation
+constraints, which are not exhaustive, are validated on reinterpretation
 and incur additional runtime costs.
 
 ### Relations
