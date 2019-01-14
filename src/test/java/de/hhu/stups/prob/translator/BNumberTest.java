@@ -2,7 +2,10 @@ package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -50,5 +53,23 @@ public class BNumberTest {
         final BNumber two = new BNumber(1);
         assertEquals(one, two);
         assertNotSame(one, two);
+    }
+
+    @Test
+    @DisplayName("Only numeric values that can be represented as a"
+                         + " Long are supported")
+    public void testNumericRangeIsLong() throws TranslationException {
+        assertEquals(Long.MAX_VALUE,
+                Translator.<BNumber>translate(
+                        String.valueOf(Long.MAX_VALUE)).longValue());
+        assertEquals(Long.MIN_VALUE,
+                Translator.<BNumber>translate(
+                        String.valueOf(Long.MIN_VALUE)).longValue());
+
+        final String tooLong = new BigDecimal(Long.MAX_VALUE)
+                                       .add(new BigDecimal(1))
+                                       .toPlainString();
+        assertThrows(NumberFormatException.class,
+                () -> Translator.<BNumber>translate(tooLong));
     }
 }

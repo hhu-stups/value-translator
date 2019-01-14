@@ -2,7 +2,6 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
-// TODO: support bignumbers?
 public class BNumber extends Number implements BValue {
     private final Long value;
 
@@ -12,7 +11,7 @@ public class BNumber extends Number implements BValue {
     }
 
     public BNumber(final String stringValue) {
-        this(Integer.parseInt(stringValue));
+        this(Long.parseLong(stringValue));
     }
 
     @Override
