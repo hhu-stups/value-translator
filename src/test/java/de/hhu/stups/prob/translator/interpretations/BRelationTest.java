@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -46,10 +47,10 @@ public class BRelationTest {
         final Map<BNumber, List<BAtom>> map
                 = set.asRelation(BNumber.class, BAtom.class).toRelationalMap();
 
-        assertEquals(Stream.of("a", "b")
-                             .map(BAtom::new)
-                             .collect(Collectors.toList()),
-                map.get(new BNumber(1)));
+        assertThat(Stream.of("a", "b")
+                           .map(BAtom::new)
+                           .collect(Collectors.toList()))
+                .isEqualTo(map.get(new BNumber(1)));
         assertEquals(Collections.singletonList(new BAtom("c")),
                 map.get(new BNumber(3)));
     }
@@ -64,8 +65,8 @@ public class BRelationTest {
         final Map<Integer, List<String>> map
                 = function.toRelationalMap(BNumber::intValue,
                 BAtom::stringValue);
-        assertEquals(Arrays.asList("a", "b"), map.get(1));
-        assertEquals(Collections.singletonList("c"), map.get(3));
+        assertThat(map.get(1)).isEqualTo(Arrays.asList("a", "b"));
+        assertThat(map.get(3)).isEqualTo(Collections.singletonList("c"));
     }
 
     @Test
@@ -84,8 +85,8 @@ public class BRelationTest {
                 tuple -> tuple.getFirst().longValue()
                                  + tuple.getSecond().longValue(),
                 BNumber::longValue);
-        assertEquals(Collections.singletonList(3L), map.get(3L));
-        assertEquals(Collections.singletonList(4L), map.get(5L));
+        assertThat(map.get(3L)).isEqualTo(Collections.singletonList(3L));
+        assertThat(map.get(5L)).isEqualTo(Collections.singletonList(4L));
 
     }
 
@@ -98,9 +99,9 @@ public class BRelationTest {
                 = set.asFunction(BNumber.class, BAtom.class)
                           .toMap(BNumber::intValue, BAtom::stringValue);
 
-        assertEquals("a", map.get(1));
-        assertEquals("b", map.get(2));
-        assertEquals("c", map.get(3));
+        assertThat(map.get(1)).isEqualTo("a");
+        assertThat(map.get(2)).isEqualTo("b");
+        assertThat(map.get(3)).isEqualTo("c");
     }
 
 }

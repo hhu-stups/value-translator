@@ -3,19 +3,18 @@ package de.hhu.stups.prob.translator;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BBooleanTest {
     @Test
     public void testTrue() throws TranslationException {
         final BBoolean v = Translator.translate("TRUE");
-        assertTrue(v.booleanValue());
+        assertThat(v.booleanValue()).isTrue();
     }
 
     @Test
     public void testFalse() throws TranslationException {
         final BBoolean v = Translator.translate("FALSE");
-        assertFalse(v.booleanValue());
+        assertThat(v.booleanValue()).isFalse();
     }
 }

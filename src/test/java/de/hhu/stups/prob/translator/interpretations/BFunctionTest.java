@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("checkstyle:magicnumber")
@@ -25,9 +25,9 @@ public class BFunctionTest {
                 = Translator.translate("{(1,a), (2, b), (3,c)}");
         final Map<BNumber, BAtom> map
                 = set.asFunction(BNumber.class, BAtom.class).toMap();
-        assertEquals(new BAtom("a"), map.get(new BNumber(1)));
-        assertEquals(new BAtom("b"), map.get(new BNumber(2)));
-        assertEquals(new BAtom("c"), map.get(new BNumber(3)));
+        assertThat(map.get(new BNumber(1))).isEqualTo(new BAtom("a"));
+        assertThat(map.get(new BNumber(2))).isEqualTo(new BAtom("b"));
+        assertThat(map.get(new BNumber(3))).isEqualTo(new BAtom("c"));
 
     }
 
@@ -66,8 +66,8 @@ public class BFunctionTest {
                 tuple -> tuple.getFirst().longValue()
                                  + tuple.getSecond().longValue(),
                 BNumber::longValue);
-        assertEquals(Long.valueOf(3), map.get(3L));
-        assertEquals(Long.valueOf(4), map.get(5L));
+        assertThat(map.get(3L)).isEqualTo(Long.valueOf(3));
+        assertThat(map.get(5L)).isEqualTo(Long.valueOf(4));
 
     }
 
@@ -80,9 +80,9 @@ public class BFunctionTest {
                 = set.asFunction(BNumber.class, BAtom.class)
                           .toMap(BNumber::intValue, BAtom::stringValue);
 
-        assertEquals("a", map.get(1));
-        assertEquals("b", map.get(2));
-        assertEquals("c", map.get(3));
+        assertThat(map.get(1)).isEqualTo("a");
+        assertThat(map.get(2)).isEqualTo("b");
+        assertThat(map.get(3)).isEqualTo("c");
     }
 
     @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})

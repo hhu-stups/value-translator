@@ -4,8 +4,7 @@ import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings({
         "PMD.BeanMembersShouldSerialize",
@@ -23,21 +22,21 @@ public class BAtomTest {
 
     @Test
     public void testToString() {
-        assertEquals(ATOM, String.valueOf(atom));
+        assertThat(String.valueOf(atom)).isEqualTo(ATOM);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(new BAtom(ATOM), atom);
+        assertThat(atom).isEqualTo(new BAtom(ATOM));
     }
 
     @Test
     public void testNotEquals() {
-        assertNotEquals(new BAtom("other"), atom);
+        assertThat(atom).isNotEqualTo(new BAtom("other"));
     }
 
     @Test
     public void testStringValue() {
-        assertEquals(ATOM, atom.stringValue());
+        assertThat(atom.stringValue()).isEqualTo(ATOM);
     }
 }

@@ -9,9 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SuppressWarnings({"checkstyle:magicnumber", "PMD.BeanMembersShouldSerialize"})
 public class BSetTest {
@@ -28,8 +27,8 @@ public class BSetTest {
     @Test
     public void testSize() {
         final int setSize = 3;
-        assertEquals(setSize, set1.toSet().size());
-        assertTrue(set2.toSet().isEmpty());
+        assertThat(set1.toSet().size()).isEqualTo(setSize);
+        assertThat(set2.toSet().isEmpty()).isTrue();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -47,13 +46,13 @@ public class BSetTest {
         final BSet<BSet<BNumber>> nestedSet = Translator.translate("{{a,b,c}}");
 
         final Set<BSet<BNumber>> sets = nestedSet.toSet();
-        assertEquals(1, sets.size());
+        assertThat(sets).hasSize(1);
         final List<BNumber> number
                 = sets.stream()
                           .flatMap(bNumberBSet -> bNumberBSet.toSet().stream())
                           .collect(Collectors.toList());
         final int setSize = 3;
-        assertEquals(setSize, number.size());
+        assertThat(number.size()).isEqualTo(setSize);
 
         //noinspection ResultOfMethodCallIgnored
         assertThrows(ClassCastException.class,
@@ -68,7 +67,7 @@ public class BSetTest {
                 = Stream.of(1, 2, 3)
                           .map(BNumber::new)
                           .collect(Collectors.toSet());
-        assertEquals(expected, x.toSet());
+        assertThat(x.toSet()).isEqualTo(expected);
     }
 
     @Test
@@ -80,7 +79,7 @@ public class BSetTest {
                           .map(BNumber::new)
                           .collect(Collectors.toSet());
         final Set<BNumber> result = x.stream().collect(Collectors.toSet());
-        assertEquals(expected, result);
+        assertThat(result).isEqualTo(expected);
     }
 
 
@@ -88,7 +87,7 @@ public class BSetTest {
     public void testStream2() throws TranslationException {
         final BSet<BNumber> x = Translator.translate("{1,2,3,2}");
         final int result = x.stream().mapToInt(BNumber::intValue).sum();
-        assertEquals(6, result);
+        assertThat(result).isEqualTo(6);
     }
 
 }

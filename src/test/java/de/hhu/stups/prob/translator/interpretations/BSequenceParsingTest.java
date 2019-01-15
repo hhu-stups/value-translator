@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("checkstyle:magicnumber")
 public class BSequenceParsingTest {
@@ -25,9 +24,9 @@ public class BSequenceParsingTest {
                 = value.stream().collect(Collectors.toMap(
                 i -> i.getFirst().intValue(),
                 j -> j.getSecond().stringValue()));
-        assertEquals("a", map.get(1));
-        assertEquals("b", map.get(2));
-        assertEquals("c", map.get(3));
+        assertThat(map.get(1)).isEqualTo("a");
+        assertThat(map.get(2)).isEqualTo("b");
+        assertThat(map.get(3)).isEqualTo("c");
     }
 
     @Test
@@ -38,15 +37,15 @@ public class BSequenceParsingTest {
                 = value.stream().collect(Collectors.toMap(
                 i -> i.getFirst().intValue(),
                 j -> j.getSecond().stringValue()));
-        assertEquals("a", map.get(1));
-        assertEquals("b", map.get(2));
-        assertEquals("c", map.get(3));
+        assertThat(map.get(1)).isEqualTo("a");
+        assertThat(map.get(2)).isEqualTo("b");
+        assertThat(map.get(3)).isEqualTo("c");
     }
 
     @Test
     public void emptySequence() throws TranslationException {
         final BSet<BValue> value = Translator.translate("[]");
-        assertTrue(value.toSet().isEmpty());
+        assertThat(value.toSet().isEmpty()).isTrue();
     }
 
     @Test
@@ -55,7 +54,7 @@ public class BSequenceParsingTest {
                 = Translator.translate("[a, b, c]");
         final BSet<BTuple<BNumber, BAtom>> v2
                 = Translator.translate("{(1, a), (2, b), (3, c)}");
-        assertEquals(v2, v1);
+        assertThat(v1).isEqualTo(v2);
     }
 
 }

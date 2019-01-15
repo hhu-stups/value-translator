@@ -7,9 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings({"MagicNumber", "FeatureEnvy"})
@@ -19,9 +18,9 @@ public class BNumberTest {
     public void testNumbers() throws TranslationException {
         final BNumber one = Translator.translate("1");
         final BNumber two = Translator.translate("2");
-        assertEquals(1, one.intValue());
-        assertEquals(2.0, two.doubleValue());
-        assertEquals(1L, one.longValue());
+        assertThat(one.intValue()).isEqualTo(1);
+        assertThat(two.doubleValue()).isEqualTo(2.0);
+        assertThat(one.longValue()).isEqualTo(1L);
     }
 
     @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
@@ -38,21 +37,21 @@ public class BNumberTest {
     @Test
     public void testNumberCastUp() throws TranslationException {
         final BValue value = Translator.translate("1");
-        assertSame(BNumber.class, value.getClass());
+        assertThat(value.getClass()).isSameAs(BNumber.class);
     }
 
     @Test
     public void testNegativeNumber() throws TranslationException {
         final BNumber number = Translator.translate("-1");
-        assertEquals(-1, number.intValue());
+        assertThat(number.intValue()).isEqualTo(-1);
     }
 
     @Test
     public void testEquality() {
         final BNumber one = new BNumber(1);
         final BNumber two = new BNumber(1);
-        assertEquals(one, two);
-        assertNotSame(one, two);
+        assertThat(two).isEqualTo(one);
+        assertThat(two).isNotSameAs(one);
     }
 
     @Test

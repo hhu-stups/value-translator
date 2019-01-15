@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("checkstyle:magicnumber")
@@ -26,9 +26,9 @@ public class BSequenceTest {
         final BSequence<BAtom> sequence = value.asSequence();
         final Map<Integer, String> map
                 = sequence.toMap(BNumber::intValue, BAtom::stringValue);
-        assertEquals("c", map.get(1));
-        assertEquals("b", map.get(2));
-        assertEquals("a", map.get(3));
+        assertThat(map.get(1)).isEqualTo("c");
+        assertThat(map.get(2)).isEqualTo("b");
+        assertThat(map.get(3)).isEqualTo("a");
     }
 
     @SuppressWarnings("FeatureEnvy")
@@ -37,9 +37,9 @@ public class BSequenceTest {
         final BSet<BTuple<BNumber, BAtom>> value
                 = Translator.translate("{(1, a), (2, b), (3, c)}");
         final List<BAtom> list = value.asSequence(BAtom.class).toList();
-        assertEquals("a", list.get(0).stringValue());
-        assertEquals("b", list.get(1).stringValue());
-        assertEquals("c", list.get(2).stringValue());
+        assertThat(list.get(0).stringValue()).isEqualTo("a");
+        assertThat(list.get(1).stringValue()).isEqualTo("b");
+        assertThat(list.get(2).stringValue()).isEqualTo("c");
     }
 
     @Test
@@ -48,9 +48,9 @@ public class BSequenceTest {
                 = Translator.translate("[c, b, a]");
         final List<BAtom> list = value.asSequence(BAtom.class).toList();
 
-        assertEquals("c", list.get(0).stringValue());
-        assertEquals("b", list.get(1).stringValue());
-        assertEquals("a", list.get(2).stringValue());
+        assertThat(list.get(0).stringValue()).isEqualTo("c");
+        assertThat(list.get(1).stringValue()).isEqualTo("b");
+        assertThat(list.get(2).stringValue()).isEqualTo("a");
     }
 
     @Test

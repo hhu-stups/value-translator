@@ -4,7 +4,7 @@ import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT")
@@ -13,34 +13,34 @@ public class BTupleTest {
     public void testComponents() throws TranslationException {
         final BTuple<BNumber, BNumber> t1
                 = Translator.translate("(1 |-> 2)");
-        assertEquals(new BNumber(1), t1.getFirst());
-        assertEquals(new BNumber(2), t1.getSecond());
+        assertThat(t1.getFirst()).isEqualTo(new BNumber(1));
+        assertThat(t1.getSecond()).isEqualTo(new BNumber(2));
     }
 
     @Test
     public void testComponents2() throws TranslationException {
         final BTuple<BNumber, BNumber> t1
                 = Translator.translate("(1, 2)");
-        assertEquals(new BNumber(1), t1.getFirst());
-        assertEquals(new BNumber(2), t1.getSecond());
+        assertThat(t1.getFirst()).isEqualTo(new BNumber(1));
+        assertThat(t1.getSecond()).isEqualTo(new BNumber(2));
     }
 
     @Test
     public void testNested() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> result
                 = Translator.translate("(a |-> 1 |-> b)");
-        assertEquals("a", result.getFirst().getFirst().stringValue());
-        assertEquals(1, result.getFirst().getSecond().intValue());
-        assertEquals("b", result.getSecond().stringValue());
+        assertThat(result.getFirst().getFirst().stringValue()).isEqualTo("a");
+        assertThat(result.getFirst().getSecond().intValue()).isEqualTo(1);
+        assertThat(result.getSecond().stringValue()).isEqualTo("b");
     }
 
     @Test
     public void testManualNested() throws TranslationException {
         final BTuple<BAtom, BTuple<BNumber, BAtom>> result
                 = Translator.translate("(a |-> (1 |-> b))");
-        assertEquals("a", result.getFirst().stringValue());
-        assertEquals(1, result.getSecond().getFirst().intValue());
-        assertEquals("b", result.getSecond().getSecond().stringValue());
+        assertThat(result.getFirst().stringValue()).isEqualTo("a");
+        assertThat(result.getSecond().getFirst().intValue()).isEqualTo(1);
+        assertThat(result.getSecond().getSecond().stringValue()).isEqualTo("b");
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -51,7 +51,7 @@ public class BTupleTest {
         final BNumber actual
                 = ((BNumber) ((Object) result2.getFirst().getFirst()));
         final int expected = 99;
-        assertEquals(expected, actual.intValue());
+        assertThat(actual.intValue()).isEqualTo(expected);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -69,9 +69,9 @@ public class BTupleTest {
         final BTuple<BTuple<BNumber, BNumber>, BNumber> tuple
                 = Translator.translate("(1,2,3)");
         final BTuple<BNumber, BNumber> left = tuple.getFirst();
-        assertEquals(1, left.getFirst().intValue());
-        assertEquals(2, left.getSecond().intValue());
-        assertEquals(3, tuple.getSecond().intValue());
+        assertThat(left.getFirst().intValue()).isEqualTo(1);
+        assertThat(left.getSecond().intValue()).isEqualTo(2);
+        assertThat(tuple.getSecond().intValue()).isEqualTo(3);
     }
 
     @SuppressWarnings("checkstyle:magicnumber")
@@ -80,9 +80,9 @@ public class BTupleTest {
         final BTuple<BTuple<BNumber, BNumber>, BNumber> tuple
                 = Translator.translate("(1 |-> 2 |-> 3)");
         final BTuple<BNumber, BNumber> left = tuple.getFirst();
-        assertEquals(1, left.getFirst().intValue());
-        assertEquals(2, left.getSecond().intValue());
-        assertEquals(3, tuple.getSecond().intValue());
+        assertThat(left.getFirst().intValue()).isEqualTo(1);
+        assertThat(left.getSecond().intValue()).isEqualTo(2);
+        assertThat(tuple.getSecond().intValue()).isEqualTo(3);
     }
 
     @SuppressWarnings("checkstyle:magicnumber")
@@ -92,10 +92,10 @@ public class BTupleTest {
                 = Translator.translate("(1,2,3,4)");
         final BTuple<BTuple<BNumber, BNumber>, BNumber> left = tuple.getFirst();
         final BTuple<BNumber, BNumber> lefter = left.getFirst();
-        assertEquals(1, lefter.getFirst().intValue());
-        assertEquals(2, lefter.getSecond().intValue());
-        assertEquals(3, left.getSecond().intValue());
-        assertEquals(4, tuple.getSecond().intValue());
+        assertThat(lefter.getFirst().intValue()).isEqualTo(1);
+        assertThat(lefter.getSecond().intValue()).isEqualTo(2);
+        assertThat(left.getSecond().intValue()).isEqualTo(3);
+        assertThat(tuple.getSecond().intValue()).isEqualTo(4);
     }
 
     @SuppressWarnings("checkstyle:magicnumber")
@@ -105,9 +105,9 @@ public class BTupleTest {
                 = Translator.translate("(1|->2|->3|->4)");
         final BTuple<BTuple<BNumber, BNumber>, BNumber> left = tuple.getFirst();
         final BTuple<BNumber, BNumber> lefter = left.getFirst();
-        assertEquals(1, lefter.getFirst().intValue());
-        assertEquals(2, lefter.getSecond().intValue());
-        assertEquals(3, left.getSecond().intValue());
-        assertEquals(4, tuple.getSecond().intValue());
+        assertThat(lefter.getFirst().intValue()).isEqualTo(1);
+        assertThat(lefter.getSecond().intValue()).isEqualTo(2);
+        assertThat(left.getSecond().intValue()).isEqualTo(3);
+        assertThat(tuple.getSecond().intValue()).isEqualTo(4);
     }
 }

@@ -5,33 +5,31 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BRecordTest {
 
     @Test
     public void parseRecord() throws TranslationException {
         final BRecord record = Translator.translate("rec(a:1)");
-        assertNotNull(record);
+        assertThat(record).isNotNull();
     }
 
     @Test
     public void recordToMap() throws TranslationException {
         final BRecord record = Translator.translate("rec(a:1, b: x)");
         final Map<String, BValue> map = record.toMap();
-        assertTrue(map.containsKey("a"));
-        assertTrue(map.containsKey("b"));
+        assertThat(map.containsKey("a")).isTrue();
+        assertThat(map.containsKey("b")).isTrue();
     }
 
     @Test
     public void recordToMapFieldTypes() throws TranslationException {
         final BRecord record = Translator.translate("rec(a:1, b: x)");
         final Map<String, BValue> map = record.toMap();
-        assertEquals(BNumber.class, map.get("a").getClass());
-        assertEquals(BAtom.class, map.get("b").getClass());
+        assertThat(map.get("a").getClass()).isEqualTo(BNumber.class);
+        assertThat(map.get("b").getClass()).isEqualTo(BAtom.class);
     }
 
     @Test

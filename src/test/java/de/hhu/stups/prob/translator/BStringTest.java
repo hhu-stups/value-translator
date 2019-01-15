@@ -5,7 +5,7 @@ import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize")
 public class BStringTest {
@@ -21,19 +21,19 @@ public class BStringTest {
 
     @Test
     public void testGetValue() {
-        assertEquals("lorem ipsum", str1.stringValue());
-        assertEquals("", str2.stringValue());
+        assertThat(str1.stringValue()).isEqualTo("lorem ipsum");
+        assertThat(str2.stringValue()).isEqualTo("");
     }
 
     @Test
     public void testEqualsObject() throws TranslationException {
         final BString other = Translator.translate("\"lorem ipsum\"");
-        assertEquals(other, str1);
+        assertThat(str1).isEqualTo(other);
     }
 
     @Test
     public void testToString() {
-        assertEquals("\"lorem ipsum\"", str1.toString());
-        assertEquals("\"\"", str2.toString());
+        assertThat(str1.toString()).isEqualTo("\"lorem ipsum\"");
+        assertThat(str2.toString()).isEqualTo("\"\"");
     }
 }
