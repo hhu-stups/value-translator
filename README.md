@@ -79,7 +79,7 @@ These interpretations are represented by the following types:
 
 **Note**: All value classes implement the `BValue` interface.
 
-## Re-Interpreting Sets
+## Reinterpreting Sets
 
 Relations, functions and sequences are translated as sets.
 *Value Translator* provides means to reinterpret a set as either of these
@@ -167,7 +167,6 @@ Collection types support generics to reduce the number of necessary casts.
 **[`BSet`](src/main/java/de/hhu/stups/prob/translator/BSet.java)**
 
 * `BSet.<T>toSet()`: a set of BValue typed objects.
-* ````
 
 **[`BFunction`](src/main/java/de/hhu/stups/prob/translator/interpretations/BFunction.java)**
 
