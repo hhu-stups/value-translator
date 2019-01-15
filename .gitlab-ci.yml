@@ -36,6 +36,14 @@ spotbugs:
       - build/reports/spotbugs/
     when: on_failure
 
+checkstyle:
+  stage: analyze
+  script: ./gradlew ${GRADLE_ARGS} checkstyleTest checkstyleMain
+  artifacts:
+    paths:
+      - build/reports/checkstyle/
+    when: on_failure
+
 sonarqube:
   stage: analyze
   script: ./gradlew ${GRADLE_ARGS} -Dsonar.token=${SONAR_TOKEN} sonarqube
