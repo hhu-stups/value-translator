@@ -229,8 +229,7 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         }
     }
 
-    /* default */
-    static class UnexpectedTypeException
+    /* default */ static class UnexpectedTypeException
             extends RuntimeException {
         /* default */ UnexpectedTypeException(
                 final String message,
@@ -239,15 +238,13 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         }
     }
 
-    /* default */
-    static class IllegalStateException extends RuntimeException {
+    /* default */ static class IllegalStateException extends RuntimeException {
         /* default */ IllegalStateException(final String message) {
             super(message);
         }
     }
 
-    /* default */
-    private static class IdentifierDepthFirstAdapter
+    /* default */ private static class IdentifierDepthFirstAdapter
             extends DepthFirstAdapter {
         private String identifier;
 
