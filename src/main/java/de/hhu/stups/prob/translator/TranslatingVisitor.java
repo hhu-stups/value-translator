@@ -18,7 +18,6 @@ import de.be4.classicalb.core.parser.node.TStringLiteral;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -118,7 +117,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
+    @SuppressWarnings({"PMD.AvoidLiteralsInIfCondition",
+            "PMD.DataflowAnomalyAnalysis"})
     public void caseACoupleExpression(final ACoupleExpression node) {
         if (node.getList().size() < 2) {
             throw new TranslatingVisitor.IllegalStateException(
@@ -149,14 +149,17 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     //
     @Override
     public void caseARecExpression(final ARecExpression node) {
-        final Map<String, BValue> map =
+        this.setResult(
                 node.getEntries().stream().map(recEntry -> {
-                    recEntry.apply(this);
-                    return (RecordEntry) this.getResult();
+                    final TranslatingVisitor<BValue> visitor
+                            = new TranslatingVisitor<>();
+                    recEntry.apply(visitor);
+                    return (RecordEntry) visitor.getResult();
                 }).collect(
-                        Collectors.toMap(RecordEntry::getKey,
-                                RecordEntry::getValue));
-        this.setResult(new BRecord(map));
+                        Collectors.collectingAndThen(
+                                Collectors.toMap(RecordEntry::getKey,
+                                        RecordEntry::getValue),
+                                BRecord::new)));
     }
 
     @Override
