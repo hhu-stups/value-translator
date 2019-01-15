@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("PMD.TooManyMethods")
@@ -119,21 +120,30 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     @Override
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     public void caseACoupleExpression(final ACoupleExpression node) {
-        if (node.getList().size() != 2) {
-            throw new AssertionError(); // TODO: custom exception
+        if (node.getList().size() < 2) {
+            throw new TranslatingVisitor.IllegalStateException(
+                    "Unexpected state, couple node containing only one node");
         }
 
-        this.inACoupleExpression(node);
-        final List<BValue> results
-                = node.getList().stream()
-                          .map(expression -> {
-                              expression.apply(this);
-                              return this.getResult();
-                          })
-                          .collect(Collectors.toList());
-        this.outACoupleExpression(node);
+        final Supplier<IllegalStateException> supplier
+                = () ->
+                          new IllegalStateException(
+                                  "Unexpected state, empty couple node");
 
-        this.setResult(new BTuple<>(results.get(0), results.get(1)));
+        this.inACoupleExpression(node);
+        final BValue bValue
+                = node.getList()
+                          .stream()
+                          .map(expression -> {
+                              final TranslatingVisitor<BValue> visitor
+                                      = new TranslatingVisitor<>();
+                              expression.apply(visitor);
+                              return visitor.getResult();
+                          })
+                          .reduce(BTuple::new)
+                          .orElseThrow(supplier);
+        this.outACoupleExpression(node);
+        this.setResult(bValue);
     }
 
     //
@@ -186,7 +196,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     }
 
     @Override
-    public void caseABooleanTrueExpression(final ABooleanTrueExpression node) {
+    public void caseABooleanTrueExpression(
+            final ABooleanTrueExpression node) {
         this.setResult(new BBoolean(true));
     }
 
@@ -215,7 +226,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         }
     }
 
-    /* default */ static class UnexpectedTypeException
+    /* default */
+    static class UnexpectedTypeException
             extends RuntimeException {
         /* default */ UnexpectedTypeException(
                 final String message,
@@ -224,13 +236,15 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         }
     }
 
-    /* default */ static class IllegalStateException extends RuntimeException {
+    /* default */
+    static class IllegalStateException extends RuntimeException {
         /* default */ IllegalStateException(final String message) {
             super(message);
         }
     }
 
-    /* default */ private static class IdentifierDepthFirstAdapter
+    /* default */
+    private static class IdentifierDepthFirstAdapter
             extends DepthFirstAdapter {
         private String identifier;
 
