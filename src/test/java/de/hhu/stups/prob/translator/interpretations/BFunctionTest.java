@@ -6,6 +6,7 @@ import de.hhu.stups.prob.translator.BSet;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
+import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.Test;
@@ -49,10 +50,10 @@ public class BFunctionTest {
                 () -> function.toMap(BNumber::intValue, BAtom::stringValue));
     }
 
-    @Test // TODO: custom error class
+    @Test
     public void newFunction() throws TranslationException {
         final BSet<BNumber> set = Translator.translate("{1,2,3}");
-        assertThrows(RuntimeException.class, set::asFunction);
+        assertThrows(InterpretationException.class, set::asFunction);
     }
 
     @Test

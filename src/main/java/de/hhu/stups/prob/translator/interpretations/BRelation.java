@@ -3,6 +3,7 @@ package de.hhu.stups.prob.translator.interpretations;
 import de.hhu.stups.prob.translator.BSet;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
+import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,8 +24,7 @@ public class BRelation<K extends BValue, V extends BValue>
                                   value -> value.getClass()
                                                    .equals(BTuple.class));
         if (!isValid) {
-            // TODO: custom exception
-            throw new RuntimeException(
+            throw new InterpretationException(
                     "Incompatible set for conversion to relation/function");
         }
     }

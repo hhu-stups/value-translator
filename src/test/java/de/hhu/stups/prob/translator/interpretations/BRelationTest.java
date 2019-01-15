@@ -6,6 +6,7 @@ import de.hhu.stups.prob.translator.BSet;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.Translator;
+import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.jupiter.api.Test;
 
@@ -67,10 +68,10 @@ public class BRelationTest {
         assertEquals(Collections.singletonList("c"), map.get(3));
     }
 
-    @Test // TODO: custom exception
+    @Test
     public void newRelation() throws TranslationException {
         final BSet<BNumber> set = Translator.translate("{1,2,3}");
-        assertThrows(RuntimeException.class, set::asRelation);
+        assertThrows(InterpretationException.class, set::asRelation);
     }
 
     @Test

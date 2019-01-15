@@ -4,6 +4,7 @@ import de.hhu.stups.prob.translator.BNumber;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
+import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,8 +26,7 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
                            .getClass().equals(BNumber.class);
         });
         if (!isValid) {
-            // TODO: custom exception
-            throw new RuntimeException(
+            throw new InterpretationException(
                     "Incompatible set for conversion to sequence");
         }
     }

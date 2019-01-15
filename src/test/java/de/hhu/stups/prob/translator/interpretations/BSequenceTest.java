@@ -6,6 +6,7 @@ import de.hhu.stups.prob.translator.BSet;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
+import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.jupiter.api.Test;
 
@@ -53,10 +54,9 @@ public class BSequenceTest {
     }
 
     @Test
-    // TODO: improve error generated here
-    public void toListError() throws TranslationException {
+    public void toListError() {
         assertThrows(
-                RuntimeException.class,
+                InterpretationException.class,
                 () -> Translator
                               .<BSet<?>>translate("{1,2,3}")
                               .asSequence()
