@@ -37,10 +37,10 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         }
     }
 
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     private static Set<BValue> listToSet(final List<PExpression> elements) {
+        final TranslatingVisitor<BValue> visitor = new TranslatingVisitor<>();
         return elements.stream().map(expression -> {
-            final TranslatingVisitor<BValue> visitor
-                    = new TranslatingVisitor<>();
             expression.apply(visitor);
             return visitor.getResult();
         }).collect(Collectors.toSet());
@@ -130,13 +130,13 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
                           new IllegalStateException(
                                   "Unexpected state, empty couple node");
 
+        final TranslatingVisitor<BValue> visitor = new TranslatingVisitor<>();
+
         this.inACoupleExpression(node);
         final BValue bValue
                 = node.getList()
                           .stream()
                           .map(expression -> {
-                              final TranslatingVisitor<BValue> visitor
-                                      = new TranslatingVisitor<>();
                               expression.apply(visitor);
                               return visitor.getResult();
                           })
@@ -149,10 +149,9 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     //
     @Override
     public void caseARecExpression(final ARecExpression node) {
+        final TranslatingVisitor<BValue> visitor = new TranslatingVisitor<>();
         this.setResult(
                 node.getEntries().stream().map(recEntry -> {
-                    final TranslatingVisitor<BValue> visitor
-                            = new TranslatingVisitor<>();
                     recEntry.apply(visitor);
                     return (RecordEntry) visitor.getResult();
                 }).collect(
@@ -176,6 +175,7 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public void caseASequenceExtensionExpression(
             final ASequenceExtensionExpression node) {
         final Set<BTuple<BNumber, ?>> values = new HashSet<>();

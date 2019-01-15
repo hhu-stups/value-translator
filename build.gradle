@@ -46,6 +46,13 @@ sonarqube {
         property "sonar.login", System.getProperty("sonar.token")
     }
 }
+
+pmd {
+    toolVersion = '6.1.0'
+    // https://stackoverflow.com/a/53696963/10326268
+    ruleSets = []
+    ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
+}
 test {
     useJUnitPlatform()
     testLogging {
