@@ -10,6 +10,7 @@ It **translates** B expressions to Java -- without evaluating them.
 
 * [ ] Release Process [GitLab Flow (?)](https://docs.gitlab.com/ee/workflow/gitlab_flow.html#release-branches-with-gitlab-flow) 
 * [ ] Installation instructions -- after publishing
+* [ ] Mirror to GitHub
 
 ### Future work
 
