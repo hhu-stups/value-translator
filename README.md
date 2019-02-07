@@ -1,6 +1,6 @@
 # Value Translator
 
-Translate **Classical B** values into Java objects.
+Library to translate **Classical B** values into Java objects.
 
 This library provides a Java representation for B value types, i.e. sets,
 strings, numbers, etc.
@@ -8,6 +8,7 @@ It **translates** B expressions to Java -- without evaluating them.
 
 ## TODO
 
+* [ ] Release Process [GitLab Flow (?)](https://docs.gitlab.com/ee/workflow/gitlab_flow.html#release-branches-with-gitlab-flow) 
 * [ ] Installation instructions -- after publishing
 
 ### Future work
