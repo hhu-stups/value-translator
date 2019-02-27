@@ -9,7 +9,6 @@ It **translates** B expressions to Java -- without evaluating them.
 ## TODO
 
 * [ ] Installation instructions -- after publishing
-* [ ] Mirror to GitHub
 
 ### Future work
 
