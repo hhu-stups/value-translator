@@ -16,11 +16,11 @@ import de.be4.classicalb.core.parser.node.TIdentifierLiteral;
 import de.be4.classicalb.core.parser.node.TIntegerLiteral;
 import de.be4.classicalb.core.parser.node.TStringLiteral;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
@@ -178,17 +178,18 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public void caseASequenceExtensionExpression(
             final ASequenceExtensionExpression node) {
-        final Set<BTuple<BNumber, ?>> values = new HashSet<>();
 
         final List<PExpression> expressions = node.getExpression();
-        for (int i = 0; i < expressions.size(); i++) {
-            final PExpression expression = expressions.get(i);
-            expression.apply(this);
+        final Set<BTuple<BNumber, ?>> values
+                = IntStream
+                          .range(0, expressions.size())
+                          .mapToObj(i -> {
+                              expressions.get(i).apply(this);
 
-            final BTuple<BNumber, ?> tuple
-                    = new BTuple<>(new BNumber(i + 1), this.getResult());
-            values.add(tuple);
-        }
+                              return new BTuple<>(
+                                      new BNumber(i + 1), this.getResult());
+                          }).collect(Collectors.toSet());
+
         this.setResult(new BSet<>(values));
     }
 
