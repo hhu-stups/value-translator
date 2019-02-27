@@ -175,7 +175,7 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void caseASequenceExtensionExpression(
             final ASequenceExtensionExpression node) {
 
@@ -183,11 +183,11 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         final Set<BTuple<BNumber, ?>> values
                 = IntStream
                           .range(0, expressions.size())
-                          .mapToObj(i -> {
-                              expressions.get(i).apply(this);
+                          .mapToObj(index -> {
+                              expressions.get(index).apply(this);
 
                               return new BTuple<>(
-                                      new BNumber(i + 1), this.getResult());
+                                      new BNumber(index + 1), this.getResult());
                           }).collect(Collectors.toSet());
 
         this.setResult(new BSet<>(values));
