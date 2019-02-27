@@ -8,7 +8,6 @@ It **translates** B expressions to Java -- without evaluating them.
 
 ## TODO
 
-* [ ] Release Process [GitLab Flow (?)](https://docs.gitlab.com/ee/workflow/gitlab_flow.html#release-branches-with-gitlab-flow) 
 * [ ] Installation instructions -- after publishing
 * [ ] Mirror to GitHub
 
@@ -203,6 +202,10 @@ Collection types support generics to reduce the number of necessary casts.
 **[`BRecord`](src/main/java/de/hhu/stups/prob/translator/BRecord.java)**
 
 * `BRecord.<String, BValue>toMap()` 
+
+## Releasing
+
+Releases should be done using [GitLab Flow (?)](https://docs.gitlab.com/ee/workflow/gitlab_flow.html#release-branches-with-gitlab-flow).
 
 ## License
 
