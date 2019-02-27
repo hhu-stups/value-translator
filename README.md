@@ -206,4 +206,4 @@ Collection types support generics to reduce the number of necessary casts.
 
 ## License
 
-MIT License, see [LICENSE]('./LICENSE') for details.
+MIT License, see [LICENSE](LICENSE) for details.
