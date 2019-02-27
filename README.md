@@ -205,7 +205,7 @@ Collection types support generics to reduce the number of necessary casts.
 
 ## Releasing
 
-Releases should be done using [GitLab Flow (?)](https://docs.gitlab.com/ee/workflow/gitlab_flow.html#release-branches-with-gitlab-flow).
+Releases should be done using [GitLab Flow](https://docs.gitlab.com/ee/workflow/gitlab_flow.html#release-branches-with-gitlab-flow).
 
 ## License
 
