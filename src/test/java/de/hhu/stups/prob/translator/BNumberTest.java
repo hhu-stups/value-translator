@@ -55,6 +55,14 @@ public class BNumberTest {
     }
 
     @Test
+    public void testEqualityDifferntTypeArguments() {
+        final BNumber one = new BNumber(1);
+        final BNumber two = new BNumber(1L);
+        assertThat(two).isEqualTo(one);
+        assertThat(two).isNotSameAs(one);
+    }
+
+    @Test
     @DisplayName("Only numeric values that can be represented as a"
                          + " Long are supported")
     public void testNumericRangeIsLong() throws TranslationException {

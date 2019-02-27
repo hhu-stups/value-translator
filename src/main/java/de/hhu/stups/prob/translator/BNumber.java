@@ -9,6 +9,9 @@ public class BNumber extends Number implements BValue {
         super();
         this.value = longValue;
     }
+    public BNumber(final int intValue) {
+        this((long) intValue);
+    }
 
     public BNumber(final String stringValue) {
         this(Long.parseLong(stringValue));
