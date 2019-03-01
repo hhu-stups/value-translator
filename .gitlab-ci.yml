@@ -61,6 +61,13 @@ sonarqube:
 
 publish:
   stage: deploy
-  script: echo "TODO"
+  script:
+    - openssl aes-256-cbc -pass "env:ENCRYPTION_PASSWORD" -d -a -md md5 -in secring.gpg.enc       -out ../secring.gpg
+    - openssl aes-256-cbc -pass "env:ENCRYPTION_PASSWORD" -d -a -md md5 -in pubring.gpg.enc       -out pubring.gpg
+    - openssl aes-256-cbc -pass "env:ENCRYPTION_PASSWORD" -d -a -md md5 -in gradle.properties.enc -out gradle.properties
+    - ./gradlew ${GRADLE_ARGS} publishMavenJavaPublicationToMavenRepository
+  only:
+    - master
+    - develop
   when: manual
   allow_failure: true
