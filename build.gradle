@@ -8,6 +8,7 @@ plugins {
     id 'pmd'
 
     id 'maven-publish'
+    id 'signing'
 }
 
 targetCompatibility = '8'
@@ -113,4 +114,8 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
