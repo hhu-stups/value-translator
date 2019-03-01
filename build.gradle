@@ -6,11 +6,14 @@ plugins {
     id 'checkstyle'
     id 'jacoco'
     id 'pmd'
+
+    id 'maven-publish'
 }
 
 targetCompatibility = '8'
 sourceCompatibility = '8'
 
+group = "de.hhu.stups"
 version = "0.0.1-SNAPSHOT"
 
 def parserVersion
@@ -54,9 +57,60 @@ pmd {
     ruleSets = []
     ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
 }
+
 test {
     useJUnitPlatform()
     testLogging {
         events "passed", "skipped", "failed"
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'Value Translator'
+                description = 'Library to translate Classical B values into Java objects.'
+                url = 'https://github.com/hhu-stups/value-translator'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/hhu-stups/value-translator/blob/master/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'bivab'
+                        name = 'David Schneider'
+                        email = 'david.schneider@hhu.de'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com:hhu-stups/value-translator.git'
+                    developerConnection = 'scm:git:ssh://github.com:hhu-stups/value-translator.git'
+                    url = 'https://github.com/hhu-stups/value-translator'
+                }
+            }
+        }
     }
 }
