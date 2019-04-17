@@ -79,6 +79,8 @@ public class BSet<T extends BValue> implements BValue {
      *
      * @param domainType Class of domain values
      * @param rangeType  Class of range values
+     * @param <A> Type of domain values
+     * @param <B> Type of range values
      * @return BFunction
      */
     @SuppressWarnings("unused")
