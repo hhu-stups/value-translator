@@ -79,5 +79,3 @@ publish:
   only:
     - master
     - develop
-  when: manual
-  allow_failure: true
