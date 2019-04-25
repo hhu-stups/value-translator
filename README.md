@@ -47,14 +47,14 @@ translate the represented values to Java objects.
 
 **Values**:
 
-    BNumber number = Translator.translator.translate("5")
+    BNumber number = Translator.translate("5")
     number.intValue(); // 5 
     
 **Collections**:
     
 *Value Translator* supports several collection types, e.g. sets:
     
-    BSet<BNumber> bSet = Translator.translator.translate("{1,2,3,2}")
+    BSet<BNumber> bSet = Translator.translate("{1,2,3,2}")
     System.out.println(bSet); // {1,2,3}
     bSet.stream().mapToInt(BNumber::intValue).sum(); // 6
     
@@ -157,7 +157,7 @@ is the cardinality of the set.
 
 All B Types provide methods to convert them to Java objects or collections of objects.
 
-    BNumber number = Translator.translator.translate("5")
+    BNumber number = Translator.translate("5")
     number.intValue(); // 5 
     
 Collections Types, i.e. sets, sequences, relations and functions provide 
