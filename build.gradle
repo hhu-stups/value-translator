@@ -1,3 +1,14 @@
+buildscript {
+   repositories {
+       mavenCentral()
+   }
+   configurations.maybeCreate('pitest')
+   dependencies {
+       classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.0'
+       pitest 'org.pitest:pitest-junit5-plugin:0.8'
+   }
+}
+
 plugins {
     id 'java-library'
 
@@ -7,8 +18,15 @@ plugins {
     id 'jacoco'
     id 'pmd'
 
+    id 'info.solidsoft.pitest' version '1.4.0'
+
     id 'maven-publish'
     id 'signing'
+}
+
+pitest {
+    testPlugin = 'junit5'
+    threads = 4
 }
 
 targetCompatibility = '8'

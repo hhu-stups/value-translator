@@ -43,6 +43,7 @@ checkstyle:
     paths:
       - build/reports/checkstyle/
     when: on_failure
+
 pmd:
   stage: analyze
   script: ./gradlew ${GRADLE_ARGS} pmdMain
@@ -50,6 +51,15 @@ pmd:
     paths:
       - build/reports/pmd/
     when: on_failure
+
+pitest:
+  stage: analyze
+  script: ./gradlew ${GRADLE_ARGS} pitest
+  artifacts:
+    paths:
+      - build/reports/pitest/
+    when: always
+
 
 sonarqube:
   stage: analyze
