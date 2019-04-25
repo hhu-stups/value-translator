@@ -6,15 +6,31 @@ This library provides a Java representation for B value types, i.e. sets,
 strings, numbers, etc.
 It **translates** B expressions to Java -- without evaluating them.
 
-## TODO
+## Installation 
 
-* [ ] Installation instructions -- after publishing
+### Snapshot Versions
 
-### Future work
+`implementation 'de.hhu.stups:value-translator:0.0.1-SNAPSHOT'`
 
-* [ ] Additional validations for relation, function and sequence reinterpretations
-* [ ] Support for ProB/ProB 2.0 Internal AST Representation
-* [ ] Improve the interface for records (extractors, generics)
+Snapshot versions are available on [Sonatype](https://oss.sonatype.org/content/repositories/snapshots/).
+To use a snapshot version you need to add Sonatype as a repository, e.g. using Gradle:
+
+```
+  repositories {
+      ...
+      repositories {
+          mavenCentral()
+          maven {
+              name "snapshots"
+              url "https://oss.sonatype.org/content/repositories/snapshots/"
+          }
+      }
+  }
+```
+
+### Releases 
+
+Once releases are available, they will be published on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cde.hhu.stups).
 
 ## Usage
 
@@ -205,6 +221,12 @@ Collection types support generics to reduce the number of necessary casts.
 ## Releasing
 
 Releases should be done using [GitLab Flow](https://docs.gitlab.com/ee/workflow/gitlab_flow.html#release-branches-with-gitlab-flow).
+
+## Future work
+
+* [ ] Additional validations for relation, function and sequence reinterpretations
+* [ ] Support for ProB/ProB 2.0 Internal AST Representation
+* [ ] Improve the interface for records (extractors, generics)
 
 ## License
 
