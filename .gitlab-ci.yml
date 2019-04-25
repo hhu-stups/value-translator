@@ -1,4 +1,4 @@
-image: openjdk:8u181-jdk-slim
+image: openjdk:8u212-jdk-slim
 
 stages:
   - test
