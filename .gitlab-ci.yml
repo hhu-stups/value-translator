@@ -78,7 +78,7 @@ publish:
     - ./gradlew ${GRADLE_ARGS} publishMavenJavaPublicationToMavenRepository
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == master
+      - $CI_COMMIT_REF_NAME == "master"
       - $CI_COMMIT_REF_NAME =~ /^release\/\d+\.\d+-stable$/
   except:
     - tags
