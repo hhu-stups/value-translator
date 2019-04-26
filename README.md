@@ -34,7 +34,7 @@ To use a snapshot version you need to add Sonatype as a repository, e.g. using G
 
 `implementation 'de.hhu.stups:value-translator:0.0.1'`
 
-Releases are published on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cde.hhu.stups).
+Releases are published on [Maven Central](https://search.maven.org/search?q=g:de.hhu.stups%20AND%20a:value-translator).
 
 ## Usage
 
