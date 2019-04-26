@@ -76,6 +76,8 @@ pmd {
     // https://stackoverflow.com/a/53696963/10326268
     ruleSets = []
     ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
+    // only apply pmd to src/main
+    sourceSets = [sourceSets.main]
 }
 
 test {
