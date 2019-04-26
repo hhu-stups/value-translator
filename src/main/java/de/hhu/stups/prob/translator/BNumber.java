@@ -9,6 +9,7 @@ public class BNumber extends Number implements BValue {
         super();
         this.value = longValue;
     }
+
     public BNumber(final int intValue) {
         this((long) intValue);
     }
@@ -24,11 +25,11 @@ public class BNumber extends Number implements BValue {
 
     @Override
     @SuppressWarnings("PMD.OnlyOneReturn")
-    public boolean equals(final Object other) {
+    public final boolean equals(final Object other) {
         if (this == other) {
             return true;
         }
-        if (other == null || this.getClass() != other.getClass()) {
+        if (!(other instanceof BNumber)) {
             return false;
         }
         final BNumber bNumber = (BNumber) other;
@@ -36,7 +37,7 @@ public class BNumber extends Number implements BValue {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(this.value);
     }
 

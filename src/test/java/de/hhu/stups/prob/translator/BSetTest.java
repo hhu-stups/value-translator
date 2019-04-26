@@ -1,6 +1,7 @@
 package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -90,4 +91,10 @@ public class BSetTest {
         assertThat(result).isEqualTo(6);
     }
 
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(BSet.class)
+                .withNonnullFields("values") // field is final
+                .verify();
+    }
 }

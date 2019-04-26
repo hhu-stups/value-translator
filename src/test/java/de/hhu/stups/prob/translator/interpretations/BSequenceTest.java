@@ -8,6 +8,7 @@ import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -80,5 +81,12 @@ public class BSequenceTest {
         final BSequence<BAtom> function = set.asSequence();
         assertThrows(DuplicateKeyException.class,
                 () -> function.toList(BAtom::stringValue));
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(BSequence.class)
+                .withNonnullFields("values") // field is final
+                .verify();
     }
 }

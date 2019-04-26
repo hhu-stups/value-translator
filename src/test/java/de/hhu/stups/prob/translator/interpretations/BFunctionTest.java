@@ -9,6 +9,7 @@ import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -109,6 +110,13 @@ public class BFunctionTest {
             final BFunction<BNumber, BAtom> func
                     = set.toSet().iterator().next();
         });
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(BFunction.class)
+                .withNonnullFields("values") // field is final
+                .verify();
     }
 
 }

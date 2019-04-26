@@ -1,6 +1,7 @@
 package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -36,5 +37,12 @@ public class BRecordTest {
     public void testInvalidKey() {
         assertThrows(TranslationException.class,
                 () -> Translator.translate("rec(1:a)"));
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(BRecord.class)
+                .withNonnullFields("values") // field is final
+                .verify();
     }
 }

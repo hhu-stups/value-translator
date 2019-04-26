@@ -20,7 +20,7 @@ public class BBoolean implements BValue {
         if (this == other) {
             return true;
         }
-        if (other == null || this.getClass() != other.getClass()) {
+        if (!(other instanceof BBoolean)) {
             return false;
         }
         final BBoolean bBoolean = (BBoolean) other;

@@ -8,6 +8,7 @@ import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -104,4 +105,10 @@ public class BRelationTest {
         assertThat(map.get(3)).isEqualTo("c");
     }
 
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(BRelation.class)
+                .withNonnullFields("values") // field is final
+                .verify();
+    }
 }

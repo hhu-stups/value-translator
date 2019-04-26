@@ -30,11 +30,11 @@ public class BSet<T extends BValue> implements BValue {
 
     @Override
     @SuppressWarnings("PMD.OnlyOneReturn")
-    public boolean equals(final Object other) {
+    public final boolean equals(final Object other) {
         if (this == other) {
             return true;
         }
-        if (other == null || this.getClass() != other.getClass()) {
+        if (!(other instanceof BSet<?>)) {
             return false;
         }
         final BSet<?> bSet = (BSet<?>) other;
@@ -42,7 +42,7 @@ public class BSet<T extends BValue> implements BValue {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(this.values);
     }
 

@@ -2,6 +2,7 @@ package de.hhu.stups.prob.translator;
 
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -35,5 +36,12 @@ public class BStringTest {
     public void testToString() {
         assertThat(str1.toString()).isEqualTo("\"lorem ipsum\"");
         assertThat(str2.toString()).isEqualTo("\"\"");
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(BString.class)
+                .withNonnullFields("value") // field is final
+                .verify();
     }
 }

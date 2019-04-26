@@ -1,6 +1,7 @@
 package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -38,5 +39,12 @@ public class BAtomTest {
     @Test
     public void testStringValue() {
         assertThat(atom.stringValue()).isEqualTo(ATOM);
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(BAtom.class)
+                .withNonnullFields("value") // field is final
+                .verify();
     }
 }
