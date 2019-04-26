@@ -77,5 +77,8 @@ publish:
     - openssl aes-256-cbc -pass "env:ENCRYPTION_PASSWORD" -d -a -md md5 -in gradle.properties.enc -out gradle.properties
     - ./gradlew ${GRADLE_ARGS} publishMavenJavaPublicationToMavenRepository
   only:
-    - master
-    - develop
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+      - $CI_COMMIT_REF_NAME =~ /^release\/\d+\.\d+-stable$/
+  except:
+    - tags
