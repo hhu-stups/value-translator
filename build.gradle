@@ -37,9 +37,9 @@ version = "0.0.1"
 
 def parserVersion
 if (project.version.endsWith("-SNAPSHOT")) {
-    parserVersion = '2.9.21-SNAPSHOT'
+    parserVersion = '2.9.23-SNAPSHOT'
 } else {
-    parserVersion = '2.9.20'
+    parserVersion = '2.9.22'
 }
 
 dependencies {
