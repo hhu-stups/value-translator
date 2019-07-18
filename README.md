@@ -30,9 +30,9 @@ To use a snapshot version you need to add Sonatype as a repository, e.g. using G
 
 ### Releases 
 
-**Current Version**: 0.0.1
+**Current Version**: 0.0.2
 
-`implementation 'de.hhu.stups:value-translator:0.0.1'`
+`implementation 'de.hhu.stups:value-translator:0.0.2'`
 
 Releases are published on [Maven Central](https://search.maven.org/search?q=g:de.hhu.stups%20AND%20a:value-translator).
 
