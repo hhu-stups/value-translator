@@ -41,6 +41,6 @@ public class BTuple<T, S> implements BValue {
 
     @Override
     public String toString() {
-        return String.format("(%s -> %s)", this.first, this.second);
+        return String.format("(%s |-> %s)", this.first, this.second);
     }
 }
