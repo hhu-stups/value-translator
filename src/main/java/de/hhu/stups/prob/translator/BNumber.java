@@ -20,7 +20,7 @@ public class BNumber extends Number implements BValue {
 
     @Override
     public String toString() {
-        return String.format("BNumber(%s)", this.value.toString());
+        return Integer.toString(this.value.intValue());
     }
 
     @Override
