@@ -29,6 +29,22 @@ public class BRecord implements BValue {
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("rec(");
+        boolean first = true;
+        for (Map.Entry<String, BValue> entry : this.values.entrySet()) {
+            if (!first) {
+                sb.append(", ");
+            }
+            first = false;
+            sb.append(entry.getKey()).append(":").append(entry.getValue().toString());
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    @Override
     public final int hashCode() {
         return Objects.hash(this.values);
     }
