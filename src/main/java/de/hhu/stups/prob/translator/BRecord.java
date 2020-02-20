@@ -3,6 +3,7 @@ package de.hhu.stups.prob.translator;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 // Is there a type safe method to provide access to the fields using
 // the specific field type?
@@ -30,18 +31,9 @@ public class BRecord implements BValue {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("rec(");
-        boolean first = true;
-        for (Map.Entry<String, BValue> entry : this.values.entrySet()) {
-            if (!first) {
-                sb.append(", ");
-            }
-            first = false;
-            sb.append(entry.getKey()).append(":").append(entry.getValue().toString());
-        }
-        sb.append(")");
-        return sb.toString();
+        final StringJoiner joiner = new StringJoiner(", ", "rec(", ")");
+        this.values.forEach((key, value) -> joiner.add(key + ":" + value));
+        return joiner.toString();
     }
 
     @Override
