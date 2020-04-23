@@ -28,6 +28,10 @@ tests:jdk-11:
   extends: tests
   image: openjdk:11-jdk-sid
 
+tests:jdk-14:
+  extends: tests
+  image: openjdk:14-jdk-sid
+
 spotbugs:
   stage: analyze
   script: ./gradlew ${GRADLE_ARGS} spotBugsMain spotBugsTest
