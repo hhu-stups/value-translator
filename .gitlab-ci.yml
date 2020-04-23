@@ -30,7 +30,7 @@ tests:jdk-11:
 
 tests:jdk-14:
   extends: tests
-  image: openjdk:14-jdk-sid
+  image: openjdk:14-jdk-slim
 
 spotbugs:
   stage: analyze
