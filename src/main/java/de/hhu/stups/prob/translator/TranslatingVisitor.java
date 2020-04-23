@@ -27,6 +27,10 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     private T result;
     private boolean inUnaryMinus;
 
+    public TranslatingVisitor() {
+        super();
+    }
+
     @SuppressWarnings("unchecked")
     private static <E extends BValue> E cast(final Object result) {
         try {
@@ -232,6 +236,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
 
     /* default */ static class UnexpectedTypeException
             extends RuntimeException {
+        private static final long serialVersionUID = -1476883967744949095L;
+
         /* default */ UnexpectedTypeException(
                 final String message,
                 final ClassCastException exception) {
@@ -240,6 +246,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     }
 
     /* default */ static class IllegalStateException extends RuntimeException {
+        private static final long serialVersionUID = -3036204603081282264L;
+
         /* default */ IllegalStateException(final String message) {
             super(message);
         }

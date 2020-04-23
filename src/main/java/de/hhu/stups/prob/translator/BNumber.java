@@ -3,6 +3,8 @@ package de.hhu.stups.prob.translator;
 import java.util.Objects;
 
 public class BNumber extends Number implements BValue {
+    private static final long serialVersionUID = 5922463363438789565L;
+
     private final Long value;
 
     public BNumber(final long longValue) {
