@@ -1,12 +1,12 @@
 buildscript {
-   repositories {
-       mavenCentral()
-   }
-   configurations.maybeCreate('pitest')
-   dependencies {
-       classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.0'
-       pitest 'org.pitest:pitest-junit5-plugin:0.8'
-   }
+    repositories {
+        mavenCentral()
+    }
+    configurations.maybeCreate('pitest')
+    dependencies {
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.0'
+        pitest 'org.pitest:pitest-junit5-plugin:0.8'
+    }
 }
 
 plugins {
@@ -144,10 +144,10 @@ publishing {
             final def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
             url version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             if (project.hasProperty('ossrhUsername') && project.hasProperty('ossrhPassword')) {
-              credentials {
-                  username project.ossrhUsername
-                  password project.ossrhPassword
-              }
+                credentials {
+                    username project.ossrhUsername
+                    password project.ossrhPassword
+                }
             }
         }
     }
