@@ -24,6 +24,11 @@ plugins {
     id 'signing'
 }
 
+wrapper {
+    gradleVersion = "5.6.4"
+    distributionType = Wrapper.DistributionType.ALL
+}
+
 pitest {
     testPlugin = 'junit5'
     threads = 4
