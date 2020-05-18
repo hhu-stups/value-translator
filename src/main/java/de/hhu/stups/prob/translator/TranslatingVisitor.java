@@ -159,7 +159,9 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         this.setResult(
                 node.getEntries().stream().map(recEntry -> {
 
-
+                    final TranslatingVisitor<BValue> visitor =
+                            new TranslatingVisitor<>();
+                    
                     recEntry.apply(visitor);
                     return (RecordEntry) visitor.getResult();
                 }).collect(
