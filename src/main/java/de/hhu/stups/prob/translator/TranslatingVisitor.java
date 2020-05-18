@@ -158,10 +158,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     public void caseARecExpression(final ARecExpression node) {
         this.setResult(
                 node.getEntries().stream().map(recEntry -> {
-
                     final TranslatingVisitor<BValue> visitor =
                             new TranslatingVisitor<>();
-                    
                     recEntry.apply(visitor);
                     return (RecordEntry) visitor.getResult();
                 }).collect(
@@ -196,12 +194,12 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
                 = IntStream
                           .range(0, expressions.size())
                           .mapToObj(index -> {
-                              final TranslatingVisitor<BValue> visitor =
+                              final TranslatingVisitor<BValue> vtor =
                                       new TranslatingVisitor<>();
-                              expressions.get(index).apply(visitor);
+                              expressions.get(index).apply(vtor);
 
                               return new BTuple<>(
-                                      new BNumber(index + 1), visitor.getResult());
+                                      new BNumber(index + 1), vtor.getResult());
                           }).collect(Collectors.toSet());
 
         this.setResult(new BSet<>(values));
