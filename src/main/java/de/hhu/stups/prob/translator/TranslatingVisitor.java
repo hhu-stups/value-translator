@@ -44,7 +44,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     private static Set<BValue> listToSet(final List<PExpression> elements) {
         return elements.stream().map(expression -> {
-            final TranslatingVisitor<BValue> visitor = new TranslatingVisitor<>();
+            final TranslatingVisitor<BValue> visitor =
+                    new TranslatingVisitor<>();
             expression.apply(visitor);
             return visitor.getResult();
         }).collect(Collectors.toSet());
@@ -141,7 +142,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
                 = node.getList()
                           .stream()
                           .map(expression -> {
-                              final TranslatingVisitor<BValue> visitor = new TranslatingVisitor<>();
+                              final TranslatingVisitor<BValue> visitor =
+                                      new TranslatingVisitor<>();
                               expression.apply(visitor);
                               return visitor.getResult();
                           })
@@ -156,7 +158,8 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     public void caseARecExpression(final ARecExpression node) {
         this.setResult(
                 node.getEntries().stream().map(recEntry -> {
-                    final TranslatingVisitor<BValue> visitor = new TranslatingVisitor<>();
+                    final TranslatingVisitor<BValue> visitor =
+                            new TranslatingVisitor<>();
                     recEntry.apply(visitor);
                     return (RecordEntry) visitor.getResult();
                 }).collect(
