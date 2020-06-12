@@ -10,7 +10,7 @@ It **translates** B expressions to Java -- without evaluating them.
 
 ### Snapshot Versions
 
-`implementation 'de.hhu.stups:value-translator:0.1.0-SNAPSHOT'`
+`implementation 'de.hhu.stups:value-translator:0.1.1-SNAPSHOT'`
 
 Snapshot versions are available on [Sonatype](https://oss.sonatype.org/content/repositories/snapshots/).
 To use a snapshot version you need to add Sonatype as a repository, e.g. using Gradle:
@@ -32,7 +32,7 @@ To use a snapshot version you need to add Sonatype as a repository, e.g. using G
 
 **Current Version**: 0.0.2
 
-`implementation 'de.hhu.stups:value-translator:0.0.2'`
+`implementation 'de.hhu.stups:value-translator:0.1.0'`
 
 Releases are published on [Maven Central](https://search.maven.org/search?q=g:de.hhu.stups%20AND%20a:value-translator).
 
