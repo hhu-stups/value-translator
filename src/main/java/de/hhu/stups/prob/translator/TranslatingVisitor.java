@@ -52,6 +52,15 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         }).collect(Collectors.toSet());
     }
 
+    private static List<BValue> getValues(final List<PExpression> elements) {
+        return elements.stream().map(expression -> {
+            final TranslatingVisitor<BValue> visitor =
+                    new TranslatingVisitor<>();
+            expression.apply(visitor);
+            return visitor.getResult();
+        }).collect(Collectors.toList());
+    }
+
     @SuppressWarnings({"WeakerAccess", "PMD.NullAssignment"})
     public T getResult() {
         if (this.result == null) {
@@ -118,7 +127,21 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     @Override
     public void caseASymbolicComprehensionSetExpression(
             final ASymbolicComprehensionSetExpression node) {
-        this.setResult(new BAtom(node.toString()));
+        final List<String> identifiers = getValues(node.getIdentifiers())
+                .stream()
+                .map(val -> val.toString())
+                .collect(Collectors.toList());
+
+        final TranslatingVisitor<BValue> visitor =
+                new TranslatingVisitor<>();
+        node.getPredicates().apply(visitor);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = stringBuilder.append('{');
+        stringBuilder = stringBuilder.append(String.join(", ", identifiers));
+        stringBuilder = stringBuilder.append(" | ");
+        stringBuilder = stringBuilder.append(node.getPredicates().toString());
+        stringBuilder = stringBuilder.append('}');
+        this.setResult(new BAtom(stringBuilder.toString()));
     }
 
     //
