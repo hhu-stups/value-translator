@@ -6,6 +6,7 @@ import de.be4.classicalb.core.parser.node.ABooleanTrueExpression;
 import de.be4.classicalb.core.parser.node.ACoupleExpression;
 import de.be4.classicalb.core.parser.node.AEmptySequenceExpression;
 import de.be4.classicalb.core.parser.node.AEmptySetExpression;
+import de.be4.classicalb.core.parser.node.AExistsPredicate;
 import de.be4.classicalb.core.parser.node.ARecEntry;
 import de.be4.classicalb.core.parser.node.ARecExpression;
 import de.be4.classicalb.core.parser.node.ASequenceExtensionExpression;
@@ -140,6 +141,26 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         stringBuilder = stringBuilder.append(String.join(", ", identifiers));
         stringBuilder = stringBuilder.append(" | ");
         stringBuilder = stringBuilder.append(node.getPredicates().toString());
+        stringBuilder = stringBuilder.append('}');
+        this.setResult(new BAtom(stringBuilder.toString()));
+    }
+
+    @Override
+    public void caseAExistsPredicate(
+            final AExistsPredicate node) {
+        final List<String> identifiers = getValues(node.getIdentifiers())
+                .stream()
+                .map(val -> val.toString())
+                .collect(Collectors.toList());
+
+        final TranslatingVisitor<BValue> visitor =
+                new TranslatingVisitor<>();
+        node.getPredicate().apply(visitor);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = stringBuilder.append('{');
+        stringBuilder = stringBuilder.append(String.join(", ", identifiers));
+        stringBuilder = stringBuilder.append(" | ");
+        stringBuilder = stringBuilder.append(node.getPredicate().toString());
         stringBuilder = stringBuilder.append('}');
         this.setResult(new BAtom(stringBuilder.toString()));
     }
