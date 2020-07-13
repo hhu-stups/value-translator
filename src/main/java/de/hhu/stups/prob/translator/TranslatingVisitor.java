@@ -10,6 +10,7 @@ import de.be4.classicalb.core.parser.node.ARecEntry;
 import de.be4.classicalb.core.parser.node.ARecExpression;
 import de.be4.classicalb.core.parser.node.ASequenceExtensionExpression;
 import de.be4.classicalb.core.parser.node.ASetExtensionExpression;
+import de.be4.classicalb.core.parser.node.ASymbolicComprehensionSetExpression;
 import de.be4.classicalb.core.parser.node.AUnaryMinusExpression;
 import de.be4.classicalb.core.parser.node.PExpression;
 import de.be4.classicalb.core.parser.node.TIdentifierLiteral;
@@ -112,6 +113,12 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         final Set<BValue> elements
                 = listToSet(node.getExpressions());
         this.setResult(new BSet<>(elements));
+    }
+
+    @Override
+    public void caseASymbolicComprehensionSetExpression(
+            final ASymbolicComprehensionSetExpression node) {
+        this.setResult(new BAtom(node.toString()));
     }
 
     //
