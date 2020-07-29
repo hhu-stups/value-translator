@@ -3,20 +3,27 @@ package de.hhu.stups.prob.translator;
 import de.be4.classicalb.core.parser.analysis.DepthFirstAdapter;
 import de.be4.classicalb.core.parser.node.ABooleanFalseExpression;
 import de.be4.classicalb.core.parser.node.ABooleanTrueExpression;
+import de.be4.classicalb.core.parser.node.AComprehensionSetExpression;
 import de.be4.classicalb.core.parser.node.ACoupleExpression;
 import de.be4.classicalb.core.parser.node.AEmptySequenceExpression;
 import de.be4.classicalb.core.parser.node.AEmptySetExpression;
 import de.be4.classicalb.core.parser.node.AExistsPredicate;
+import de.be4.classicalb.core.parser.node.AForallPredicate;
 import de.be4.classicalb.core.parser.node.ARecEntry;
 import de.be4.classicalb.core.parser.node.ARecExpression;
 import de.be4.classicalb.core.parser.node.ASequenceExtensionExpression;
 import de.be4.classicalb.core.parser.node.ASetExtensionExpression;
+import de.be4.classicalb.core.parser.node.ASymbolicCompositionExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicComprehensionSetExpression;
+import de.be4.classicalb.core.parser.node.ASymbolicLambdaExpression;
+import de.be4.classicalb.core.parser.node.ASymbolicQuantifiedUnionExpression;
 import de.be4.classicalb.core.parser.node.AUnaryMinusExpression;
 import de.be4.classicalb.core.parser.node.PExpression;
 import de.be4.classicalb.core.parser.node.TIdentifierLiteral;
 import de.be4.classicalb.core.parser.node.TIntegerLiteral;
 import de.be4.classicalb.core.parser.node.TStringLiteral;
+
+import de.be4.classicalb.core.parser.util.PrettyPrinter;
 
 import java.util.List;
 import java.util.Set;
@@ -51,15 +58,6 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
             expression.apply(visitor);
             return visitor.getResult();
         }).collect(Collectors.toSet());
-    }
-
-    private static List<BValue> getValues(final List<PExpression> elements) {
-        return elements.stream().map(expression -> {
-            final TranslatingVisitor<BValue> visitor =
-                    new TranslatingVisitor<>();
-            expression.apply(visitor);
-            return visitor.getResult();
-        }).collect(Collectors.toList());
     }
 
     @SuppressWarnings({"WeakerAccess", "PMD.NullAssignment"})
@@ -126,43 +124,59 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
     }
 
     @Override
+    public void caseAComprehensionSetExpression(
+            final AComprehensionSetExpression node) {
+        final PrettyPrinter prettyPrinter = new PrettyPrinter();
+        node.apply(prettyPrinter);
+        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+    }
+
+    @Override
     public void caseASymbolicComprehensionSetExpression(
             final ASymbolicComprehensionSetExpression node) {
-        final List<String> identifiers = getValues(node.getIdentifiers())
-                .stream()
-                .map(val -> val.toString())
-                .collect(Collectors.toList());
+        final PrettyPrinter prettyPrinter = new PrettyPrinter();
+        node.apply(prettyPrinter);
+        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+    }
 
-        final TranslatingVisitor<BValue> visitor =
-                new TranslatingVisitor<>();
-        node.getPredicates().apply(visitor);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder = stringBuilder.append('{');
-        stringBuilder = stringBuilder.append(String.join(", ", identifiers));
-        stringBuilder = stringBuilder.append(" | ");
-        stringBuilder = stringBuilder.append(node.getPredicates().toString());
-        stringBuilder = stringBuilder.append('}');
-        this.setResult(new BAtom(stringBuilder.toString()));
+    @Override
+    public void caseASymbolicCompositionExpression(
+            final ASymbolicCompositionExpression node) {
+        final PrettyPrinter prettyPrinter = new PrettyPrinter();
+        node.apply(prettyPrinter);
+        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+    }
+
+    @Override
+    public void caseASymbolicLambdaExpression(
+            final ASymbolicLambdaExpression node) {
+        final PrettyPrinter prettyPrinter = new PrettyPrinter();
+        node.apply(prettyPrinter);
+        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+    }
+
+    @Override
+    public void caseASymbolicQuantifiedUnionExpression(
+            final ASymbolicQuantifiedUnionExpression node) {
+        final PrettyPrinter prettyPrinter = new PrettyPrinter();
+        node.apply(prettyPrinter);
+        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
     }
 
     @Override
     public void caseAExistsPredicate(
             final AExistsPredicate node) {
-        final List<String> identifiers = getValues(node.getIdentifiers())
-                .stream()
-                .map(val -> val.toString())
-                .collect(Collectors.toList());
+        final PrettyPrinter prettyPrinter = new PrettyPrinter();
+        node.apply(prettyPrinter);
+        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+    }
 
-        final TranslatingVisitor<BValue> visitor =
-                new TranslatingVisitor<>();
-        node.getPredicate().apply(visitor);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder = stringBuilder.append('{');
-        stringBuilder = stringBuilder.append(String.join(", ", identifiers));
-        stringBuilder = stringBuilder.append(" | ");
-        stringBuilder = stringBuilder.append(node.getPredicate().toString());
-        stringBuilder = stringBuilder.append('}');
-        this.setResult(new BAtom(stringBuilder.toString()));
+    @Override
+    public void caseAForallPredicate(
+            final AForallPredicate node) {
+        final PrettyPrinter prettyPrinter = new PrettyPrinter();
+        node.apply(prettyPrinter);
+        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
     }
 
     //

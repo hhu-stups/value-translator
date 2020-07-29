@@ -17,7 +17,6 @@ public final class Translator {
             final Node ast = BParser.parse("#EXPRESSION" + expression);
             final TranslatingVisitor<T> visitor = new TranslatingVisitor<>();
             ast.apply(visitor);
-
             return visitor.getResult();
         } catch (final BCompoundException
                                | TranslatingVisitor.UnexpectedTypeException
