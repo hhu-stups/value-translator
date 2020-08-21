@@ -64,15 +64,6 @@ pitest:
       - build/reports/pitest/
     when: always
 
-
-sonarqube:
-  stage: analyze
-  script: ./gradlew ${GRADLE_ARGS} -Dsonar.token=${SONAR_TOKEN} sonarqube
-  allow_failure: true
-  only:
-      - branches@stups/prob/value-translator
-
-
 publish:
   stage: deploy
   script:
