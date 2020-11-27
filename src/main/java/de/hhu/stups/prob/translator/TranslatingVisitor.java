@@ -21,6 +21,7 @@ import de.be4.classicalb.core.parser.node.AUnaryMinusExpression;
 import de.be4.classicalb.core.parser.node.PExpression;
 import de.be4.classicalb.core.parser.node.TIdentifierLiteral;
 import de.be4.classicalb.core.parser.node.TIntegerLiteral;
+import de.be4.classicalb.core.parser.node.TRealLiteral;
 import de.be4.classicalb.core.parser.node.TStringLiteral;
 
 import de.be4.classicalb.core.parser.util.PrettyPrinter;
@@ -93,6 +94,18 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
             text = nodeText;
         }
         this.setResult(new BNumber(text));
+    }
+
+    @Override
+    public void caseTRealLiteral(final TRealLiteral node) {
+        final String nodeText = node.getText();
+        final String text;
+        if (this.inUnaryMinus) {
+            text = "-" + nodeText;
+        } else {
+            text = nodeText;
+        }
+        this.setResult(new BReal(text));
     }
 
     @Override
