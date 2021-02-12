@@ -4,7 +4,7 @@ buildscript {
     }
     configurations.maybeCreate('pitest')
     dependencies {
-        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.9'
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.5.2'
         pitest 'org.pitest:pitest-junit5-plugin:0.12'
     }
 }
@@ -12,12 +12,12 @@ buildscript {
 plugins {
     id 'java-library'
 
-    id "com.github.spotbugs" version "4.0.5"
+    id "com.github.spotbugs" version "4.6.0"
     id 'checkstyle'
     id 'jacoco'
     id 'pmd'
 
-    id 'info.solidsoft.pitest' version '1.4.9'
+    id 'info.solidsoft.pitest' version '1.5.2'
 
     id 'maven-publish'
     id 'signing'
@@ -50,12 +50,14 @@ if (isSnapshot) {
 dependencies {
     implementation group: "de.hhu.stups", name: "bparser", version: parserVersion
 
-    testImplementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.0.2"
-    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.1.13"
-    testImplementation group: "org.assertj", name: "assertj-core", version: "3.15.0"
-    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api", version: "5.6.2"
+    final junitVersion = "5.7.1"
 
-    testRuntimeOnly group: "org.junit.jupiter", name: "junit-jupiter-engine", version: "5.6.2"
+    testImplementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.2.1"
+    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.5.4"
+    testImplementation group: "org.assertj", name: "assertj-core", version: "3.19.0"
+    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api", version: junitVersion
+
+    testRuntimeOnly group: "org.junit.jupiter", name: "junit-jupiter-engine", version: junitVersion
 }
 
 repositories {
@@ -69,7 +71,7 @@ repositories {
 }
 
 pmd {
-    toolVersion = '6.22.0'
+    toolVersion = '6.31.0'
     // https://stackoverflow.com/a/53696963/10326268
     ruleSets = []
     ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
