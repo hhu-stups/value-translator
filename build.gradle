@@ -56,7 +56,7 @@ dependencies {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven {
         name "sonatype snapshots"
         url "https://oss.sonatype.org/content/repositories/snapshots"
