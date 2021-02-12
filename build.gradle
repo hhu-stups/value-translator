@@ -17,17 +17,22 @@ wrapper {
     distributionType = Wrapper.DistributionType.ALL
 }
 
-pitest {
-    junit5PluginVersion = "0.12"
-    threads = 4
-}
-
 targetCompatibility = '8'
 sourceCompatibility = '8'
 
 group = "de.hhu.stups"
 version = "0.1.3-SNAPSHOT"
 final isSnapshot = project.version.endsWith("-SNAPSHOT")
+
+repositories {
+    mavenCentral()
+    if (isSnapshot) {
+        maven {
+            name "sonatype snapshots"
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+    }
+}
 
 def parserVersion
 if (isSnapshot) {
@@ -49,32 +54,6 @@ dependencies {
     testRuntimeOnly group: "org.junit.jupiter", name: "junit-jupiter-engine", version: junitVersion
 }
 
-repositories {
-    mavenCentral()
-    if (isSnapshot) {
-        maven {
-            name "sonatype snapshots"
-            url "https://oss.sonatype.org/content/repositories/snapshots"
-        }
-    }
-}
-
-pmd {
-    toolVersion = '6.31.0'
-    // https://stackoverflow.com/a/53696963/10326268
-    ruleSets = []
-    ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
-    // only apply pmd to src/main
-    sourceSets = [sourceSets.main]
-}
-
-test {
-    useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-}
-
 java {
     withSourcesJar()
     withJavadocJar()
@@ -86,6 +65,27 @@ javadoc {
     }
     // https://stackoverflow.com/a/52797107/10326268
     options.addStringOption("sourcepath", "")
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+pitest {
+    junit5PluginVersion = "0.12"
+    threads = 4
+}
+
+pmd {
+    toolVersion = '6.31.0'
+    // https://stackoverflow.com/a/53696963/10326268
+    ruleSets = []
+    ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
+    // only apply pmd to src/main
+    sourceSets = [sourceSets.main]
 }
 
 publishing {
