@@ -123,7 +123,7 @@ publishing {
         maven {
             final def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
             final def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-            url version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            url isSnapshot ? snapshotsRepoUrl : releasesRepoUrl
             if (project.hasProperty('ossrhUsername') && project.hasProperty('ossrhPassword')) {
                 credentials {
                     username project.ossrhUsername
