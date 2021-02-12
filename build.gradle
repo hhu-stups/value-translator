@@ -38,9 +38,10 @@ sourceCompatibility = '8'
 
 group = "de.hhu.stups"
 version = "0.1.3-SNAPSHOT"
+final isSnapshot = project.version.endsWith("-SNAPSHOT")
 
 def parserVersion
-if (project.version.endsWith("-SNAPSHOT")) {
+if (isSnapshot) {
     parserVersion = '2.9.28-SNAPSHOT'
 } else {
     parserVersion = '2.9.27'
@@ -57,9 +58,11 @@ dependencies {
 
 repositories {
     mavenCentral()
-    maven {
-        name "sonatype snapshots"
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+    if (isSnapshot) {
+        maven {
+            name "sonatype snapshots"
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
     }
 }
 
