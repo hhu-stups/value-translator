@@ -33,9 +33,9 @@ repositories {
 
 def parserVersion
 if (isSnapshot) {
-    parserVersion = '2.9.28-SNAPSHOT'
+    parserVersion = '2.9.29-SNAPSHOT'
 } else {
-    parserVersion = '2.9.27'
+    parserVersion = '2.9.28'
 }
 
 dependencies {
