@@ -40,14 +40,13 @@ if (isSnapshot) {
 dependencies {
     implementation group: "de.hhu.stups", name: "bparser", version: parserVersion
 
-    final junitVersion = "5.7.2"
-
     testImplementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.4.0"
     testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.7.1"
     testImplementation group: "org.assertj", name: "assertj-core", version: "3.20.2"
-    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api", version: junitVersion
+    testImplementation(platform(group: "org.junit", name: "junit-bom", version: "5.7.2"))
+    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api"
 
-    testRuntimeOnly group: "org.junit.jupiter", name: "junit-jupiter-engine", version: junitVersion
+    testRuntimeOnly group: "org.junit.jupiter", name: "junit-jupiter-engine"
 }
 
 java {
