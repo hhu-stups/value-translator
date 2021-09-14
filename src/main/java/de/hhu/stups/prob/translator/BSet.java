@@ -5,6 +5,7 @@ import de.hhu.stups.prob.translator.interpretations.BRelation;
 import de.hhu.stups.prob.translator.interpretations.BSequence;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class BSet<T extends BValue> implements BValue {
     private final Set<T> values;
 
     public BSet(final Set<T> set) {
-        this.values = set;
+        this.values = new HashSet<>(set);
     }
 
     public BSet() {

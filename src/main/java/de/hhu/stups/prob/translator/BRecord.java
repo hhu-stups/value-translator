@@ -1,6 +1,7 @@
 package de.hhu.stups.prob.translator;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -13,7 +14,7 @@ public class BRecord implements BValue {
 
     public BRecord(final Map<String, BValue> valueMap) {
         super();
-        this.values = valueMap;
+        this.values = new HashMap<>(valueMap);
     }
 
     @Override

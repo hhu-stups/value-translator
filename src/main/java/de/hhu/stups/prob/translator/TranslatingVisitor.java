@@ -315,6 +315,9 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
             return this.value;
         }
 
+        // False positive from PMD 6.38.0 - this method is used
+        // in a method reference above (RecordEntry::getKey).
+        @SuppressWarnings("PMD.UnusedPrivateMethod")
         private String getKey() {
             return this.key;
         }
