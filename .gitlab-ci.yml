@@ -1,4 +1,4 @@
-image: openjdk:8-jdk-slim
+image: eclipse-temurin:8
 
 stages:
   - test
@@ -26,11 +26,11 @@ tests:
 
 tests:jdk-11:
   extends: tests
-  image: openjdk:11-jdk-slim
+  image: eclipse-temurin:11
 
 tests:jdk-17:
   extends: tests
-  image: openjdk:17-jdk-slim
+  image: eclipse-temurin:17
 
 spotbugs:
   stage: analyze
