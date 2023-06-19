@@ -30,15 +30,8 @@ repositories {
     }
 }
 
-def parserVersion
-if (isSnapshot) {
-    parserVersion = '2.9.30-SNAPSHOT'
-} else {
-    parserVersion = '2.9.29'
-}
-
 dependencies {
-    implementation group: "de.hhu.stups", name: "bparser", version: parserVersion
+    implementation group: "de.hhu.stups", name: "bparser", version: "2.9.30"
 
     testImplementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.4.0"
     testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.7.1"
