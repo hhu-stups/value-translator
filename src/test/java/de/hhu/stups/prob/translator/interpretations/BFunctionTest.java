@@ -8,7 +8,6 @@ import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
@@ -87,9 +86,6 @@ public class BFunctionTest {
     }
 
     @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
-    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
-            justification = "Type of the variable is needed to trigger "
-                                    + "a ClassCastException.")
     @Test
     public void translateToFunction() {
         assertThrows(ClassCastException.class, () -> {
@@ -98,9 +94,6 @@ public class BFunctionTest {
         });
     }
 
-    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
-            justification = "Type of the variable is needed to trigger "
-                                    + "a ClassCastException.")
     @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
     @Test
     public void translateToSetOfFunctions() throws TranslationException {

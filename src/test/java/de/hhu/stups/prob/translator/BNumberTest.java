@@ -1,7 +1,6 @@
 package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,9 +25,6 @@ public class BNumberTest {
 
     @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
     @Test
-    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE",
-            justification = "Type of the variable is needed to"
-                                    + " trigger a ClassCastException.")
     public void testNumberCast() {
         assertThrows(ClassCastException.class, () -> {
             final BString string = Translator.translate("1");
