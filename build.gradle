@@ -1,12 +1,12 @@
 plugins {
     id 'java-library'
 
-    id "com.github.spotbugs" version "4.7.5"
+    id "com.github.spotbugs" version "5.1.2"
     id 'checkstyle'
     id 'jacoco'
     id 'pmd'
 
-    id 'info.solidsoft.pitest' version '1.6.0'
+    id 'info.solidsoft.pitest' version '1.9.11'
 
     id 'maven-publish'
     id 'signing'
@@ -29,10 +29,10 @@ repositories {
 dependencies {
     implementation group: "de.hhu.stups", name: "bparser", version: "2.9.30"
 
-    testImplementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.4.0"
-    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.7.1"
-    testImplementation group: "org.assertj", name: "assertj-core", version: "3.20.2"
-    testImplementation(platform(group: "org.junit", name: "junit-bom", version: "5.7.2"))
+    testImplementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.7.3"
+    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.15.1"
+    testImplementation group: "org.assertj", name: "assertj-core", version: "3.24.2"
+    testImplementation(platform(group: "org.junit", name: "junit-bom", version: "5.10.0"))
     testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api"
 
     testRuntimeOnly group: "org.junit.jupiter", name: "junit-jupiter-engine"
@@ -62,12 +62,12 @@ test {
 }
 
 pitest {
-    junit5PluginVersion = "0.14"
+    junit5PluginVersion = "1.2.0"
     threads = 4
 }
 
 pmd {
-    toolVersion = '6.38.0'
+    toolVersion = '6.55.0'
     // https://stackoverflow.com/a/53696963/10326268
     ruleSets = []
     ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
