@@ -27,12 +27,12 @@ repositories {
 }
 
 dependencies {
-    implementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.7.3"
+    implementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.3"
     implementation group: "de.hhu.stups", name: "bparser", version: "2.12.7"
 
-    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.15.1"
-    testImplementation group: "org.assertj", name: "assertj-core", version: "3.24.2"
-    testImplementation(platform(group: "org.junit", name: "junit-bom", version: "5.10.0"))
+    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.15.6"
+    testImplementation group: "org.assertj", name: "assertj-core", version: "3.25.2"
+    testImplementation(platform(group: "org.junit", name: "junit-bom", version: "5.10.1"))
     testImplementation group: "org.junit.jupiter", name: "junit-jupiter"
 
     testRuntimeOnly group: "org.junit.platform", name: "junit-platform-launcher"
@@ -62,7 +62,7 @@ test {
 }
 
 pitest {
-    junit5PluginVersion = "1.2.0"
+    junit5PluginVersion = "1.2.1"
     threads = 4
 }
 
