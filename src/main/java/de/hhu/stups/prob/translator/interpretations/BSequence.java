@@ -6,6 +6,8 @@ import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -15,6 +17,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
+    @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     @SuppressWarnings("unchecked")
     public BSequence(final Set<? extends BValue> bValues) {
         super(bValues);

@@ -5,6 +5,8 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("WeakerAccess")
 public class BRelation<K extends BValue, V extends BValue>
         extends BSet<BTuple<K, V>> {
+    @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     @SuppressWarnings("unchecked")
     public BRelation(final Set<? extends BValue> bValues) {
         super((Set<BTuple<K, V>>) bValues);
