@@ -1,10 +1,5 @@
 image: eclipse-temurin:8
 
-stages:
-  - test
-  - analyze
-  - deploy
-
 variables:
   GRADLE_ARGS: --no-daemon --stacktrace
 
@@ -36,37 +31,13 @@ tests:jdk-21:
   extends: tests
   image: eclipse-temurin:21
 
-spotbugs:
-  stage: analyze
-  script: ./gradlew ${GRADLE_ARGS} spotBugsMain spotBugsTest
+analysis:
+  stage: test
+  script: ./gradlew ${GRADLE_ARGS} --exclude-task test check
   artifacts:
     paths:
-      - build/reports/spotbugs/
+      - build/reports/
     when: on_failure
-
-checkstyle:
-  stage: analyze
-  script: ./gradlew ${GRADLE_ARGS} checkstyleTest checkstyleMain
-  artifacts:
-    paths:
-      - build/reports/checkstyle/
-    when: on_failure
-
-pmd:
-  stage: analyze
-  script: ./gradlew ${GRADLE_ARGS} pmdMain
-  artifacts:
-    paths:
-      - build/reports/pmd/
-    when: on_failure
-
-pitest:
-  stage: analyze
-  script: ./gradlew ${GRADLE_ARGS} pitest
-  artifacts:
-    paths:
-      - build/reports/pitest/
-    when: always
 
 publish:
   stage: deploy
