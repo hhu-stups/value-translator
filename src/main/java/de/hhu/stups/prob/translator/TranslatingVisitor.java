@@ -9,6 +9,7 @@ import de.be4.classicalb.core.parser.node.AEmptySequenceExpression;
 import de.be4.classicalb.core.parser.node.AEmptySetExpression;
 import de.be4.classicalb.core.parser.node.AExistsPredicate;
 import de.be4.classicalb.core.parser.node.AForallPredicate;
+import de.be4.classicalb.core.parser.node.AIdentifierExpression;
 import de.be4.classicalb.core.parser.node.ARecEntry;
 import de.be4.classicalb.core.parser.node.ARecExpression;
 import de.be4.classicalb.core.parser.node.ASequenceExtensionExpression;
@@ -25,6 +26,7 @@ import de.be4.classicalb.core.parser.node.TRealLiteral;
 import de.be4.classicalb.core.parser.node.TStringLiteral;
 
 import de.be4.classicalb.core.parser.util.PrettyPrinter;
+import de.be4.classicalb.core.parser.util.Utils;
 
 import java.util.List;
 import java.util.Set;
@@ -32,7 +34,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.TooManyMethods"})
+@SuppressWarnings({
+    "PMD.CouplingBetweenObjects",
+    "PMD.ExcessiveImports",
+    "PMD.TooManyMethods",
+})
 public final class TranslatingVisitor<T extends BValue>
         extends DepthFirstAdapter {
     private BValue result;
@@ -242,16 +248,21 @@ public final class TranslatingVisitor<T extends BValue>
     @Override
     @SuppressWarnings("PMD.AccessorMethodGeneration")
     public void caseARecEntry(final ARecEntry node) {
-        final IdentifierDepthFirstAdapter depthFirstAdapter
-                = new IdentifierDepthFirstAdapter();
-        node.getIdentifier().apply(depthFirstAdapter);
+        if (!(node.getIdentifier() instanceof AIdentifierExpression)) {
+            throw new UncheckedException(
+                "Record entry identifier must be an identifier, not "
+                + node.getIdentifier().getClass()
+            );
+        }
+        final String identifier = Utils.getAIdentifierAsString(
+            (AIdentifierExpression) node.getIdentifier()
+        );
 
         final TranslatingVisitor<BValue> visitor =
                 new TranslatingVisitor<>();
         node.getValue().apply(visitor);
         final BValue value = visitor.getResult();
-        this.setResult(
-                new RecordEntry(depthFirstAdapter.getIdentifier(), value));
+        this.setResult(new RecordEntry(identifier, value));
     }
 
     @Override
@@ -317,20 +328,6 @@ public final class TranslatingVisitor<T extends BValue>
 
         /* default */ UncheckedException(final String message) {
             super(message);
-        }
-    }
-
-    private static final class IdentifierDepthFirstAdapter
-            extends DepthFirstAdapter {
-        private String identifier;
-
-        @Override
-        public void caseTIdentifierLiteral(final TIdentifierLiteral node) {
-            this.identifier = node.getText();
-        }
-
-        public String getIdentifier() {
-            return this.identifier;
         }
     }
 }
