@@ -19,9 +19,7 @@ public final class Translator {
             final TranslatingVisitor<T> visitor = new TranslatingVisitor<>();
             ast.apply(visitor);
             return visitor.getResult();
-        } catch (final TranslatingVisitor.UnexpectedTypeException
-                               | TranslatingVisitor.IllegalStateException
-                         exception) {
+        } catch (final TranslatingVisitor.IllegalStateException exception) {
             throw new TranslationException(exception);
         }
     }

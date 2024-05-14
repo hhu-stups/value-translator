@@ -35,21 +35,11 @@ import java.util.stream.IntStream;
 @SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.TooManyMethods"})
 public final class TranslatingVisitor<T extends BValue>
         extends DepthFirstAdapter {
-    private T result;
+    private BValue result;
     private boolean inUnaryMinus;
 
     public TranslatingVisitor() {
         super();
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <E extends BValue> E cast(final Object result) {
-        try {
-            return (E) result;
-        } catch (final ClassCastException exception) {
-            throw new UnexpectedTypeException(
-                    exception.getMessage(), exception);
-        }
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
@@ -70,7 +60,8 @@ public final class TranslatingVisitor<T extends BValue>
                             + "This might be a missing case in the class "
                             + "TranslatingVisitor.");
         }
-        final T res = this.result;
+        @SuppressWarnings("unchecked")
+        final T res = (T) this.result;
         this.result = null;
         return res;
     }
@@ -81,7 +72,7 @@ public final class TranslatingVisitor<T extends BValue>
                                                     + "intermediate result "
                                                     + "before reading it.");
         }
-        this.result = cast(bValue);
+        this.result = bValue;
     }
 
     @Override
@@ -321,17 +312,6 @@ public final class TranslatingVisitor<T extends BValue>
         @SuppressWarnings("PMD.UnusedPrivateMethod")
         private String getKey() {
             return this.key;
-        }
-    }
-
-    /* default */ static class UnexpectedTypeException
-            extends RuntimeException {
-        private static final long serialVersionUID = -1476883967744949095L;
-
-        /* default */ UnexpectedTypeException(
-                final String message,
-                final ClassCastException exception) {
-            super(message, exception);
         }
     }
 
