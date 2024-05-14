@@ -32,8 +32,9 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@SuppressWarnings("PMD.TooManyMethods")
-public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
+@SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.TooManyMethods"})
+public final class TranslatingVisitor<T extends BValue>
+        extends DepthFirstAdapter {
     private T result;
     private boolean inUnaryMinus;
 
@@ -342,7 +343,7 @@ public class TranslatingVisitor<T extends BValue> extends DepthFirstAdapter {
         }
     }
 
-    /* default */ private static class IdentifierDepthFirstAdapter
+    /* default */ private static final class IdentifierDepthFirstAdapter
             extends DepthFirstAdapter {
         private String identifier;
 

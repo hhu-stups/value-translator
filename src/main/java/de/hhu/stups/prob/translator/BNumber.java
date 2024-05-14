@@ -55,11 +55,11 @@ public class BNumber extends Number implements BValue {
 
     @Override
     public float floatValue() {
-        return this.value.floatValue();
+        return this.value;
     }
 
     @Override
     public double doubleValue() {
-        return this.value.doubleValue();
+        return this.value;
     }
 }

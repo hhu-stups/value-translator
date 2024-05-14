@@ -23,7 +23,7 @@ public class BReal extends Number implements BValue {
 
     @Override
     public String toString() {
-        return Double.toString(this.value.doubleValue());
+        return Double.toString(this.value);
     }
 
     @Override

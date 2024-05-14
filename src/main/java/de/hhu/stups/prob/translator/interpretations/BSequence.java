@@ -21,13 +21,11 @@ public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     @SuppressWarnings("unchecked")
     public BSequence(final Set<? extends BValue> bValues) {
         super(bValues);
-        final boolean isValid = bValues.stream().allMatch(tuple -> {
-            if (!tuple.getClass().equals(BTuple.class)) {
-                return false;
-            }
-            return ((BTuple<BValue, ?>) tuple).getFirst()
-                           .getClass().equals(BNumber.class);
-        });
+        final boolean isValid = bValues.stream().allMatch(tuple ->
+            tuple.getClass().equals(BTuple.class)
+            && ((BTuple<BValue, ?>) tuple).getFirst()
+                .getClass().equals(BNumber.class)
+        );
         if (!isValid) {
             throw new InterpretationException(
                     "Incompatible set for conversion to sequence");
