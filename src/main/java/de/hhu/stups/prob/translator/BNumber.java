@@ -5,7 +5,7 @@ import java.util.Objects;
 public class BNumber extends Number implements BValue {
     private static final long serialVersionUID = 5922463363438789565L;
 
-    private final Long value;
+    private final long value;
 
     public BNumber(final long longValue) {
         super();
@@ -22,7 +22,7 @@ public class BNumber extends Number implements BValue {
 
     @Override
     public String toString() {
-        return Integer.toString(this.value.intValue());
+        return Long.toString(this.value);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class BNumber extends Number implements BValue {
             return false;
         }
         final BNumber bNumber = (BNumber) other;
-        return this.value.equals(bNumber.value);
+        return this.value == bNumber.value;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class BNumber extends Number implements BValue {
 
     @Override
     public int intValue() {
-        return this.value.intValue();
+        return (int) this.value;
     }
 
     @Override

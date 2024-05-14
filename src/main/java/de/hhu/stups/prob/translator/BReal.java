@@ -6,7 +6,7 @@ public class BReal extends Number implements BValue {
 
     private static final long serialVersionUID = 5922463363438789565L;
 
-    private final Double value;
+    private final double value;
 
     public BReal(final double doubleValue) {
         super();
@@ -36,7 +36,7 @@ public class BReal extends Number implements BValue {
             return false;
         }
         final BReal bReal = (BReal) other;
-        return this.value.equals(bReal.value);
+        return Double.compare(this.value, bReal.value) == 0;
     }
 
     @Override
@@ -46,17 +46,17 @@ public class BReal extends Number implements BValue {
 
     @Override
     public int intValue() {
-        return this.value.intValue();
+        return (int) this.value;
     }
 
     @Override
     public long longValue() {
-        return this.value.longValue();
+        return (long) this.value;
     }
 
     @Override
     public float floatValue() {
-        return this.value.floatValue();
+        return (float) this.value;
     }
 
     @Override
