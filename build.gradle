@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
     implementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.5"
-    implementation group: "de.hhu.stups", name: "bparser", version: "2.13.2"
+    api group: "de.hhu.stups", name: "bparser", version: "2.13.2"
 
     testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.16.1"
     testImplementation group: "org.assertj", name: "assertj-core", version: "3.25.3"
