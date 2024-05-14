@@ -47,10 +47,9 @@ public class BTupleTest {
     @SuppressWarnings("ConstantConditions")
     @Test
     public void testNestedTyping() throws TranslationException {
-        final BTuple<BTuple<BAtom, BNumber>, BAtom> result2
+        final BTuple<BTuple<BNumber, BNumber>, BAtom> result2
                 = Translator.translate("(99 |-> 1 |-> b)");
-        final BNumber actual
-                = ((BNumber) ((Object) result2.getFirst().getFirst()));
+        final BNumber actual = result2.getFirst().getFirst();
         final int expected = 99;
         assertThat(actual.intValue()).isEqualTo(expected);
     }
