@@ -320,7 +320,7 @@ public final class TranslatingVisitor<T extends BValue>
         }
     }
 
-    /* default */ private static final class IdentifierDepthFirstAdapter
+    private static final class IdentifierDepthFirstAdapter
             extends DepthFirstAdapter {
         private String identifier;
 
