@@ -55,7 +55,7 @@ public final class TranslatingVisitor<T extends BValue>
     @SuppressWarnings({"WeakerAccess", "PMD.NullAssignment"})
     public T getResult() {
         if (this.result == null) {
-            throw new TranslatingVisitor.IllegalStateException(
+            throw new UncheckedException(
                     "Trying to read a missing intermediate result. "
                             + "This might be a missing case in the class "
                             + "TranslatingVisitor.");
@@ -68,7 +68,7 @@ public final class TranslatingVisitor<T extends BValue>
 
     private void setResult(final BValue bValue) {
         if (this.result != null) {
-            throw new IllegalStateException("Trying to overwrite an "
+            throw new UncheckedException("Trying to overwrite an "
                                                     + "intermediate result "
                                                     + "before reading it.");
         }
@@ -196,13 +196,13 @@ public final class TranslatingVisitor<T extends BValue>
             "PMD.DataflowAnomalyAnalysis"})
     public void caseACoupleExpression(final ACoupleExpression node) {
         if (node.getList().size() < 2) {
-            throw new TranslatingVisitor.IllegalStateException(
+            throw new UncheckedException(
                     "Unexpected state, couple node containing only one node");
         }
 
-        final Supplier<IllegalStateException> supplier
+        final Supplier<UncheckedException> supplier
                 = () ->
-                          new IllegalStateException(
+                          new UncheckedException(
                                   "Unexpected state, empty couple node");
 
 
@@ -315,10 +315,10 @@ public final class TranslatingVisitor<T extends BValue>
         }
     }
 
-    /* default */ static class IllegalStateException extends RuntimeException {
+    /* default */ static class UncheckedException extends RuntimeException {
         private static final long serialVersionUID = -3036204603081282264L;
 
-        /* default */ IllegalStateException(final String message) {
+        /* default */ UncheckedException(final String message) {
             super(message);
         }
     }

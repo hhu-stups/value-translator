@@ -19,7 +19,7 @@ public final class Translator {
             final TranslatingVisitor<T> visitor = new TranslatingVisitor<>();
             ast.apply(visitor);
             return visitor.getResult();
-        } catch (final TranslatingVisitor.IllegalStateException exception) {
+        } catch (final TranslatingVisitor.UncheckedException exception) {
             throw new TranslationException(exception);
         }
     }
@@ -29,7 +29,7 @@ public final class Translator {
         final PParseUnit parseUnit = ast.getPParseUnit();
         if (!(parseUnit instanceof AExpressionParseUnit)) {
             throw new TranslationException(
-                new TranslatingVisitor.IllegalStateException(
+                new TranslatingVisitor.UncheckedException(
                     "Only expressions can be translated, but received a "
                     + parseUnit.getClass()
                 )
