@@ -42,7 +42,7 @@ public final class Translator {
             throws TranslationException {
         final Start ast;
         try {
-            ast = BParser.parse("#EXPRESSION" + expression);
+            ast = new BParser().parseExpression(expression);
         } catch (final BCompoundException exception) {
             throw new TranslationException(exception);
         }
