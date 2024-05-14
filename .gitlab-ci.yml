@@ -2,14 +2,12 @@ image: eclipse-temurin:8
 
 variables:
   GRADLE_ARGS: --no-daemon --stacktrace
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
 
 cache:
   paths:
     - .gradle/wrapper
     - .gradle/caches
-
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
 
 tests:
   stage: test
