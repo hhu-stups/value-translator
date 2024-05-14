@@ -10,6 +10,7 @@ import de.hhu.stups.prob.translator.exceptions.TranslationException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Please only put general tests here that don't fit anywhere else!
@@ -31,5 +32,12 @@ final class TranslatorApiTest {
         );
         final BNumber result = Translator.translate(ast);
         assertThat(result.intValue()).isEqualTo(1);
+    }
+
+    @Test
+    void translateUnsupportedExpressionThrowsException() {
+        assertThrows(TranslationException.class, () ->
+            Translator.translate("seq({1,2,3})")
+        );
     }
 }

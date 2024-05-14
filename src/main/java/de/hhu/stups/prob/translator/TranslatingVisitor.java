@@ -1,6 +1,12 @@
 package de.hhu.stups.prob.translator;
 
-import de.be4.classicalb.core.parser.analysis.DepthFirstAdapter;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import de.be4.classicalb.core.parser.analysis.AnalysisAdapter;
 import de.be4.classicalb.core.parser.node.ABooleanFalseExpression;
 import de.be4.classicalb.core.parser.node.ABooleanTrueExpression;
 import de.be4.classicalb.core.parser.node.AComprehensionSetExpression;
@@ -10,29 +16,22 @@ import de.be4.classicalb.core.parser.node.AEmptySetExpression;
 import de.be4.classicalb.core.parser.node.AExistsPredicate;
 import de.be4.classicalb.core.parser.node.AForallPredicate;
 import de.be4.classicalb.core.parser.node.AIdentifierExpression;
+import de.be4.classicalb.core.parser.node.AIntegerExpression;
+import de.be4.classicalb.core.parser.node.ARealExpression;
 import de.be4.classicalb.core.parser.node.ARecEntry;
 import de.be4.classicalb.core.parser.node.ARecExpression;
 import de.be4.classicalb.core.parser.node.ASequenceExtensionExpression;
 import de.be4.classicalb.core.parser.node.ASetExtensionExpression;
+import de.be4.classicalb.core.parser.node.AStringExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicCompositionExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicComprehensionSetExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicLambdaExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicQuantifiedUnionExpression;
 import de.be4.classicalb.core.parser.node.AUnaryMinusExpression;
+import de.be4.classicalb.core.parser.node.Node;
 import de.be4.classicalb.core.parser.node.PExpression;
-import de.be4.classicalb.core.parser.node.TIdentifierLiteral;
-import de.be4.classicalb.core.parser.node.TIntegerLiteral;
-import de.be4.classicalb.core.parser.node.TRealLiteral;
-import de.be4.classicalb.core.parser.node.TStringLiteral;
-
 import de.be4.classicalb.core.parser.util.PrettyPrinter;
 import de.be4.classicalb.core.parser.util.Utils;
-
-import java.util.List;
-import java.util.Set;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @SuppressWarnings({
     "PMD.CouplingBetweenObjects",
@@ -40,7 +39,7 @@ import java.util.stream.IntStream;
     "PMD.TooManyMethods",
 })
 public final class TranslatingVisitor<T extends BValue>
-        extends DepthFirstAdapter {
+        extends AnalysisAdapter {
     private BValue result;
     private boolean inUnaryMinus;
 
@@ -83,8 +82,8 @@ public final class TranslatingVisitor<T extends BValue>
 
     @Override
     @SuppressWarnings("PMD.AvoidFinalLocalVariable")
-    public void caseTIntegerLiteral(final TIntegerLiteral node) {
-        final String nodeText = node.getText();
+    public void caseAIntegerExpression(final AIntegerExpression node) {
+        final String nodeText = node.getLiteral().getText();
         final String text;
         if (this.inUnaryMinus) {
             text = "-" + nodeText;
@@ -95,8 +94,8 @@ public final class TranslatingVisitor<T extends BValue>
     }
 
     @Override
-    public void caseTRealLiteral(final TRealLiteral node) {
-        final String nodeText = node.getText();
+    public void caseARealExpression(final ARealExpression node) {
+        final String nodeText = node.getLiteral().getText();
         final String text;
         if (this.inUnaryMinus) {
             text = "-" + nodeText;
@@ -107,18 +106,18 @@ public final class TranslatingVisitor<T extends BValue>
     }
 
     @Override
-    public void inAUnaryMinusExpression(final AUnaryMinusExpression node) {
-        this.inUnaryMinus = true;
+    public void caseAUnaryMinusExpression(final AUnaryMinusExpression node) {
+        try {
+            this.inUnaryMinus = true;
+            node.getExpression().apply(this);
+        } finally {
+            this.inUnaryMinus = false;
+        }
     }
 
     @Override
-    public void outAUnaryMinusExpression(final AUnaryMinusExpression node) {
-        this.inUnaryMinus = false;
-    }
-
-    @Override
-    public void caseTIdentifierLiteral(final TIdentifierLiteral node) {
-        this.setResult(new BAtom(node.getText()));
+    public void caseAIdentifierExpression(final AIdentifierExpression node) {
+        this.setResult(new BAtom(Utils.getAIdentifierAsString(node)));
     }
 
     @Override
@@ -193,8 +192,8 @@ public final class TranslatingVisitor<T extends BValue>
     //
 
     @Override
-    public void caseTStringLiteral(final TStringLiteral node) {
-        this.setResult(new BString(node.getText()));
+    public void caseAStringExpression(final AStringExpression node) {
+        this.setResult(new BString(node.getContent().getText()));
     }
 
     @Override
@@ -211,9 +210,6 @@ public final class TranslatingVisitor<T extends BValue>
                           new UncheckedException(
                                   "Unexpected state, empty couple node");
 
-
-
-        this.inACoupleExpression(node);
         final BValue bValue
                 = node.getList()
                           .stream()
@@ -225,7 +221,6 @@ public final class TranslatingVisitor<T extends BValue>
                           })
                           .reduce(BTuple::new)
                           .orElseThrow(supplier);
-        this.outACoupleExpression(node);
         this.setResult(bValue);
     }
 
@@ -302,6 +297,14 @@ public final class TranslatingVisitor<T extends BValue>
     public void caseABooleanFalseExpression(
             final ABooleanFalseExpression node) {
         this.setResult(new BBoolean(false));
+    }
+
+    @Override
+    public void defaultCase(final Node node) {
+        throw new UncheckedException(
+            "Expression type not currently supported by value translator: "
+            + node.getClass()
+        );
     }
 
     private static final class RecordEntry implements BValue {
