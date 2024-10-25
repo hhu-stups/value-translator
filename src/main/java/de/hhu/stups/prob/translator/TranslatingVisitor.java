@@ -241,17 +241,8 @@ public final class TranslatingVisitor<T extends BValue>
     }
 
     @Override
-    @SuppressWarnings("PMD.AccessorMethodGeneration")
     public void caseARecEntry(final ARecEntry node) {
-        if (!(node.getIdentifier() instanceof AIdentifierExpression)) {
-            throw new UncheckedException(
-                "Record entry identifier must be an identifier, not "
-                + node.getIdentifier().getClass()
-            );
-        }
-        final String identifier = Utils.getAIdentifierAsString(
-            (AIdentifierExpression) node.getIdentifier()
-        );
+        final String identifier = node.getIdentifier().getText();
 
         final TranslatingVisitor<BValue> visitor =
                 new TranslatingVisitor<>();
