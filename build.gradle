@@ -1,3 +1,5 @@
+import java.util.concurrent.TimeUnit
+
 plugins {
     id 'java-library'
 
@@ -23,6 +25,12 @@ repositories {
             name "sonatype snapshots"
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        cacheChangingModulesFor(0, TimeUnit.SECONDS)
     }
 }
 
