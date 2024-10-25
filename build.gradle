@@ -62,6 +62,9 @@ test {
 }
 
 pitest {
+    // The junit5PluginVersion setting internally uses the following Maven coordinates:
+    // group: "org.pitest", name: "pitest-junit5-plugin", version: <specified below>
+    // https://central.sonatype.com/artifact/org.pitest/pitest-junit5-plugin
     junit5PluginVersion = "1.2.1"
     threads = 4
 }
