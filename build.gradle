@@ -27,12 +27,12 @@ repositories {
 }
 
 dependencies {
-    implementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.5"
+    implementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.6"
     api group: "de.hhu.stups", name: "bparser", version: "2.13.2"
 
-    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.16.1"
-    testImplementation group: "org.assertj", name: "assertj-core", version: "3.25.3"
-    testImplementation(platform(group: "org.junit", name: "junit-bom", version: "5.10.2"))
+    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.17.1"
+    testImplementation group: "org.assertj", name: "assertj-core", version: "3.26.3"
+    testImplementation(platform(group: "org.junit", name: "junit-bom", version: "5.11.3"))
     testImplementation group: "org.junit.jupiter", name: "junit-jupiter"
 
     testRuntimeOnly group: "org.junit.platform", name: "junit-platform-launcher"
@@ -67,7 +67,7 @@ pitest {
 }
 
 pmd {
-    toolVersion = "7.1.0"
+    toolVersion = "7.7.0"
     // https://stackoverflow.com/a/53696963/10326268
     ruleSets = []
     ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
