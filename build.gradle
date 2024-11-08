@@ -58,8 +58,6 @@ javadoc {
     if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }
-    // https://stackoverflow.com/a/52797107/10326268
-    options.addStringOption("sourcepath", "")
 }
 
 test {
