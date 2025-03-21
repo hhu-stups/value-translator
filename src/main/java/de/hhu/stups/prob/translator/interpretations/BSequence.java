@@ -17,31 +17,32 @@ import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 @SuppressWarnings("PMD.ShortMethodName")
 public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
 
-    private BSequence(final Set<? extends BValue> bValues) {
+    private BSequence(final Set<BTuple<BNumber, V>> bValues) {
         super(bValues);
     }
 
-    public static <T extends BValue> BSequence<T> of() {
+    public static <T extends BValue> BSequence<T> sequence() {
         return new BSequence<>(Collections.emptySet());
     }
 
-    public static <T extends BValue> BSequence<T> of(
+    public static <T extends BValue> BSequence<T> sequence(
         final List<? extends T> values) {
 
-        final Set<BTuple<BNumber, ?>> set
+        final Set<BTuple<BNumber, T>> set
             = IntStream
                   .range(0, values.size())
                   .mapToObj(index -> new BTuple<>(
-                      BNumber.of(index + 1), values.get(index)))
+                      BNumber.of(index + 1), (T) values.get(index)))
                   .collect(Collectors.toSet());
         return new BSequence<>(set);
     }
 
-    public static <T extends BValue> BSequence<T> fromBValues(
+    @SuppressWarnings("unchecked")
+    public static <V extends BValue> BSequence<V> sequenceFromBValues(
         final Set<? extends BValue> values) {
 
         check(values);
-        return new BSequence<>(values);
+        return new BSequence<>((Set<BTuple<BNumber, V>>) values);
     }
 
     /* default */

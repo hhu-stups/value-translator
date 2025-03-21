@@ -12,16 +12,31 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-@SuppressWarnings("WeakerAccess")
 public class BFunction<K extends BValue, V extends BValue>
         extends BRelation<K, V> {
 
-    @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
-    public BFunction(final Set<? extends BValue> bValues) {
+    /* default */ BFunction(final Set<BTuple<K, V>> bValues) {
         super(bValues);
-        check(bValues);
+    }
+
+    public static <K extends BValue, V extends BValue> BFunction<K, V> function(
+        final Map<K, V> values) {
+
+        final Set<BTuple<K, V>> set = values.entrySet()
+                                          .stream()
+                                          .map(e -> new BTuple<>(
+                                              e.getKey(),
+                                              e.getValue()
+                                          ))
+                                          .collect(Collectors.toSet());
+        return new BFunction<>(set);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <K extends BValue, V extends BValue> BFunction<K, V>
+    functionFromBValues(final Set<? extends BValue> values) {
+        check(values);
+        return new BFunction<>((Set<BTuple<K, V>>) values);
     }
 
     /* default */

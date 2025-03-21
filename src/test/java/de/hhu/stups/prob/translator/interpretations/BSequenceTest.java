@@ -26,7 +26,7 @@ public class BSequenceTest {
     @Test
     public void sequenceCreation() throws TranslationException {
         final BSequence<BNumber> sequence =
-            BSequence.of(Arrays.asList(
+            BSequence.sequence(Arrays.asList(
                 BNumber.of(3),
                 BNumber.of(2),
                 BNumber.of(1)

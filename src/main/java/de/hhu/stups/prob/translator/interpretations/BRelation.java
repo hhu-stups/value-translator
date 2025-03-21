@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -13,21 +14,23 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-@SuppressWarnings("WeakerAccess")
 public class BRelation<K extends BValue, V extends BValue>
         extends BSet<BTuple<K, V>> {
 
-    @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
+    /* default */ BRelation(final Set<BTuple<K, V>> bValues) {
+        super(bValues);
+    }
+
     @SuppressWarnings("unchecked")
-    public BRelation(final Set<? extends BValue> bValues) {
-        super((Set<BTuple<K, V>>) bValues);
-        check(bValues);
+    public static <K extends BValue, V extends BValue> BRelation<K, V>
+    relationFromBValues(final Set<? extends BValue> values) {
+        check(values);
+        return new BRelation<>((Set<BTuple<K, V>>) values);
     }
 
     /* default */
     static void check(final Set<? extends BValue> values) {
+        Objects.requireNonNull(values, "values");
         for (final BValue value : values) {
             if (!(value instanceof BTuple<?, ?>)) {
                 throw new InterpretationException(String.format(

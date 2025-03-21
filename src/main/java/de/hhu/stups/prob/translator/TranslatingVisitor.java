@@ -257,13 +257,13 @@ public final class TranslatingVisitor<T extends BValue>
                 value.apply(vtor);
                 return vtor.getResult();
             }).collect(Collectors.toList());
-        this.setResult(BSequence.of(values));
+        this.setResult(BSequence.sequence(values));
     }
 
     @Override
     public void caseAEmptySequenceExpression(
             final AEmptySequenceExpression node) {
-        this.setResult(BSequence.of());
+        this.setResult(BSequence.sequence());
     }
 
     @Override

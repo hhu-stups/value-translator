@@ -11,16 +11,21 @@ import de.hhu.stups.prob.translator.interpretations.BFunction;
 import de.hhu.stups.prob.translator.interpretations.BRelation;
 import de.hhu.stups.prob.translator.interpretations.BSequence;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @SuppressWarnings({ "PMD.ShortClassName", "PMD.TooManyMethods" })
 public class BSet<T extends BValue> implements BValue {
-    private final Set<T> values;
 
-    public BSet(final Set<T> set) {
-        this.values = new HashSet<>(Objects.requireNonNull(set, "set"));
-    }
+    private final Set<T> values;
 
     public BSet() {
         this.values = Collections.emptySet();
+    }
+
+    public BSet(final Set<? extends T> set) {
+        this.values = Collections.unmodifiableSet(
+            new HashSet<>(Objects.requireNonNull(set, "set"))
+        );
     }
 
     @Override
@@ -47,8 +52,10 @@ public class BSet<T extends BValue> implements BValue {
             .collect(Collectors.joining(", ", "{", "}"));
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     public Set<T> toSet() {
-        return Collections.unmodifiableSet(this.values);
+        // can just return field because we made it immutable in the constructor
+        return this.values;
     }
 
     public Stream<T> stream() {
@@ -62,7 +69,7 @@ public class BSet<T extends BValue> implements BValue {
     }
 
     public <V extends BValue> BSequence<V> asSequence() {
-        return BSequence.fromBValues(this.values);
+        return BSequence.sequenceFromBValues(this.values);
     }
 
     /**
@@ -81,7 +88,7 @@ public class BSet<T extends BValue> implements BValue {
     }
 
     public <K extends BValue, V extends BValue> BFunction<K, V> asFunction() {
-        return new BFunction<>(this.values);
+        return BFunction.functionFromBValues(this.values);
     }
 
     @SuppressWarnings("unused")
@@ -91,6 +98,6 @@ public class BSet<T extends BValue> implements BValue {
     }
 
     public <K extends BValue, V extends BValue> BRelation<K, V> asRelation() {
-        return new BRelation<>(this.values);
+        return BRelation.relationFromBValues(this.values);
     }
 }
