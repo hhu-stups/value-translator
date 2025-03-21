@@ -47,4 +47,11 @@ final class TranslatorApiTest {
             Translator.translate("-(-1)")
         );
     }
+
+    @Test
+    void translateUnsupportedExpressionThrowsExceptionMinusSet() {
+        assertThrows(TranslationException.class, () ->
+            Translator.translate("-{1}")
+        );
+    }
 }

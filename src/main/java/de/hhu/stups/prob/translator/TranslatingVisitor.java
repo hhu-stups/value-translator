@@ -57,6 +57,12 @@ public final class TranslatingVisitor<T extends BValue>
         }).collect(Collectors.toSet());
     }
 
+    private void checkMinus() {
+        if (this.inUnaryMinus) {
+            throw new UncheckedException("invalid minus expression");
+        }
+    }
+
     @SuppressWarnings({"WeakerAccess", "PMD.NullAssignment"})
     public T getResult() {
         if (this.result == null) {
@@ -72,6 +78,7 @@ public final class TranslatingVisitor<T extends BValue>
     }
 
     private void setResult(final BValue bValue) {
+        this.checkMinus();
         if (this.result != null) {
             throw new UncheckedException("Trying to overwrite an "
                                                     + "intermediate result "
@@ -86,6 +93,7 @@ public final class TranslatingVisitor<T extends BValue>
         final String text;
         if (this.inUnaryMinus) {
             text = "-" + nodeText;
+            this.inUnaryMinus = false;
         } else {
             text = nodeText;
         }
@@ -98,6 +106,7 @@ public final class TranslatingVisitor<T extends BValue>
         final String text;
         if (this.inUnaryMinus) {
             text = "-" + nodeText;
+            this.inUnaryMinus = false;
         } else {
             text = nodeText;
         }
@@ -106,9 +115,7 @@ public final class TranslatingVisitor<T extends BValue>
 
     @Override
     public void caseAUnaryMinusExpression(final AUnaryMinusExpression node) {
-        if (this.inUnaryMinus) {
-            throw new UncheckedException("invalid double minus");
-        }
+        this.checkMinus();
         try {
             this.inUnaryMinus = true;
             node.getExpression().apply(this);
