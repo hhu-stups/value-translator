@@ -14,7 +14,8 @@ public final class BRecord implements BValue {
 
     public BRecord(final Map<String, BValue> valueMap) {
         super();
-        this.values = new HashMap<>(valueMap);
+        this.values = new HashMap<>(
+            Objects.requireNonNull(valueMap, "valueMap"));
     }
 
     @Override
@@ -39,7 +40,7 @@ public final class BRecord implements BValue {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.values);
+        return this.values.hashCode();
     }
 
     public Map<String, BValue> toMap() {

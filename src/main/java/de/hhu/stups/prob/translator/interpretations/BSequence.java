@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -37,7 +38,6 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
      *
      * @return list of values
      */
-    @SuppressWarnings("unchecked")
     public List<V> toList() {
         return this.toList(Function.identity());
     }
@@ -50,7 +50,7 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
                 continue;
             }
             throw
-                    new DuplicateKeyException(String.format(
+                    new DuplicateKeyException(String.format(Locale.ROOT,
                             "Repeated Key in Sequence: key=%s",
                             tuple.getFirst()));
         }

@@ -1,7 +1,5 @@
 package de.hhu.stups.prob.translator;
 
-import java.util.Objects;
-
 public final class BBoolean implements BValue {
     private final boolean value;
 
@@ -29,7 +27,7 @@ public final class BBoolean implements BValue {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.value);
+        return Boolean.hashCode(this.value);
     }
 
     public Boolean booleanValue() {

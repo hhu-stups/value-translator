@@ -1,5 +1,6 @@
 package de.hhu.stups.prob.translator;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public final class BTuple<T extends BValue, S extends BValue>
@@ -9,8 +10,8 @@ public final class BTuple<T extends BValue, S extends BValue>
     private final S second;
 
     public BTuple(final T firstValue, final S secondValue) {
-        this.first = firstValue;
-        this.second = secondValue;
+        this.first = Objects.requireNonNull(firstValue, "firstValue");
+        this.second = Objects.requireNonNull(secondValue, "secondValue");
     }
 
     public T getFirst() {
@@ -42,6 +43,7 @@ public final class BTuple<T extends BValue, S extends BValue>
 
     @Override
     public String toString() {
-        return String.format("(%s |-> %s)", this.first, this.second);
+        return String.format(Locale.ROOT, "(%s |-> %s)",
+            this.first, this.second);
     }
 }

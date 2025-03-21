@@ -8,7 +8,7 @@ public final class BAtom implements BValue {
 
     public BAtom(final String text) {
         super();
-        this.value = text;
+        this.value = Objects.requireNonNull(text, "text");
     }
 
     @Override
@@ -26,7 +26,7 @@ public final class BAtom implements BValue {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.value);
+        return this.value.hashCode();
     }
 
     @Override

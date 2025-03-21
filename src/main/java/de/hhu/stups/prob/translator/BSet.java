@@ -6,6 +6,7 @@ import de.hhu.stups.prob.translator.interpretations.BSequence;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,11 +19,11 @@ public class BSet<T extends BValue> implements BValue {
     private final Set<T> values;
 
     public BSet(final Set<T> set) {
-        this.values = new HashSet<>(set);
+        this.values = new HashSet<>(Objects.requireNonNull(set, "set"));
     }
 
     public BSet() {
-        this.values = Collections.emptyNavigableSet();
+        this.values = Collections.emptySet();
     }
 
     protected Set<T> getValues() {
@@ -44,12 +45,12 @@ public class BSet<T extends BValue> implements BValue {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(this.values);
+        return this.values.hashCode();
     }
 
     @Override
     public String toString() {
-        return String.format("{%s}",
+        return String.format(Locale.ROOT, "{%s}",
                 this.values
                         .stream()
                         .map(Objects::toString)
@@ -63,7 +64,6 @@ public class BSet<T extends BValue> implements BValue {
     public Stream<T> stream() {
         return this.values.stream();
     }
-
 
     @SuppressWarnings("unused")
     public <V extends BValue> BSequence<V> asSequence(

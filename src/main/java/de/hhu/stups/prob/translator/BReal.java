@@ -1,7 +1,5 @@
 package de.hhu.stups.prob.translator;
 
-import java.util.Objects;
-
 public final class BReal extends Number implements BValue {
 
     private static final long serialVersionUID = 5922463363438789565L;
@@ -23,7 +21,7 @@ public final class BReal extends Number implements BValue {
 
     @Override
     public String toString() {
-        return Double.toString(this.value);
+        return String.valueOf(this.value);
     }
 
     @Override
@@ -41,7 +39,7 @@ public final class BReal extends Number implements BValue {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.value);
+        return Double.hashCode(this.value);
     }
 
     @Override

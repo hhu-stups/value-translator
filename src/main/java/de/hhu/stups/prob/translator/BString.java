@@ -1,5 +1,6 @@
 package de.hhu.stups.prob.translator;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public final class BString implements BValue {
@@ -8,7 +9,7 @@ public final class BString implements BValue {
 
     public BString(final String text) {
         super();
-        this.value = text;
+        this.value = Objects.requireNonNull(text, "text");
     }
 
     @Override
@@ -26,12 +27,12 @@ public final class BString implements BValue {
 
     @Override
     public String toString() {
-        return String.format("\"%s\"", this.value);
+        return String.format(Locale.ROOT, "\"%s\"", this.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.value);
+        return this.value.hashCode();
     }
 
     public String stringValue() {
