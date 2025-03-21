@@ -106,6 +106,9 @@ public final class TranslatingVisitor<T extends BValue>
 
     @Override
     public void caseAUnaryMinusExpression(final AUnaryMinusExpression node) {
+        if (this.inUnaryMinus) {
+            throw new UncheckedException("invalid double minus");
+        }
         try {
             this.inUnaryMinus = true;
             node.getExpression().apply(this);

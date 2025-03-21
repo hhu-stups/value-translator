@@ -40,4 +40,11 @@ final class TranslatorApiTest {
             Translator.translate("seq({1,2,3})")
         );
     }
+
+    @Test
+    void translateUnsupportedExpressionThrowsExceptionDoubleMinus() {
+        assertThrows(TranslationException.class, () ->
+            Translator.translate("-(-1)")
+        );
+    }
 }
