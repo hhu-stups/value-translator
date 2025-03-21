@@ -2,9 +2,7 @@ package de.hhu.stups.prob.translator;
 
 import de.be4.classicalb.core.parser.BParser;
 import de.be4.classicalb.core.parser.exceptions.BCompoundException;
-import de.be4.classicalb.core.parser.node.AExpressionParseUnit;
-import de.be4.classicalb.core.parser.node.PExpression;
-import de.be4.classicalb.core.parser.node.PParseUnit;
+import de.be4.classicalb.core.parser.node.Node;
 import de.be4.classicalb.core.parser.node.Start;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 
@@ -13,36 +11,22 @@ public final class Translator {
         // only static access
     }
 
-    public static <T extends BValue> T translate(final PExpression ast)
+    public static <T extends BValue> T translate(final Node node)
             throws TranslationException {
         try {
             final TranslatingVisitor<T> visitor = new TranslatingVisitor<>();
-            ast.apply(visitor);
+            node.apply(visitor);
             return visitor.getResult();
         } catch (final TranslatingVisitor.UncheckedException exception) {
             throw new TranslationException(exception);
         }
     }
 
-    public static <T extends BValue> T translate(final Start ast)
-            throws TranslationException {
-        final PParseUnit parseUnit = ast.getPParseUnit();
-        if (!(parseUnit instanceof AExpressionParseUnit)) {
-            throw new TranslationException(
-                new TranslatingVisitor.UncheckedException(
-                    "Only expressions can be translated, but received a "
-                    + parseUnit.getClass()
-                )
-            );
-        }
-        return translate(((AExpressionParseUnit) parseUnit).getExpression());
-    }
-
     public static <T extends BValue> T translate(final String expression)
             throws TranslationException {
         final Start ast;
         try {
-            ast = new BParser().parseExpression(expression);
+            ast = new BParser().parseFormula(expression);
         } catch (final BCompoundException exception) {
             throw new TranslationException(exception);
         }

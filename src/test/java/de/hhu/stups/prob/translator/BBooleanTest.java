@@ -22,6 +22,18 @@ public class BBooleanTest {
     }
 
     @Test
+    public void testTruth() throws TranslationException {
+        final BBoolean v = Translator.translate("btrue");
+        assertThat(v.booleanValue()).isTrue();
+    }
+
+    @Test
+    public void testFalsity() throws TranslationException {
+        final BBoolean v = Translator.translate("bfalse");
+        assertThat(v.booleanValue()).isFalse();
+    }
+
+    @Test
     public void equalsContract() {
         EqualsVerifier.forClass(BBoolean.class)
                 .withNonnullFields("value") // field is final

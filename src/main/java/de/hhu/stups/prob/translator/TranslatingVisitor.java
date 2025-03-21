@@ -13,9 +13,12 @@ import de.be4.classicalb.core.parser.node.ACoupleExpression;
 import de.be4.classicalb.core.parser.node.AEmptySequenceExpression;
 import de.be4.classicalb.core.parser.node.AEmptySetExpression;
 import de.be4.classicalb.core.parser.node.AExistsPredicate;
+import de.be4.classicalb.core.parser.node.AExpressionParseUnit;
+import de.be4.classicalb.core.parser.node.AFalsityPredicate;
 import de.be4.classicalb.core.parser.node.AForallPredicate;
 import de.be4.classicalb.core.parser.node.AIdentifierExpression;
 import de.be4.classicalb.core.parser.node.AIntegerExpression;
+import de.be4.classicalb.core.parser.node.APredicateParseUnit;
 import de.be4.classicalb.core.parser.node.ARealExpression;
 import de.be4.classicalb.core.parser.node.ARecEntry;
 import de.be4.classicalb.core.parser.node.ARecExpression;
@@ -27,9 +30,11 @@ import de.be4.classicalb.core.parser.node.ASymbolicComprehensionSetExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicEventBComprehensionSetExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicLambdaExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicQuantifiedUnionExpression;
+import de.be4.classicalb.core.parser.node.ATruthPredicate;
 import de.be4.classicalb.core.parser.node.AUnaryMinusExpression;
 import de.be4.classicalb.core.parser.node.Node;
 import de.be4.classicalb.core.parser.node.PExpression;
+import de.be4.classicalb.core.parser.node.Start;
 import de.be4.classicalb.core.parser.util.PrettyPrinter;
 import de.be4.classicalb.core.parser.util.Utils;
 import de.hhu.stups.prob.translator.interpretations.BSequence;
@@ -298,10 +303,35 @@ final class TranslatingVisitor<T extends BValue>
     }
 
     @Override
+    public void caseATruthPredicate(final ATruthPredicate node) {
+        this.setResult(BBoolean.TRUE);
+    }
+
+    @Override
+    public void caseAFalsityPredicate(final AFalsityPredicate node) {
+        this.setResult(BBoolean.FALSE);
+    }
+
+    @Override
+    public void caseStart(final Start node) {
+        node.getPParseUnit().apply(this);
+    }
+
+    @Override
+    public void caseAExpressionParseUnit(final AExpressionParseUnit node) {
+        node.getExpression().apply(this);
+    }
+
+    @Override
+    public void caseAPredicateParseUnit(final APredicateParseUnit node) {
+        node.getPredicate().apply(this);
+    }
+
+    @Override
     public void defaultCase(final Node node) {
         throw new UncheckedException(
-            "Expression type not currently supported by value translator: "
-            + node.getClass()
+            "Node type not currently supported by value translator: "
+            + node.getClass().getSimpleName()
         );
     }
 
