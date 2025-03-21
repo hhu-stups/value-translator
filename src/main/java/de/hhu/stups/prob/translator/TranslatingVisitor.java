@@ -269,13 +269,13 @@ public final class TranslatingVisitor<T extends BValue>
     @Override
     public void caseABooleanTrueExpression(
             final ABooleanTrueExpression node) {
-        this.setResult(new BBoolean(true));
+        this.setResult(BBoolean.TRUE);
     }
 
     @Override
     public void caseABooleanFalseExpression(
             final ABooleanFalseExpression node) {
-        this.setResult(new BBoolean(false));
+        this.setResult(BBoolean.FALSE);
     }
 
     @Override

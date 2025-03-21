@@ -1,15 +1,23 @@
 package de.hhu.stups.prob.translator;
 
 public final class BBoolean implements BValue {
+
+    public static final BBoolean TRUE = new BBoolean(true);
+    public static final BBoolean FALSE = new BBoolean(false);
+
     private final boolean value;
 
-    public BBoolean(final String stringValue) {
-        this(Boolean.parseBoolean(stringValue));
+    private BBoolean(final boolean booleanValue) {
+        this.value = booleanValue;
     }
 
-    public BBoolean(final boolean booleanValue) {
-        super();
-        this.value = booleanValue;
+    @SuppressWarnings("PMD.ShortMethodName")
+    public static BBoolean of(final boolean value) {
+        if (value) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 
     @Override
