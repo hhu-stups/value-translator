@@ -80,7 +80,6 @@ public final class TranslatingVisitor<T extends BValue>
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidFinalLocalVariable")
     public void caseAIntegerExpression(final AIntegerExpression node) {
         final String nodeText = node.getLiteral().getText();
         final String text;
