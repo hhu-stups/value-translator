@@ -23,7 +23,7 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     public BSequence(final Set<? extends BValue> bValues) {
         super(bValues);
         final boolean isValid = bValues.stream().allMatch(tuple ->
-            tuple instanceof BTuple
+            tuple instanceof BTuple<?, ?>
             && ((BTuple<BValue, ?>) tuple).getFirst() instanceof BNumber
         );
         if (!isValid) {
