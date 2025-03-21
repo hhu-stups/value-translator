@@ -187,8 +187,6 @@ public final class TranslatingVisitor<T extends BValue>
         this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
     }
 
-    //
-
     @Override
     public void caseAStringExpression(final AStringExpression node) {
         this.setResult(new BString(node.getContent().getText()));
@@ -221,7 +219,6 @@ public final class TranslatingVisitor<T extends BValue>
         this.setResult(bValue);
     }
 
-    //
     @Override
     public void caseARecExpression(final ARecExpression node) {
         this.setResult(
