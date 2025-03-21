@@ -38,9 +38,7 @@ public class BRelation<K extends BValue, V extends BValue>
 
     public <M, N> Map<M, List<N>> toRelationalMap(
             final Function<K, M> keyMapper, final Function<V, N> valueMapper) {
-
-        return this.getValues()
-                       .stream()
+        return this.stream()
                        .map(tuple -> new Pair<>(
                                keyMapper.apply(tuple.getFirst()),
                                valueMapper.apply(tuple.getSecond())

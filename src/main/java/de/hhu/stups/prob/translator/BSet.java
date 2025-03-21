@@ -26,10 +26,6 @@ public class BSet<T extends BValue> implements BValue {
         this.values = Collections.emptySet();
     }
 
-    protected Set<T> getValues() {
-        return this.values;
-    }
-
     @Override
     public final boolean equals(final Object other) {
         if (this == other) {

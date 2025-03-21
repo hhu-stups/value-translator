@@ -43,7 +43,7 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
 
     public <K> List<K> toList(final Function<V, K> mapper) {
         final Set<BNumber> seen = new HashSet<>();
-        for (final BTuple<BNumber, V> tuple : this.getValues()) {
+        for (final BTuple<BNumber, V> tuple : this.toSet()) {
             if (seen.add(tuple.getFirst())) {
                 continue;
             }
@@ -52,7 +52,7 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
                             "Repeated Key in Sequence: key=%s",
                             tuple.getFirst()));
         }
-        return this.getValues().stream()
+        return this.stream()
                        .sorted(Comparator.comparingInt(
                                value -> value.getFirst().intValue()))
                        .map(BTuple::getSecond)

@@ -22,7 +22,7 @@ public class BFunction<K extends BValue, V extends BValue>
             final Function<? super V, ? extends N> valueMapper) {
 
         try {
-            return this.getValues().stream().collect(
+            return this.stream().collect(
                     Collectors.collectingAndThen(Collectors.toMap(
                             tuple -> keyMapper.apply(tuple.getFirst()),
                             tuple -> valueMapper.apply(tuple.getSecond())
