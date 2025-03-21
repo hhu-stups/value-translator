@@ -48,26 +48,31 @@ translate the represented values to Java objects.
 
 **Values**:
 
-    BNumber number = Translator.translate("5");
-    number.intValue(); // 5
-    
+```java
+BNumber number = Translator.translate("5");
+number.intValue(); // 5
+```
+
 **Collections**:
-    
+
 *Value Translator* supports several collection types, e.g. sets:
-    
-    BSet<BNumber> bSet = Translator.translate("{1,2,3,2}");
-    System.out.println(bSet); // {1,2,3}
-    bSet.stream().mapToInt(BNumber::intValue).sum(); // 6
-    
+
+```java
+BSet<BNumber> bSet = Translator.translate("{1,2,3,2}");
+System.out.println(bSet); // {1,2,3}
+bSet.stream().mapToInt(BNumber::intValue).sum(); // 6
+```
 
 Some collections types are provided as interpretations of sets, e.g. functions,
 these are computed and validated at runtime:
 
-    BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (2, b), (3,c)}");
-    Map<Integer, String> map = set
-                                .asFunction(BNumber.class, BAtom.class)
-                                .toMap(BNumber::intValue, BAtom::stringValue);
-                                
+```java
+BSet<BTuple<BNumber, BAtom>> set = Translator.translate("{(1,a), (2, b), (3,c)}");
+Map<Integer, String> map = set
+                            .asFunction(BNumber.class, BAtom.class)
+                            .toMap(BNumber::intValue, BAtom::stringValue);
+```
+
 ## Types
 
 *Value Translator* exposes B types on two levels. The translator itself supports and returns the following types:
@@ -158,9 +163,11 @@ is the cardinality of the set.
 
 All B Types provide methods to convert them to Java objects or collections of objects.
 
-    BNumber number = Translator.translate("5");
-    number.intValue(); // 5
-    
+```java
+BNumber number = Translator.translate("5");
+number.intValue(); // 5
+```
+
 Collections Types, i.e. sets, sequences, relations and functions provide 
 methods to get a collection of BValue objects or, provided with a method to
 extract the values, a collection of arbitrary objects. 
