@@ -10,31 +10,28 @@ It **translates** B expressions to Java -- without evaluating them.
 
 ### Snapshot Versions
 
-`implementation 'de.hhu.stups:value-translator:0.1.1-SNAPSHOT'`
+`implementation "de.hhu.stups:value-translator:0.2.0-SNAPSHOT"`
 
 Snapshot versions are available on [Sonatype](https://oss.sonatype.org/content/repositories/snapshots/).
 To use a snapshot version you need to add Sonatype as a repository, e.g. using Gradle:
 
-```
-  repositories {
-      ...
-      repositories {
-          mavenCentral()
-          maven {
-              name "snapshots"
-              url "https://oss.sonatype.org/content/repositories/snapshots/"
-          }
-      }
-  }
+```groovy
+repositories {
+    mavenCentral()
+    maven {
+        name = "snapshots"
+        url = "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
 ```
 
 ### Releases 
 
-**Current Version**: 0.0.2
+**Current Version**: 0.1.4
 
-`implementation 'de.hhu.stups:value-translator:0.1.0'`
+`implementation "de.hhu.stups:value-translator:0.1.4"`
 
-Releases are published on [Maven Central](https://search.maven.org/search?q=g:de.hhu.stups%20AND%20a:value-translator).
+Releases are published on [Maven Central](https://central.sonatype.com/artifact/de.hhu.stups/value-translator).
 
 ## Usage
 
@@ -51,14 +48,14 @@ translate the represented values to Java objects.
 
 **Values**:
 
-    BNumber number = Translator.translate("5")
-    number.intValue(); // 5 
+    BNumber number = Translator.translate("5");
+    number.intValue(); // 5
     
 **Collections**:
     
 *Value Translator* supports several collection types, e.g. sets:
     
-    BSet<BNumber> bSet = Translator.translate("{1,2,3,2}")
+    BSet<BNumber> bSet = Translator.translate("{1,2,3,2}");
     System.out.println(bSet); // {1,2,3}
     bSet.stream().mapToInt(BNumber::intValue).sum(); // 6
     
@@ -77,11 +74,12 @@ these are computed and validated at runtime:
 
 * Set ([`BSet`](src/main/java/de/hhu/stups/prob/translator/BSet.java)) for sets, functions, relations and sequences (independently of the used notation).
 * Boolean ([`BBoolean`](src/main/java/de/hhu/stups/prob/translator/BBoolean.java))
-* Number ([`BNumber`](src/main/java/de/hhu/stups/prob/translator/BNumber.java))
+* Integer ([`BNumber`](src/main/java/de/hhu/stups/prob/translator/BNumber.java))
+* Real number ([`BReal`](src/main/java/de/hhu/stups/prob/translator/BReal.java))
 * Record ([`BRecord`](src/main/java/de/hhu/stups/prob/translator/BRecord.java))
 * Atom ([`BAtom`](src/main/java/de/hhu/stups/prob/translator/BAtom.java)) used for for identifiers and the names of enumerated sets.
 * String ([`BString`](src/main/java/de/hhu/stups/prob/translator/BString.java))
-* BTuple ([`BTuple`](src/main/java/de/hhu/stups/prob/translator/BTuple.java)) for tuples and maplets. 
+* Tuple ([`BTuple`](src/main/java/de/hhu/stups/prob/translator/BTuple.java)) for tuples and maplets. 
 
 ### Relations, Functions and Sequences
 
@@ -124,7 +122,7 @@ Functions are sets of pairs.
 #### Set methods to create a relation
 
 * `<K,V>asRelation()`
-* `<K,V>asRelation(Class<K> domainType, Class<V> rangeType`
+* `<K,V>asRelation(Class<K> domainType, Class<V> rangeType)`
 
 ### Functions
 
@@ -139,8 +137,7 @@ the set.
 #### Set methods to create a function
 
 * `<K,V>asFunction()`
-* `<K,V>asFunction(Class<K> domainType, Class<V> rangeType`
-
+* `<K,V>asFunction(Class<K> domainType, Class<V> rangeType)`
 
 ### Sequences
 
@@ -161,8 +158,8 @@ is the cardinality of the set.
 
 All B Types provide methods to convert them to Java objects or collections of objects.
 
-    BNumber number = Translator.translate("5")
-    number.intValue(); // 5 
+    BNumber number = Translator.translate("5");
+    number.intValue(); // 5
     
 Collections Types, i.e. sets, sequences, relations and functions provide 
 methods to get a collection of BValue objects or, provided with a method to
@@ -172,12 +169,12 @@ Records provide a map of key value pairs that map a Java String to a BValue.
 
 Tuples provide access to the two BValues they contain.
 
-
 #### Value Types
 
-* [`BAtom`](src/main/java/de/hhu/stups/prob/translator/BAtom.java):  `BAtom.toStringValue()`
-* [`BBoolean`](src/main/java/de/hhu/stups/prob/translator/BBoolean.java):  `BBoolean.booleanValue()`
-* [`BNumber`](src/main/java/de/hhu/stups/prob/translator/BNumber.java): `BNumber.intValue()`, `BNumber.longValue()`, `BNumber.doubleValue()`
+* [`BAtom`](src/main/java/de/hhu/stups/prob/translator/BAtom.java): `BAtom.stringValue()`
+* [`BBoolean`](src/main/java/de/hhu/stups/prob/translator/BBoolean.java): `BBoolean.booleanValue()`
+* [`BNumber`](src/main/java/de/hhu/stups/prob/translator/BNumber.java): `BNumber.intValue()`, `BNumber.longValue()`, `BNumber.bigIntegerValue()`
+* [`BReal`](src/main/java/de/hhu/stups/prob/translator/BReal.java): `BNumber.floatValue()`, `BNumber.doubleValue()`
 * [`BString`](src/main/java/de/hhu/stups/prob/translator/BString.java): `BString.stringValue()`
 
 #### Collection Types
@@ -217,14 +214,9 @@ Collection types support generics to reduce the number of necessary casts.
 * `Tuple.<T>getFirst()`: BValue, first component of the tuple
 * `Tuple.<T>getSecond()`: BValue, second component of the tuple
 
-
 **[`BRecord`](src/main/java/de/hhu/stups/prob/translator/BRecord.java)**
 
-* `BRecord.<String, BValue>toMap()` 
-
-## Releasing
-
-Releases should be done using [GitLab Flow](https://docs.gitlab.com/ee/workflow/gitlab_flow.html#release-branches-with-gitlab-flow).
+* `BRecord.<String, BValue>toMap()`
 
 ## Future work
 
