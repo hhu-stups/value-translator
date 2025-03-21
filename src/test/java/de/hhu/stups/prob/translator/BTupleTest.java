@@ -1,8 +1,11 @@
 package de.hhu.stups.prob.translator;
 
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

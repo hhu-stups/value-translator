@@ -1,13 +1,5 @@
 package de.hhu.stups.prob.translator.interpretations;
 
-import de.hhu.stups.prob.translator.BNumber;
-import de.hhu.stups.prob.translator.BTuple;
-import de.hhu.stups.prob.translator.BValue;
-import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
-import de.hhu.stups.prob.translator.exceptions.InterpretationException;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -16,6 +8,14 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import de.hhu.stups.prob.translator.BNumber;
+import de.hhu.stups.prob.translator.BTuple;
+import de.hhu.stups.prob.translator.BValue;
+import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
+import de.hhu.stups.prob.translator.exceptions.InterpretationException;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")

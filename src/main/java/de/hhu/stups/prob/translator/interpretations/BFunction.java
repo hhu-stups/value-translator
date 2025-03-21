@@ -1,13 +1,13 @@
 package de.hhu.stups.prob.translator.interpretations;
 
-import de.hhu.stups.prob.translator.BValue;
-import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import de.hhu.stups.prob.translator.BValue;
+import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 
 @SuppressWarnings("WeakerAccess")
 public class BFunction<K extends BValue, V extends BValue>

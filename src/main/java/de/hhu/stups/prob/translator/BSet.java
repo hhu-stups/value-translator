@@ -1,9 +1,5 @@
 package de.hhu.stups.prob.translator;
 
-import de.hhu.stups.prob.translator.interpretations.BFunction;
-import de.hhu.stups.prob.translator.interpretations.BRelation;
-import de.hhu.stups.prob.translator.interpretations.BSequence;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
@@ -11,6 +7,10 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import de.hhu.stups.prob.translator.interpretations.BFunction;
+import de.hhu.stups.prob.translator.interpretations.BRelation;
+import de.hhu.stups.prob.translator.interpretations.BSequence;
 
 @SuppressWarnings({
         "PMD.ShortClassName",

@@ -1,5 +1,7 @@
 package de.hhu.stups.prob.translator.interpretations;
 
+import java.util.Map;
+
 import de.hhu.stups.prob.translator.BAtom;
 import de.hhu.stups.prob.translator.BNumber;
 import de.hhu.stups.prob.translator.BSet;
@@ -8,10 +10,10 @@ import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.jupiter.api.Test;
 
-import java.util.Map;
+import nl.jqno.equalsverifier.EqualsVerifier;
+
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

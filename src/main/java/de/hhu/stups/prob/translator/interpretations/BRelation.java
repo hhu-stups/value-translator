@@ -1,18 +1,18 @@
 package de.hhu.stups.prob.translator.interpretations;
 
-import de.hhu.stups.prob.translator.BSet;
-import de.hhu.stups.prob.translator.BTuple;
-import de.hhu.stups.prob.translator.BValue;
-import de.hhu.stups.prob.translator.exceptions.InterpretationException;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import de.hhu.stups.prob.translator.BSet;
+import de.hhu.stups.prob.translator.BTuple;
+import de.hhu.stups.prob.translator.BValue;
+import de.hhu.stups.prob.translator.exceptions.InterpretationException;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressWarnings("WeakerAccess")
 public class BRelation<K extends BValue, V extends BValue>

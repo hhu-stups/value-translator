@@ -1,10 +1,12 @@
 package de.hhu.stups.prob.translator;
 
-import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.jupiter.api.Test;
-
 import java.util.Map;
+
+import de.hhu.stups.prob.translator.exceptions.TranslationException;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
