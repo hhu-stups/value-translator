@@ -2,7 +2,6 @@ package de.hhu.stups.prob.translator.interpretations;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -12,22 +11,37 @@ import java.util.stream.Collectors;
 import de.hhu.stups.prob.translator.BNumber;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
-import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
-    @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
+
     public BSequence(final Set<? extends BValue> bValues) {
         super(bValues);
-        final boolean isValid = bValues.stream().allMatch(tuple ->
-            tuple instanceof BTuple<?, ?>
-            && ((BTuple<?, ?>) tuple).getFirst() instanceof BNumber
-        );
-        if (!isValid) {
-            throw new InterpretationException(
-                    "Incompatible set for conversion to sequence");
+        final int size = bValues.size();
+        for (final BValue value : bValues) {
+            final BValue key = ((BTuple<?, ?>) value).getFirst();
+            if (!(key instanceof BNumber)) {
+                throw new InterpretationException(String.format(
+                    Locale.ROOT,
+                    "Incompatible set for conversion to sequence: "
+                        + "key is not an integer: %s",
+                    value
+                ));
+            }
+            int index;
+            try {
+                index = ((BNumber) key).intValueExact();
+            } catch (ArithmeticException e) {
+                index = 0; // to throw later
+            }
+            if (index < 1 || index > size) {
+                throw new InterpretationException(String.format(
+                    Locale.ROOT,
+                    "Incompatible set for conversion to sequence: "
+                        + "integer key is of bounds: %s",
+                    key
+                ));
+            }
         }
     }
 
@@ -42,25 +56,15 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     }
 
     public <K> List<K> toList(final Function<V, K> mapper) {
-        final Set<BNumber> seen = new HashSet<>();
-        for (final BTuple<BNumber, V> tuple : this.toSet()) {
-            if (seen.add(tuple.getFirst())) {
-                continue;
-            }
-            throw
-                    new DuplicateKeyException(String.format(Locale.ROOT,
-                            "Repeated Key in Sequence: key=%s",
-                            tuple.getFirst()));
-        }
+        final Comparator<BTuple<BNumber, V>> keyComparator =
+            Comparator.comparingInt(value -> value.getFirst().intValue());
         return this.stream()
-                       .sorted(Comparator.comparingInt(
-                               value -> value.getFirst().intValue()))
-                       .map(BTuple::getSecond)
-                       .map(mapper)
-                       .collect(
-                               Collectors.collectingAndThen(
-                                       Collectors.toList(),
-                                       Collections::unmodifiableList));
+                   .sorted(keyComparator)
+                   .map(BTuple::getSecond)
+                   .map(mapper)
+                   .collect(Collectors.collectingAndThen(
+                       Collectors.toList(),
+                       Collections::unmodifiableList
+                   ));
     }
-
 }

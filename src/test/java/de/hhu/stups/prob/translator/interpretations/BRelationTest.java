@@ -37,10 +37,8 @@ public class BRelationTest {
                 new BAtom("a")), map.get(BNumber.of(1)));
         assertEquals(Collections.singletonList(
                 new BAtom("b")), map.get(BNumber.of(2)));
-        //noinspection CheckStyle
         assertEquals(Collections.singletonList(
                 new BAtom("c")), map.get(BNumber.of(3)));
-
     }
 
     @Test
@@ -63,11 +61,11 @@ public class BRelationTest {
             throws TranslationException {
 
         final BSet<BTuple<BNumber, BAtom>> set
-                = Translator.translate("{(1,a), (1, b), (3,c)}");
-        final BRelation<BNumber, BAtom> function = set.asFunction();
+            = Translator.translate("{(1,a), (1, b), (3,c)}");
+        final BRelation<BNumber, BAtom> relation = set.asRelation();
         final Map<Integer, List<String>> map
-                = function.toRelationalMap(BNumber::intValue,
-                BAtom::stringValue);
+            = relation.toRelationalMap(BNumber::intValue,
+            BAtom::stringValue);
         assertThat(map.get(1)).isEqualTo(Arrays.asList("a", "b"));
         assertThat(map.get(3)).isEqualTo(Collections.singletonList("c"));
     }

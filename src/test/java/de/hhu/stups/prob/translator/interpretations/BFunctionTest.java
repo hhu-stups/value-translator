@@ -36,19 +36,7 @@ public class BFunctionTest {
     public void functionToMapDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set
                 = Translator.translate("{(1,a), (1, b), (3,c)}");
-        final BFunction<BNumber, BAtom> function = set.asFunction();
-        assertThrows(DuplicateKeyException.class, function::toMap);
-    }
-
-    @Test
-    public void functionToMapWithExtractorDuplicateKeys()
-            throws TranslationException {
-
-        final BSet<BTuple<BNumber, BAtom>> set
-                = Translator.translate("{(1,a), (1, b), (3,c)}");
-        final BFunction<BNumber, BAtom> function = set.asFunction();
-        assertThrows(DuplicateKeyException.class,
-                () -> function.toMap(BNumber::intValue, BAtom::stringValue));
+        assertThrows(DuplicateKeyException.class, set::asFunction);
     }
 
     @Test

@@ -2,6 +2,7 @@ package de.hhu.stups.prob.translator.interpretations;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -17,18 +18,20 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressWarnings("WeakerAccess")
 public class BRelation<K extends BValue, V extends BValue>
         extends BSet<BTuple<K, V>> {
+
     @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     @SuppressWarnings("unchecked")
     public BRelation(final Set<? extends BValue> bValues) {
         super((Set<BTuple<K, V>>) bValues);
-        final boolean isValid
-                = bValues.stream()
-                          .allMatch(
-                                  value -> value.getClass()
-                                                   .equals(BTuple.class));
-        if (!isValid) {
-            throw new InterpretationException(
-                    "Incompatible set for conversion to relation/function");
+        for (final BValue value : bValues) {
+            if (!(value instanceof BTuple<?, ?>)) {
+                throw new InterpretationException(String.format(
+                    Locale.ROOT,
+                    "Incompatible set for conversion to relation: "
+                        + "value is not a tuple: %s",
+                    value
+                ));
+            }
         }
     }
 

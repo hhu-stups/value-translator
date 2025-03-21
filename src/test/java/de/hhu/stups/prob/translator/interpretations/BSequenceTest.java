@@ -12,9 +12,9 @@ import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-
 import org.junit.jupiter.api.Test;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -70,8 +70,7 @@ public class BSequenceTest {
     public void sequenceToMapDuplicateKeys() throws TranslationException {
         final BSet<BTuple<BNumber, BAtom>> set
                 = Translator.translate("{(1,a), (1, b), (2,c)}");
-        final BSequence<BAtom> function = set.asSequence();
-        assertThrows(DuplicateKeyException.class, function::toList);
+        assertThrows(DuplicateKeyException.class, set::asSequence);
     }
 
     @Test
@@ -80,9 +79,7 @@ public class BSequenceTest {
 
         final BSet<BTuple<BNumber, BAtom>> set
                 = Translator.translate("{(1,a), (1, b), (3,c)}");
-        final BSequence<BAtom> function = set.asSequence();
-        assertThrows(DuplicateKeyException.class,
-                () -> function.toList(BAtom::stringValue));
+        assertThrows(DuplicateKeyException.class, set::asSequence);
     }
 
     @Test
