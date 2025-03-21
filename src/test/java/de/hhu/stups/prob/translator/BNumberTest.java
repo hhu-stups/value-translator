@@ -1,17 +1,18 @@
 package de.hhu.stups.prob.translator;
 
+import java.math.BigInteger;
+
 import de.hhu.stups.prob.translator.exceptions.TranslationException;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.jupiter.api.DisplayName;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings({"MagicNumber", "FeatureEnvy"})
+@SuppressWarnings({ "MagicNumber", "FeatureEnvy" })
 public class BNumberTest {
 
     @Test
@@ -23,7 +24,7 @@ public class BNumberTest {
         assertThat(one.longValue()).isEqualTo(1L);
     }
 
-    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings({ "unused", "PMD.DataflowAnomalyAnalysis" })
     @Test
     public void testNumberCast() {
         assertThrows(ClassCastException.class, () -> {
@@ -34,7 +35,7 @@ public class BNumberTest {
     @Test
     public void testNumberCastUp() throws TranslationException {
         final BValue value = Translator.translate("1");
-        assertThat(value.getClass()).isSameAs(BNumber.class);
+        assertThat(value).isInstanceOf(BNumber.class);
     }
 
     @Test
@@ -45,42 +46,52 @@ public class BNumberTest {
 
     @Test
     public void testEquality() {
-        final BNumber one = new BNumber(1);
-        final BNumber two = new BNumber(1);
+        final BNumber one = BNumber.of(1);
+        final BNumber two = BNumber.of(1);
         assertThat(two).isEqualTo(one);
-        assertThat(two).isNotSameAs(one);
     }
 
     @Test
-    public void testEqualityDifferntTypeArguments() {
-        final BNumber one = new BNumber(1);
-        final BNumber two = new BNumber(1L);
+    public void testEqualityDifferentTypeArguments() {
+        final BNumber one = BNumber.of(1);
+        final BNumber two = BNumber.of(1L);
         assertThat(two).isEqualTo(one);
-        assertThat(two).isNotSameAs(one);
     }
 
     @Test
-    @DisplayName("Only numeric values that can be represented as a"
-                         + " Long are supported")
-    public void testNumericRangeIsLong() throws TranslationException {
-        assertEquals(Long.MAX_VALUE,
-                Translator.<BNumber>translate(
-                        String.valueOf(Long.MAX_VALUE)).longValue());
-        assertEquals(Long.MIN_VALUE,
-                Translator.<BNumber>translate(
-                        String.valueOf(Long.MIN_VALUE)).longValue());
-
-        final String tooLong = new BigDecimal(Long.MAX_VALUE)
-                                       .add(new BigDecimal(1))
-                                       .toPlainString();
-        assertThrows(NumberFormatException.class,
-                () -> Translator.<BNumber>translate(tooLong));
+    public void testBigIntegerSupported() throws TranslationException {
+        BigInteger tooLong = BigInteger.valueOf(Long.MAX_VALUE)
+                                 .multiply(BigInteger.valueOf(3));
+        BNumber translated = Translator.translate(tooLong.toString());
+        assertThat(translated.bigIntegerValue()).isEqualTo(tooLong);
     }
 
     @Test
-    public void equalsContract() {
-        EqualsVerifier.forClass(BNumber.class)
-                .withNonnullFields("value") // field is final
-                .verify();
+    @Disabled("abstract super class not supported by EqualsVerifier")
+    public void equalsContractSmall() {
+        EqualsVerifier.forClass(BSmallNumber.class)
+            .withNonnullFields("value") // field is final
+            .verify();
+    }
+
+    @Test
+    public void equalsContractBig() {
+        EqualsVerifier.forClass(BBigNumber.class)
+            .withNonnullFields("value") // field is final
+            .verify();
+    }
+
+    @Test
+    public void hashCodeContract1() {
+        BSmallNumber n1 = new BSmallNumber(1);
+        BBigNumber n2 = new BBigNumber(BigInteger.ONE);
+        assertThat(n1.hashCode()).isEqualTo(n2.hashCode());
+    }
+
+    @Test
+    public void hashCodeContract2() {
+        BSmallNumber n1 = new BSmallNumber(-1);
+        BBigNumber n2 = new BBigNumber(BigInteger.valueOf(-1));
+        assertThat(n1.hashCode()).isEqualTo(n2.hashCode());
     }
 }

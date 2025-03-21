@@ -29,7 +29,7 @@ public class BRecordTest {
     public void recordToMapFieldTypes() throws TranslationException {
         final BRecord record = Translator.translate("rec(a:1, b: x)");
         final Map<String, BValue> map = record.toMap();
-        assertThat(map.get("a").getClass()).isEqualTo(BNumber.class);
+        assertThat(map.get("a")).isInstanceOf(BNumber.class);
         assertThat(map.get("b").getClass()).isEqualTo(BAtom.class);
     }
 

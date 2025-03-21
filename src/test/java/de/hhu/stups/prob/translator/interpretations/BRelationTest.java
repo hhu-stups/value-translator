@@ -32,12 +32,12 @@ public class BRelationTest {
         final Map<BNumber, List<BAtom>> map
                 = set.asRelation(BNumber.class, BAtom.class).toRelationalMap();
         assertEquals(Collections.singletonList(
-                new BAtom("a")), map.get(new BNumber(1)));
+                new BAtom("a")), map.get(BNumber.of(1)));
         assertEquals(Collections.singletonList(
-                new BAtom("b")), map.get(new BNumber(2)));
+                new BAtom("b")), map.get(BNumber.of(2)));
         //noinspection CheckStyle
         assertEquals(Collections.singletonList(
-                new BAtom("c")), map.get(new BNumber(3)));
+                new BAtom("c")), map.get(BNumber.of(3)));
 
     }
 
@@ -51,9 +51,9 @@ public class BRelationTest {
         assertThat(Stream.of("a", "b")
                            .map(BAtom::new)
                            .collect(Collectors.toList()))
-                .isEqualTo(map.get(new BNumber(1)));
+                .isEqualTo(map.get(BNumber.of(1)));
         assertEquals(Collections.singletonList(new BAtom("c")),
-                map.get(new BNumber(3)));
+                map.get(BNumber.of(3)));
     }
 
     @Test

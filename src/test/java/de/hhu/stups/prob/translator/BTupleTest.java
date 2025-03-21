@@ -14,16 +14,16 @@ public class BTupleTest {
     public void testComponents() throws TranslationException {
         final BTuple<BNumber, BNumber> t1
                 = Translator.translate("(1 |-> 2)");
-        assertThat(t1.getFirst()).isEqualTo(new BNumber(1));
-        assertThat(t1.getSecond()).isEqualTo(new BNumber(2));
+        assertThat(t1.getFirst()).isEqualTo(BNumber.of(1));
+        assertThat(t1.getSecond()).isEqualTo(BNumber.of(2));
     }
 
     @Test
     public void testComponents2() throws TranslationException {
         final BTuple<BNumber, BNumber> t1
                 = Translator.translate("(1, 2)");
-        assertThat(t1.getFirst()).isEqualTo(new BNumber(1));
-        assertThat(t1.getSecond()).isEqualTo(new BNumber(2));
+        assertThat(t1.getFirst()).isEqualTo(BNumber.of(1));
+        assertThat(t1.getSecond()).isEqualTo(BNumber.of(2));
     }
 
     @Test
@@ -54,7 +54,6 @@ public class BTupleTest {
         assertThat(actual.intValue()).isEqualTo(expected);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void testNestedTyping2() throws TranslationException {
         final BTuple<BTuple<BAtom, BNumber>, BAtom> tuple

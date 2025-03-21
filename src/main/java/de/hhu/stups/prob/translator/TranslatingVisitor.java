@@ -90,7 +90,7 @@ public final class TranslatingVisitor<T extends BValue>
         } else {
             text = nodeText;
         }
-        this.setResult(new BNumber(text));
+        this.setResult(BNumber.of(text));
     }
 
     @Override
@@ -266,7 +266,7 @@ public final class TranslatingVisitor<T extends BValue>
                               expressions.get(index).apply(vtor);
 
                               return new BTuple<>(
-                                      new BNumber(index + 1), vtor.getResult());
+                                      BNumber.of(index + 1), vtor.getResult());
                           }).collect(Collectors.toSet());
 
         this.setResult(new BSet<>(values));

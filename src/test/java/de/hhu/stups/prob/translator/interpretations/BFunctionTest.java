@@ -25,10 +25,9 @@ public class BFunctionTest {
                 = Translator.translate("{(1,a), (2, b), (3,c)}");
         final Map<BNumber, BAtom> map
                 = set.asFunction(BNumber.class, BAtom.class).toMap();
-        assertThat(map.get(new BNumber(1))).isEqualTo(new BAtom("a"));
-        assertThat(map.get(new BNumber(2))).isEqualTo(new BAtom("b"));
-        assertThat(map.get(new BNumber(3))).isEqualTo(new BAtom("c"));
-
+        assertThat(map.get(BNumber.of(1))).isEqualTo(new BAtom("a"));
+        assertThat(map.get(BNumber.of(2))).isEqualTo(new BAtom("b"));
+        assertThat(map.get(BNumber.of(3))).isEqualTo(new BAtom("c"));
     }
 
     @Test

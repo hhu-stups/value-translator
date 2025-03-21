@@ -1,33 +1,48 @@
 package de.hhu.stups.prob.translator;
 
+import java.math.BigInteger;
 import java.util.Objects;
 
-public class BNumber extends Number implements BValue {
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ShortMethodName" })
+public abstract class BNumber extends Number implements BValue {
+
     private static final long serialVersionUID = 5922463363438789565L;
 
-    private final long value;
-
-    public BNumber(final long longValue) {
+    /* default */ BNumber() {
         super();
-        this.value = longValue;
     }
 
-    public BNumber(final int intValue) {
-        this((long) intValue);
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public static BNumber of(final BigInteger bigIntegerValue) {
+        Objects.requireNonNull(bigIntegerValue, "value");
+        try {
+            return of(bigIntegerValue.longValueExact());
+        } catch (ArithmeticException ignored) {
+            return new BBigNumber(bigIntegerValue);
+        }
     }
 
-    public BNumber(final String stringValue) {
-        this(Long.parseLong(stringValue));
+    public static BNumber of(final int intValue) {
+        return of((long) intValue);
     }
 
-    @Override
-    public String toString() {
-        return Long.toString(this.value);
+    public static BNumber of(final long longValue) {
+        return BSmallNumber.create(longValue);
+    }
+
+    @SuppressWarnings("PMD.OnlyOneReturn")
+    public static BNumber of(final String stringValue) {
+        Objects.requireNonNull(stringValue, "value");
+        try {
+            return of(Long.parseLong(stringValue));
+        } catch (NumberFormatException ignored) {
+            return of(new BigInteger(stringValue));
+        }
     }
 
     @Override
     @SuppressWarnings("PMD.OnlyOneReturn")
-    public final boolean equals(final Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }
@@ -35,31 +50,46 @@ public class BNumber extends Number implements BValue {
             return false;
         }
         final BNumber bNumber = (BNumber) other;
-        return this.value == bNumber.value;
+        return this.bigIntegerValue().equals(bNumber.bigIntegerValue());
     }
 
     @Override
-    public final int hashCode() {
-        return Objects.hash(this.value);
+    public int hashCode() {
+        return this.bigIntegerValue().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return this.bigIntegerValue().toString();
+    }
+
+    public abstract BigInteger bigIntegerValue();
 
     @Override
     public int intValue() {
-        return (int) this.value;
+        return this.bigIntegerValue().intValue();
+    }
+
+    public int intValueExact() {
+        return this.bigIntegerValue().intValueExact();
     }
 
     @Override
     public long longValue() {
-        return this.value;
+        return this.bigIntegerValue().longValue();
+    }
+
+    public long longValueExact() {
+        return this.bigIntegerValue().longValueExact();
     }
 
     @Override
     public float floatValue() {
-        return this.value;
+        return this.bigIntegerValue().floatValue();
     }
 
     @Override
     public double doubleValue() {
-        return this.value;
+        return this.bigIntegerValue().doubleValue();
     }
 }

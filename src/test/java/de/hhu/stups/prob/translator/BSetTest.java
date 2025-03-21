@@ -66,7 +66,7 @@ public class BSetTest {
         final BSet<BNumber> x = Translator.translate("{3,2,1}");
         final Set<BNumber> expected
                 = Stream.of(1, 2, 3)
-                          .map(BNumber::new)
+                          .map(BNumber::of)
                           .collect(Collectors.toSet());
         assertThat(x.toSet()).isEqualTo(expected);
     }
@@ -77,7 +77,7 @@ public class BSetTest {
         //noinspection CheckStyle
         final Set<BNumber> expected
                 = Stream.of(1, 2, 3)
-                          .map(BNumber::new)
+                          .map(BNumber::of)
                           .collect(Collectors.toSet());
         final Set<BNumber> result = x.stream().collect(Collectors.toSet());
         assertThat(result).isEqualTo(expected);
