@@ -82,9 +82,10 @@ Map<Integer, String> map = set
 * Integer ([`BNumber`](src/main/java/de/hhu/stups/prob/translator/BNumber.java))
 * Real number ([`BReal`](src/main/java/de/hhu/stups/prob/translator/BReal.java))
 * Record ([`BRecord`](src/main/java/de/hhu/stups/prob/translator/BRecord.java))
-* Atom ([`BAtom`](src/main/java/de/hhu/stups/prob/translator/BAtom.java)) used for for identifiers and the names of enumerated sets.
+* Atom ([`BAtom`](src/main/java/de/hhu/stups/prob/translator/BAtom.java)) used for identifiers and the names of enumerated sets.
 * String ([`BString`](src/main/java/de/hhu/stups/prob/translator/BString.java))
 * Tuple ([`BTuple`](src/main/java/de/hhu/stups/prob/translator/BTuple.java)) for tuples and maplets. 
+* Symbolic ([`BSymbolic`](src/main/java/de/hhu/stups/prob/translator/BSymbolic.java)) for symbolic values of any type. 
 
 ### Relations, Functions and Sequences
 
@@ -179,6 +180,7 @@ Tuples provide access to the two BValues they contain.
 #### Value Types
 
 * [`BAtom`](src/main/java/de/hhu/stups/prob/translator/BAtom.java): `BAtom.stringValue()`
+* [`BSymbolic`](src/main/java/de/hhu/stups/prob/translator/BSymbolic.java): `BSymbolic.stringValue()`
 * [`BBoolean`](src/main/java/de/hhu/stups/prob/translator/BBoolean.java): `BBoolean.booleanValue()`
 * [`BNumber`](src/main/java/de/hhu/stups/prob/translator/BNumber.java): `BNumber.intValue()`, `BNumber.longValue()`, `BNumber.bigIntegerValue()`
 * [`BReal`](src/main/java/de/hhu/stups/prob/translator/BReal.java): `BNumber.floatValue()`, `BNumber.doubleValue()`
