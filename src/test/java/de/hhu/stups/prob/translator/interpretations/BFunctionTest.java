@@ -84,21 +84,23 @@ public class BFunctionTest {
         assertThat(map.get(3)).isEqualTo("c");
     }
 
-    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     public void translateToFunction() {
         assertThrows(ClassCastException.class, () -> {
+            @SuppressWarnings("unused")
             final BFunction<BNumber, BAtom> set =
                     Translator.translate("{(1,a), (2, b), (3,c)}");
         });
     }
 
-    @SuppressWarnings({"unused", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     public void translateToSetOfFunctions() throws TranslationException {
         final BSet<BFunction<BNumber, BAtom>> set
                 = Translator.translate("{{(1,a), (2, b), (3,c)}}");
         assertThrows(ClassCastException.class, () -> {
+            @SuppressWarnings("unused")
             final BFunction<BNumber, BAtom> func
                     = set.toSet().iterator().next();
         });

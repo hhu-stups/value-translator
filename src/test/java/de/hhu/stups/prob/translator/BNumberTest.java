@@ -24,10 +24,11 @@ public class BNumberTest {
         assertThat(one.longValue()).isEqualTo(1L);
     }
 
-    @SuppressWarnings({ "unused", "PMD.DataflowAnomalyAnalysis" })
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     public void testNumberCast() {
         assertThrows(ClassCastException.class, () -> {
+            @SuppressWarnings("unused")
             final BString string = Translator.translate("1");
         });
     }
