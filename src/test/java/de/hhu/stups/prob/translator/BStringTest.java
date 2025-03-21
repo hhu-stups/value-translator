@@ -39,6 +39,13 @@ public class BStringTest {
     }
 
     @Test
+    public void testEscape() throws TranslationException {
+        final BString string = Translator.translate("\"\\\"\"");
+        assertThat(string.stringValue()).isEqualTo("\"");
+        assertThat(string.toString()).isEqualTo("\"\\\"\"");
+    }
+
+    @Test
     public void equalsContract() {
         EqualsVerifier.forClass(BString.class)
                 .withNonnullFields("value") // field is final

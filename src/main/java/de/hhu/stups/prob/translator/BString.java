@@ -1,7 +1,8 @@
 package de.hhu.stups.prob.translator;
 
-import java.util.Locale;
 import java.util.Objects;
+
+import de.be4.classicalb.core.parser.util.Utils;
 
 public final class BString implements BValue {
 
@@ -26,7 +27,7 @@ public final class BString implements BValue {
 
     @Override
     public String toString() {
-        return String.format(Locale.ROOT, "\"%s\"", this.value);
+        return "\"" + Utils.escapeStringContents(this.value) + "\"";
     }
 
     @Override
