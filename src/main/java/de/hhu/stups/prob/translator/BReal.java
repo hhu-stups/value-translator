@@ -1,22 +1,26 @@
 package de.hhu.stups.prob.translator;
 
+@SuppressWarnings("PMD.ShortMethodName")
 public final class BReal extends Number implements BValue {
 
     private static final long serialVersionUID = 5922463363438789565L;
 
     private final double value;
 
-    public BReal(final double doubleValue) {
+    private BReal(final double doubleValue) {
         super();
         this.value = doubleValue;
     }
 
-    public BReal(final float intValue) {
-        this((double) intValue);
+    public static BReal of(final String stringValue) {
+        return of(Double.parseDouble(stringValue));
     }
 
-    public BReal(final String stringValue) {
-        this(Double.parseDouble(stringValue));
+    public static BReal of(final double doubleValue) {
+        if (!Double.isFinite(doubleValue)) {
+            throw new IllegalArgumentException("value must be finite");
+        }
+        return new BReal(doubleValue);
     }
 
     @Override

@@ -100,7 +100,7 @@ public final class TranslatingVisitor<T extends BValue>
         } else {
             text = nodeText;
         }
-        this.setResult(new BReal(text));
+        this.setResult(BReal.of(text));
     }
 
     @Override
