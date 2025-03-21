@@ -67,4 +67,11 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
                        Collections::unmodifiableList
                    ));
     }
+
+    @Override
+    public String toString() {
+        return this.toList().stream()
+                   .map(Object::toString)
+                   .collect(Collectors.joining(", ", "[", "]"));
+    }
 }
