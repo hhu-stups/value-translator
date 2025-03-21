@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings({"checkstyle:magicnumber", "PMD.BeanMembersShouldSerialize"})
+@SuppressWarnings("checkstyle:magicnumber")
 public class BSetTest {
     private static BSet<BNumber> set1;
     private static BSet<BValue> set2;
