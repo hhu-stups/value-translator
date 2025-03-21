@@ -84,7 +84,6 @@ public class BFunctionTest {
         assertThat(map.get(3)).isEqualTo("c");
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     public void translateToFunction() {
         assertThrows(ClassCastException.class, () -> {
@@ -94,7 +93,6 @@ public class BFunctionTest {
         });
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     public void translateToSetOfFunctions() throws TranslationException {
         final BSet<BFunction<BNumber, BAtom>> set

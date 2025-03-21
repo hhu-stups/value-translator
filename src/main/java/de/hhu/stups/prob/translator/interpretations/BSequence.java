@@ -41,7 +41,6 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
         return this.toList(Function.identity());
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public <K> List<K> toList(final Function<V, K> mapper) {
         final Set<BNumber> seen = new HashSet<>();
         for (final BTuple<BNumber, V> tuple : this.getValues()) {

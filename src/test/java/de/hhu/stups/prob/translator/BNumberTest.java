@@ -24,7 +24,6 @@ public class BNumberTest {
         assertThat(one.longValue()).isEqualTo(1L);
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     public void testNumberCast() {
         assertThrows(ClassCastException.class, () -> {

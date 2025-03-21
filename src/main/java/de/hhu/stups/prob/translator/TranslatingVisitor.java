@@ -47,7 +47,6 @@ public final class TranslatingVisitor<T extends BValue>
         super();
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     private static Set<BValue> listToSet(final List<PExpression> elements) {
         return elements.stream().map(expression -> {
             final TranslatingVisitor<BValue> visitor =
@@ -197,8 +196,7 @@ public final class TranslatingVisitor<T extends BValue>
     }
 
     @Override
-    @SuppressWarnings({"PMD.AvoidLiteralsInIfCondition",
-            "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     public void caseACoupleExpression(final ACoupleExpression node) {
         if (node.getList().size() < 2) {
             throw new UncheckedException(
@@ -252,7 +250,6 @@ public final class TranslatingVisitor<T extends BValue>
     }
 
     @Override
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void caseASequenceExtensionExpression(
             final ASequenceExtensionExpression node) {
 
