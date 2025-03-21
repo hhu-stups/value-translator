@@ -19,12 +19,11 @@ import java.util.stream.Collectors;
 
 public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
-    @SuppressWarnings("unchecked")
     public BSequence(final Set<? extends BValue> bValues) {
         super(bValues);
         final boolean isValid = bValues.stream().allMatch(tuple ->
             tuple instanceof BTuple<?, ?>
-            && ((BTuple<BValue, ?>) tuple).getFirst() instanceof BNumber
+            && ((BTuple<?, ?>) tuple).getFirst() instanceof BNumber
         );
         if (!isValid) {
             throw new InterpretationException(
