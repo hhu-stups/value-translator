@@ -23,7 +23,12 @@ public class BRelation<K extends BValue, V extends BValue>
     @SuppressWarnings("unchecked")
     public BRelation(final Set<? extends BValue> bValues) {
         super((Set<BTuple<K, V>>) bValues);
-        for (final BValue value : bValues) {
+        check(bValues);
+    }
+
+    /* default */
+    static void check(final Set<? extends BValue> values) {
+        for (final BValue value : values) {
             if (!(value instanceof BTuple<?, ?>)) {
                 throw new InterpretationException(String.format(
                     Locale.ROOT,

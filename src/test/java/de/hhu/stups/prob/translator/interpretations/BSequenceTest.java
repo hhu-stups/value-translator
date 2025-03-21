@@ -1,5 +1,6 @@
 package de.hhu.stups.prob.translator.interpretations;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("checkstyle:magicnumber")
 public class BSequenceTest {
+
+    @Test
+    public void sequenceCreation() throws TranslationException {
+        final BSequence<BNumber> sequence =
+            BSequence.of(Arrays.asList(
+                BNumber.of(3),
+                BNumber.of(2),
+                BNumber.of(1)
+            ));
+        final BSet<BTuple<BNumber, BAtom>> set
+                = Translator.translate("{(1,3), (2,2), (3,1)}");
+        assertThat(sequence).isEqualTo(set);
+    }
 
     @Test
     public void setAsSequence() throws TranslationException {

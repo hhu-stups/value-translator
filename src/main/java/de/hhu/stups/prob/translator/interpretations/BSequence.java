@@ -7,18 +7,48 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import de.hhu.stups.prob.translator.BNumber;
 import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
+@SuppressWarnings("PMD.ShortMethodName")
 public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
 
-    public BSequence(final Set<? extends BValue> bValues) {
+    private BSequence(final Set<? extends BValue> bValues) {
         super(bValues);
-        final int size = bValues.size();
-        for (final BValue value : bValues) {
+    }
+
+    public static <T extends BValue> BSequence<T> of() {
+        return new BSequence<>(Collections.emptySet());
+    }
+
+    public static <T extends BValue> BSequence<T> of(
+        final List<? extends T> values) {
+
+        final Set<BTuple<BNumber, ?>> set
+            = IntStream
+                  .range(0, values.size())
+                  .mapToObj(index -> new BTuple<>(
+                      BNumber.of(index + 1), values.get(index)))
+                  .collect(Collectors.toSet());
+        return new BSequence<>(set);
+    }
+
+    public static <T extends BValue> BSequence<T> fromBValues(
+        final Set<? extends BValue> values) {
+
+        check(values);
+        return new BSequence<>(values);
+    }
+
+    /* default */
+    static void check(final Set<? extends BValue> values) {
+        BFunction.check(values);
+        final int size = values.size();
+        for (final BValue value : values) {
             final BValue key = ((BTuple<?, ?>) value).getFirst();
             if (!(key instanceof BNumber)) {
                 throw new InterpretationException(String.format(

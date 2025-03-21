@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import de.be4.classicalb.core.parser.analysis.AnalysisAdapter;
 import de.be4.classicalb.core.parser.node.ABooleanFalseExpression;
@@ -32,6 +31,7 @@ import de.be4.classicalb.core.parser.node.Node;
 import de.be4.classicalb.core.parser.node.PExpression;
 import de.be4.classicalb.core.parser.util.PrettyPrinter;
 import de.be4.classicalb.core.parser.util.Utils;
+import de.hhu.stups.prob.translator.interpretations.BSequence;
 
 @SuppressWarnings({
     "PMD.CouplingBetweenObjects",
@@ -250,25 +250,20 @@ public final class TranslatingVisitor<T extends BValue>
             final ASequenceExtensionExpression node) {
 
         final List<PExpression> expressions = node.getExpression();
-        final Set<BTuple<BNumber, ?>> values
-                = IntStream
-                          .range(0, expressions.size())
-                          .mapToObj(index -> {
-                              final TranslatingVisitor<BValue> vtor =
-                                      new TranslatingVisitor<>();
-                              expressions.get(index).apply(vtor);
-
-                              return new BTuple<>(
-                                      BNumber.of(index + 1), vtor.getResult());
-                          }).collect(Collectors.toSet());
-
-        this.setResult(new BSet<>(values));
+        final List<BValue> values = expressions.stream()
+            .map(value -> {
+                final TranslatingVisitor<BValue> vtor =
+                    new TranslatingVisitor<>();
+                value.apply(vtor);
+                return vtor.getResult();
+            }).collect(Collectors.toList());
+        this.setResult(BSequence.of(values));
     }
 
     @Override
     public void caseAEmptySequenceExpression(
             final AEmptySequenceExpression node) {
-        this.setResult(new BSet<>());
+        this.setResult(BSequence.of());
     }
 
     @Override

@@ -21,8 +21,14 @@ public class BFunction<K extends BValue, V extends BValue>
     @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     public BFunction(final Set<? extends BValue> bValues) {
         super(bValues);
+        check(bValues);
+    }
+
+    /* default */
+    static void check(final Set<? extends BValue> values) {
+        BRelation.check(values);
         final Set<BValue> keys = new HashSet<>();
-        for (final BValue value : bValues) {
+        for (final BValue value : values) {
             final BValue key = ((BTuple<?, ?>) value).getFirst();
             if (!keys.add(key)) {
                 throw new DuplicateKeyException(String.format(

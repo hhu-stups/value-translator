@@ -2,7 +2,6 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,9 +11,7 @@ import de.hhu.stups.prob.translator.interpretations.BFunction;
 import de.hhu.stups.prob.translator.interpretations.BRelation;
 import de.hhu.stups.prob.translator.interpretations.BSequence;
 
-@SuppressWarnings({
-        "PMD.ShortClassName",
-        "PMD.TooManyMethods"})
+@SuppressWarnings({ "PMD.ShortClassName", "PMD.TooManyMethods" })
 public class BSet<T extends BValue> implements BValue {
     private final Set<T> values;
 
@@ -45,11 +42,9 @@ public class BSet<T extends BValue> implements BValue {
 
     @Override
     public String toString() {
-        return String.format(Locale.ROOT, "{%s}",
-                this.values
-                        .stream()
-                        .map(Objects::toString)
-                        .collect(Collectors.joining(", ")));
+        return this.values.stream()
+            .map(Objects::toString)
+            .collect(Collectors.joining(", ", "{", "}"));
     }
 
     public Set<T> toSet() {
@@ -67,7 +62,7 @@ public class BSet<T extends BValue> implements BValue {
     }
 
     public <V extends BValue> BSequence<V> asSequence() {
-        return new BSequence<>(this.values);
+        return BSequence.fromBValues(this.values);
     }
 
     /**
