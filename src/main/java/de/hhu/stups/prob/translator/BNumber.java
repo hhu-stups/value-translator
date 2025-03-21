@@ -12,7 +12,6 @@ public abstract class BNumber extends Number implements BValue {
         super();
     }
 
-    @SuppressWarnings("PMD.OnlyOneReturn")
     public static BNumber of(final BigInteger bigIntegerValue) {
         Objects.requireNonNull(bigIntegerValue, "value");
         try {
@@ -30,7 +29,6 @@ public abstract class BNumber extends Number implements BValue {
         return BSmallNumber.create(longValue);
     }
 
-    @SuppressWarnings("PMD.OnlyOneReturn")
     public static BNumber of(final String stringValue) {
         Objects.requireNonNull(stringValue, "value");
         try {
@@ -41,7 +39,6 @@ public abstract class BNumber extends Number implements BValue {
     }
 
     @Override
-    @SuppressWarnings("PMD.OnlyOneReturn")
     public boolean equals(final Object other) {
         if (this == other) {
             return true;

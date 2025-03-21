@@ -13,7 +13,6 @@ public final class BString implements BValue {
     }
 
     @Override
-    @SuppressWarnings("PMD.OnlyOneReturn")
     public boolean equals(final Object other) {
         if (this == other) {
             return true;

@@ -17,7 +17,7 @@ final class BSmallNumber extends BNumber {
         this.value = longValue;
     }
 
-    @SuppressWarnings({ "PMD.OnlyOneReturn", "PMD.AvoidLiteralsInIfCondition" })
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     /* default */ static BNumber create(final long value) {
         if (value == 0) {
             return ZERO;
@@ -34,7 +34,6 @@ final class BSmallNumber extends BNumber {
     }
 
     @Override
-    @SuppressWarnings("PMD.OnlyOneReturn")
     public boolean equals(final Object other) {
         if (other instanceof BSmallNumber) {
             return this.value == ((BSmallNumber) other).value;

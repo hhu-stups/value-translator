@@ -23,7 +23,6 @@ public final class BTuple<T extends BValue, S extends BValue>
     }
 
     @Override
-    @SuppressWarnings("PMD.OnlyOneReturn")
     public boolean equals(final Object other) {
         if (this == other) {
             return true;

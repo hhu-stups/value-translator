@@ -31,7 +31,6 @@ public class BSet<T extends BValue> implements BValue {
     }
 
     @Override
-    @SuppressWarnings("PMD.OnlyOneReturn")
     public final boolean equals(final Object other) {
         if (this == other) {
             return true;
