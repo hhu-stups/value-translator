@@ -3,7 +3,7 @@ package de.hhu.stups.prob.translator;
 import java.math.BigInteger;
 
 @SuppressWarnings("PMD.TooManyMethods")
-final class BSmallNumber extends BNumber implements BValue {
+final class BSmallNumber extends BNumber {
 
     private static final BNumber ZERO = new BSmallNumber(0);
     private static final BNumber ONE = new BSmallNumber(1);

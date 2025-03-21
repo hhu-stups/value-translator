@@ -3,7 +3,7 @@ package de.hhu.stups.prob.translator;
 import java.math.BigInteger;
 import java.util.Objects;
 
-public final class BBigNumber extends BNumber implements BValue {
+public final class BBigNumber extends BNumber {
 
     private static final long serialVersionUID = 5922463363438789567L;
 
