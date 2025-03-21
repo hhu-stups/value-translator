@@ -39,12 +39,12 @@ import de.hhu.stups.prob.translator.interpretations.BSequence;
     "PMD.ExcessiveImports",
     "PMD.TooManyMethods",
 })
-public final class TranslatingVisitor<T extends BValue>
+final class TranslatingVisitor<T extends BValue>
         extends AnalysisAdapter {
     private BValue result;
     private boolean inUnaryMinus;
 
-    public TranslatingVisitor() {
+    /* default */ TranslatingVisitor() {
         super();
     }
 
