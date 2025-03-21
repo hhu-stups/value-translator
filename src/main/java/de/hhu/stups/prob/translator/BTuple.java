@@ -2,7 +2,8 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
-public final class BTuple<T, S> implements BValue {
+public final class BTuple<T extends BValue, S extends BValue>
+    implements BValue {
 
     private final T first;
     private final S second;
