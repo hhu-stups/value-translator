@@ -1,5 +1,6 @@
 package de.hhu.stups.prob.translator;
 
+@SuppressWarnings("PMD.ShortMethodName")
 public final class BBoolean implements BValue {
 
     public static final BBoolean TRUE = new BBoolean(true);
@@ -11,7 +12,10 @@ public final class BBoolean implements BValue {
         this.value = booleanValue;
     }
 
-    @SuppressWarnings("PMD.ShortMethodName")
+    public static BBoolean of(final String value) {
+        return of(Boolean.parseBoolean(value));
+    }
+
     public static BBoolean of(final boolean value) {
         if (value) {
             return TRUE;
@@ -35,6 +39,15 @@ public final class BBoolean implements BValue {
     @Override
     public int hashCode() {
         return Boolean.hashCode(this.value);
+    }
+
+    @Override
+    public String toString() {
+        if (this.value) {
+            return "TRUE";
+        } else {
+            return "FALSE";
+        }
     }
 
     public Boolean booleanValue() {
