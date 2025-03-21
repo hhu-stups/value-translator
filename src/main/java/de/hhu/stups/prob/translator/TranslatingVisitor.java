@@ -24,6 +24,7 @@ import de.be4.classicalb.core.parser.node.ASetExtensionExpression;
 import de.be4.classicalb.core.parser.node.AStringExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicCompositionExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicComprehensionSetExpression;
+import de.be4.classicalb.core.parser.node.ASymbolicEventBComprehensionSetExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicLambdaExpression;
 import de.be4.classicalb.core.parser.node.ASymbolicQuantifiedUnionExpression;
 import de.be4.classicalb.core.parser.node.AUnaryMinusExpression;
@@ -150,6 +151,14 @@ public final class TranslatingVisitor<T extends BValue>
     @Override
     public void caseASymbolicCompositionExpression(
             final ASymbolicCompositionExpression node) {
+        final PrettyPrinter prettyPrinter = new PrettyPrinter();
+        node.apply(prettyPrinter);
+        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+    }
+
+    @Override
+    public void caseASymbolicEventBComprehensionSetExpression(
+            final ASymbolicEventBComprehensionSetExpression node) {
         final PrettyPrinter prettyPrinter = new PrettyPrinter();
         node.apply(prettyPrinter);
         this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
