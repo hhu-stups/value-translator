@@ -2,7 +2,7 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
-public class BReal extends Number implements BValue {
+public final class BReal extends Number implements BValue {
 
     private static final long serialVersionUID = 5922463363438789565L;
 
@@ -28,7 +28,7 @@ public class BReal extends Number implements BValue {
 
     @Override
     @SuppressWarnings("PMD.OnlyOneReturn")
-    public final boolean equals(final Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }
@@ -40,7 +40,7 @@ public class BReal extends Number implements BValue {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(this.value);
     }
 

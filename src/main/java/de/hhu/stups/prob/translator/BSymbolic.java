@@ -2,7 +2,7 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
-public class BSymbolic implements BValue {
+public final class BSymbolic implements BValue {
 
     private final String value;
 
@@ -13,7 +13,7 @@ public class BSymbolic implements BValue {
 
     @Override
     @SuppressWarnings("PMD.OnlyOneReturn")
-    public final boolean equals(final Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }
@@ -25,16 +25,16 @@ public class BSymbolic implements BValue {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(this.value);
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return this.value;
     }
 
-    public final String stringValue() {
+    public String stringValue() {
         return this.value;
     }
 }

@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BSequence<V extends BValue> extends BFunction<BNumber, V> {
+public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
     @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     @SuppressWarnings("unchecked")
     public BSequence(final Set<? extends BValue> bValues) {

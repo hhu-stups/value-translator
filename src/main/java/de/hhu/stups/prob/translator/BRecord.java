@@ -9,7 +9,7 @@ import java.util.StringJoiner;
 // Is there a type safe method to provide access to the fields using
 // the specific field type?
 @SuppressWarnings("WeakerAccess")
-public class BRecord implements BValue {
+public final class BRecord implements BValue {
     private final Map<String, BValue> values;
 
     public BRecord(final Map<String, BValue> valueMap) {
@@ -19,7 +19,7 @@ public class BRecord implements BValue {
 
     @Override
     @SuppressWarnings("PMD.OnlyOneReturn")
-    public final boolean equals(final Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }
@@ -38,7 +38,7 @@ public class BRecord implements BValue {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(this.values);
     }
 

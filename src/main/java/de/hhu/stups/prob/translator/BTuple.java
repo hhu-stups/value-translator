@@ -2,7 +2,7 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
-public class BTuple<T, S> implements BValue {
+public final class BTuple<T, S> implements BValue {
 
     private final T first;
     private final S second;
@@ -22,7 +22,7 @@ public class BTuple<T, S> implements BValue {
 
     @Override
     @SuppressWarnings("PMD.OnlyOneReturn")
-    public final boolean equals(final Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }
@@ -35,7 +35,7 @@ public class BTuple<T, S> implements BValue {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(this.first, this.second);
     }
 
