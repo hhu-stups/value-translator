@@ -6,6 +6,7 @@ import de.hhu.stups.prob.translator.BAtom;
 import de.hhu.stups.prob.translator.BNumber;
 import de.hhu.stups.prob.translator.BSet;
 import de.hhu.stups.prob.translator.BTuple;
+import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
@@ -27,9 +28,9 @@ public class BFunctionTest {
                 = Translator.translate("{(1,a), (2, b), (3,c)}");
         final Map<BNumber, BAtom> map
                 = set.asFunction(BNumber.class, BAtom.class).toMap();
-        assertThat(map.get(BNumber.of(1))).isEqualTo(new BAtom("a"));
-        assertThat(map.get(BNumber.of(2))).isEqualTo(new BAtom("b"));
-        assertThat(map.get(BNumber.of(3))).isEqualTo(new BAtom("c"));
+        assertThat(map.get(BValue.number(1))).isEqualTo(BValue.atom("a"));
+        assertThat(map.get(BValue.number(2))).isEqualTo(BValue.atom("b"));
+        assertThat(map.get(BValue.number(3))).isEqualTo(BValue.atom("c"));
     }
 
     @Test

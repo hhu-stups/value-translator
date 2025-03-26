@@ -8,6 +8,7 @@ import de.hhu.stups.prob.translator.BAtom;
 import de.hhu.stups.prob.translator.BNumber;
 import de.hhu.stups.prob.translator.BSet;
 import de.hhu.stups.prob.translator.BTuple;
+import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.Translator;
 import de.hhu.stups.prob.translator.exceptions.DuplicateKeyException;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
@@ -26,10 +27,10 @@ public class BSequenceTest {
     @Test
     public void sequenceCreation() throws TranslationException {
         final BSequence<BNumber> sequence =
-            BSequence.sequence(Arrays.asList(
-                BNumber.of(3),
-                BNumber.of(2),
-                BNumber.of(1)
+            BValue.sequence(Arrays.asList(
+                BValue.number(3),
+                BValue.number(2),
+                BValue.number(1)
             ));
         final BSet<BTuple<BNumber, BAtom>> set
                 = Translator.translate("{(1,3), (2,2), (3,1)}");

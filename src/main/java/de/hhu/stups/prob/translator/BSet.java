@@ -18,14 +18,17 @@ public class BSet<T extends BValue> implements BValue {
 
     private final Set<T> values;
 
-    public BSet() {
-        this.values = Collections.emptySet();
-    }
-
-    public BSet(final Set<? extends T> set) {
+    protected BSet(final Set<? extends T> set) {
         this.values = Collections.unmodifiableSet(
             new HashSet<>(Objects.requireNonNull(set, "set"))
         );
+    }
+
+    /* default */
+    static <T extends BValue> BSet<T> set(
+        final Set<? extends T> values) {
+
+        return new BSet<>(values);
     }
 
     @Override
@@ -48,8 +51,8 @@ public class BSet<T extends BValue> implements BValue {
     @Override
     public String toString() {
         return this.values.stream()
-            .map(Objects::toString)
-            .collect(Collectors.joining(", ", "{", "}"));
+                   .map(Objects::toString)
+                   .collect(Collectors.joining(", ", "{", "}"));
     }
 
     @SuppressFBWarnings("EI_EXPOSE_REP")
@@ -64,12 +67,12 @@ public class BSet<T extends BValue> implements BValue {
 
     @SuppressWarnings("unused")
     public <V extends BValue> BSequence<V> asSequence(
-            final Class<V> valueType) {
+        final Class<V> valueType) {
         return this.asSequence();
     }
 
     public <V extends BValue> BSequence<V> asSequence() {
-        return BSequence.sequenceFromBValues(this.values);
+        return BValue.sequenceFromTuples(this.values);
     }
 
     /**
@@ -77,27 +80,27 @@ public class BSet<T extends BValue> implements BValue {
      *
      * @param domainType Class of domain values
      * @param rangeType  Class of range values
-     * @param <A> Type of domain values
-     * @param <B> Type of range values
+     * @param <A>        Type of domain values
+     * @param <B>        Type of range values
      * @return BFunction
      */
     @SuppressWarnings("unused")
     public <A extends BValue, B extends BValue> BFunction<A, B> asFunction(
-            final Class<A> domainType, final Class<B> rangeType) {
+        final Class<A> domainType, final Class<B> rangeType) {
         return this.asFunction();
     }
 
     public <K extends BValue, V extends BValue> BFunction<K, V> asFunction() {
-        return BFunction.functionFromBValues(this.values);
+        return BValue.functionFromTuples(this.values);
     }
 
     @SuppressWarnings("unused")
     public <A extends BValue, B extends BValue> BRelation<A, B> asRelation(
-            final Class<A> domainType, final Class<B> rangeType) {
+        final Class<A> domainType, final Class<B> rangeType) {
         return this.asRelation();
     }
 
     public <K extends BValue, V extends BValue> BRelation<K, V> asRelation() {
-        return BRelation.relationFromBValues(this.values);
+        return BValue.relationFromTuples(this.values);
     }
 }

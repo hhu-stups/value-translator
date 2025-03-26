@@ -2,13 +2,19 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
+@SuppressWarnings("PMD.ShortMethodName")
 public final class BAtom implements BValue {
 
     private final String value;
 
-    public BAtom(final String text) {
+    private BAtom(final String text) {
         super();
         this.value = Objects.requireNonNull(text, "text");
+    }
+
+    /* default */
+    static BAtom of(final String value) {
+        return new BAtom(value);
     }
 
     @Override

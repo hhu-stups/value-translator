@@ -12,11 +12,13 @@ public final class BBoolean implements BValue {
         this.value = booleanValue;
     }
 
-    public static BBoolean of(final String value) {
+    /* default */
+    static BBoolean of(final String value) {
         return of(Boolean.parseBoolean(value));
     }
 
-    public static BBoolean of(final boolean value) {
+    /* default */
+    static BBoolean of(final boolean value) {
         if (value) {
             return TRUE;
         } else {

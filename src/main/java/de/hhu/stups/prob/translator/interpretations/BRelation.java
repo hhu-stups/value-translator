@@ -15,15 +15,36 @@ import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
 public class BRelation<K extends BValue, V extends BValue>
-        extends BSet<BTuple<K, V>> {
+    extends BSet<BTuple<K, V>> {
 
     /* default */ BRelation(final Set<BTuple<K, V>> bValues) {
         super(bValues);
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * @deprecated use {@link BValue#relation(Map)}
+     */
+    @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed")
     public static <K extends BValue, V extends BValue> BRelation<K, V>
-    relationFromBValues(final Set<? extends BValue> values) {
+    relation(final Map<? extends K, Set<? extends V>> values) {
+        final Set<BTuple<K, V>> tuples =
+            values.entrySet().stream()
+                .flatMap(e ->
+                             e.getValue().stream()
+                                 .map(v ->
+                                          BValue.<K, V>tuple(e.getKey(), v)))
+                .collect(Collectors.toSet());
+        return new BRelation<>(tuples);
+    }
+
+    /**
+     * @deprecated use {@link BValue#relationFromTuples(Set)}
+     */
+    @Deprecated
+    @SuppressWarnings({ "unchecked", "DeprecatedIsStillUsed" })
+    public static <K extends BValue, V extends BValue> BRelation<K, V>
+    relationFromTuples(final Set<? extends BValue> values) {
         check(values);
         return new BRelation<>((Set<BTuple<K, V>>) values);
     }
@@ -48,18 +69,18 @@ public class BRelation<K extends BValue, V extends BValue>
     }
 
     public <M, N> Map<M, List<N>> toRelationalMap(
-            final Function<K, M> keyMapper, final Function<V, N> valueMapper) {
+        final Function<K, M> keyMapper, final Function<V, N> valueMapper) {
         return this.stream()
-                       .map(tuple -> new Pair<>(
-                               keyMapper.apply(tuple.getFirst()),
-                               valueMapper.apply(tuple.getSecond())
-                       )).collect(
-                        Collectors.groupingBy(Pair::getKey,
-                                Collectors.mapping(Pair::getValue,
-                                        Collectors.collectingAndThen(
-                                                Collectors.toList(),
-                                                Collections::unmodifiableList
-                                        ))));
+                   .map(tuple -> new Pair<>(
+                       keyMapper.apply(tuple.getFirst()),
+                       valueMapper.apply(tuple.getSecond())
+                   )).collect(
+                Collectors.groupingBy(Pair::getKey,
+                    Collectors.mapping(Pair::getValue,
+                        Collectors.collectingAndThen(
+                            Collectors.toList(),
+                            Collections::unmodifiableList
+                        ))));
     }
 
     @SuppressWarnings("PMD.ShortClassName")

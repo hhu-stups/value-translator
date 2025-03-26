@@ -6,16 +6,23 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-// Is there a type safe method to provide access to the fields using
-// the specific field type?
-@SuppressWarnings("WeakerAccess")
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+@SuppressWarnings("PMD.ShortMethodName")
 public final class BRecord implements BValue {
+
     private final Map<String, BValue> values;
 
-    public BRecord(final Map<String, BValue> valueMap) {
+    private BRecord(final Map<String, ? extends BValue> valueMap) {
         super();
-        this.values = new HashMap<>(
-            Objects.requireNonNull(valueMap, "valueMap"));
+        this.values = Collections.unmodifiableMap(new HashMap<>(
+            Objects.requireNonNull(valueMap, "values")
+        ));
+    }
+
+    /* default */
+    static BRecord of(final Map<String, ? extends BValue> values) {
+        return new BRecord(values);
     }
 
     @Override
@@ -42,7 +49,9 @@ public final class BRecord implements BValue {
         return this.values.hashCode();
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     public Map<String, BValue> toMap() {
-        return Collections.unmodifiableMap(this.values);
+        // can just return field because we made it immutable in the constructor
+        return this.values;
     }
 }

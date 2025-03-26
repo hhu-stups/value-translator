@@ -12,7 +12,8 @@ public abstract class BNumber extends Number implements BValue {
         super();
     }
 
-    public static BNumber of(final BigInteger bigIntegerValue) {
+    /* default */
+    static BNumber of(final BigInteger bigIntegerValue) {
         Objects.requireNonNull(bigIntegerValue, "value");
         try {
             return of(bigIntegerValue.longValueExact());
@@ -21,15 +22,13 @@ public abstract class BNumber extends Number implements BValue {
         }
     }
 
-    public static BNumber of(final int intValue) {
-        return of((long) intValue);
-    }
-
-    public static BNumber of(final long longValue) {
+    /* default */
+    static BNumber of(final long longValue) {
         return BSmallNumber.create(longValue);
     }
 
-    public static BNumber of(final String stringValue) {
+    /* default */
+    static BNumber of(final String stringValue) {
         Objects.requireNonNull(stringValue, "value");
         try {
             return of(Long.parseLong(stringValue));

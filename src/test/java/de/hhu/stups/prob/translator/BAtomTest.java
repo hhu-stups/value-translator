@@ -29,12 +29,12 @@ public class BAtomTest {
 
     @Test
     public void testEquals() {
-        assertThat(atom).isEqualTo(new BAtom(ATOM));
+        assertThat(atom).isEqualTo(BValue.atom(ATOM));
     }
 
     @Test
     public void testNotEquals() {
-        assertThat(atom).isNotEqualTo(new BAtom("other"));
+        assertThat(atom).isNotEqualTo(BValue.atom("other"));
     }
 
     @Test

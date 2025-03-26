@@ -2,13 +2,19 @@ package de.hhu.stups.prob.translator;
 
 import java.util.Objects;
 
+@SuppressWarnings("PMD.ShortMethodName")
 public final class BSymbolic implements BValue {
 
     private final String value;
 
-    public BSymbolic(final String text) {
+    private BSymbolic(final String text) {
         super();
         this.value = Objects.requireNonNull(text, "text");
+    }
+
+    /* default */
+    static BSymbolic of(final String value) {
+        return new BSymbolic(value);
     }
 
     @Override

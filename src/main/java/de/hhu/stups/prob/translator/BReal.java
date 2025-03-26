@@ -12,11 +12,13 @@ public final class BReal extends Number implements BValue {
         this.value = doubleValue;
     }
 
-    public static BReal of(final String stringValue) {
+    /* default */
+    static BReal of(final String stringValue) {
         return of(Double.parseDouble(stringValue));
     }
 
-    public static BReal of(final double doubleValue) {
+    /* default */
+    static BReal of(final double doubleValue) {
         if (!Double.isFinite(doubleValue)) {
             throw new IllegalArgumentException("value must be finite");
         }

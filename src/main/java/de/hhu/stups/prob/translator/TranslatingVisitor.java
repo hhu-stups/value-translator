@@ -37,7 +37,6 @@ import de.be4.classicalb.core.parser.node.PExpression;
 import de.be4.classicalb.core.parser.node.Start;
 import de.be4.classicalb.core.parser.util.PrettyPrinter;
 import de.be4.classicalb.core.parser.util.Utils;
-import de.hhu.stups.prob.translator.interpretations.BSequence;
 
 @SuppressWarnings({
     "PMD.CouplingBetweenObjects",
@@ -92,6 +91,11 @@ final class TranslatingVisitor<T extends BValue>
         this.result = bValue;
     }
 
+    private void setSymbolicResult(final Node node) {
+        final String prettyPrint = PrettyPrinter.getCompactPrettyPrint(node);
+        this.setResult(BValue.symbolic(prettyPrint));
+    }
+
     @Override
     public void caseAIntegerExpression(final AIntegerExpression node) {
         final String nodeText = node.getLiteral().getText();
@@ -102,7 +106,7 @@ final class TranslatingVisitor<T extends BValue>
         } else {
             text = nodeText;
         }
-        this.setResult(BNumber.of(text));
+        this.setResult(BValue.number(text));
     }
 
     @Override
@@ -115,7 +119,7 @@ final class TranslatingVisitor<T extends BValue>
         } else {
             text = nodeText;
         }
-        this.setResult(BReal.of(text));
+        this.setResult(BValue.real(text));
     }
 
     @Override
@@ -131,12 +135,12 @@ final class TranslatingVisitor<T extends BValue>
 
     @Override
     public void caseAIdentifierExpression(final AIdentifierExpression node) {
-        this.setResult(new BAtom(Utils.getAIdentifierAsString(node)));
+        this.setResult(BValue.atom(Utils.getAIdentifierAsString(node)));
     }
 
     @Override
     public void caseAEmptySetExpression(final AEmptySetExpression node) {
-        this.setResult(new BSet<>());
+        this.setResult(BValue.set());
     }
 
     @Override
@@ -144,7 +148,7 @@ final class TranslatingVisitor<T extends BValue>
             final ASetExtensionExpression node) {
         final Set<BValue> elements
                 = listToSet(node.getExpressions());
-        this.setResult(new BSet<>(elements));
+        this.setResult(BSet.set(elements));
     }
 
     @Override
@@ -152,68 +156,54 @@ final class TranslatingVisitor<T extends BValue>
             final AComprehensionSetExpression node) {
         final PrettyPrinter prettyPrinter = new PrettyPrinter();
         node.apply(prettyPrinter);
-        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+        this.setResult(BSymbolic.of(prettyPrinter.getPrettyPrint()));
     }
 
     @Override
     public void caseASymbolicComprehensionSetExpression(
             final ASymbolicComprehensionSetExpression node) {
-        final PrettyPrinter prettyPrinter = new PrettyPrinter();
-        node.apply(prettyPrinter);
-        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+        this.setSymbolicResult(node);
     }
 
     @Override
     public void caseASymbolicCompositionExpression(
             final ASymbolicCompositionExpression node) {
-        final PrettyPrinter prettyPrinter = new PrettyPrinter();
-        node.apply(prettyPrinter);
-        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+        this.setSymbolicResult(node);
     }
 
     @Override
     public void caseASymbolicEventBComprehensionSetExpression(
             final ASymbolicEventBComprehensionSetExpression node) {
-        final PrettyPrinter prettyPrinter = new PrettyPrinter();
-        node.apply(prettyPrinter);
-        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+        this.setSymbolicResult(node);
     }
 
     @Override
     public void caseASymbolicLambdaExpression(
             final ASymbolicLambdaExpression node) {
-        final PrettyPrinter prettyPrinter = new PrettyPrinter();
-        node.apply(prettyPrinter);
-        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+        this.setSymbolicResult(node);
     }
 
     @Override
     public void caseASymbolicQuantifiedUnionExpression(
             final ASymbolicQuantifiedUnionExpression node) {
-        final PrettyPrinter prettyPrinter = new PrettyPrinter();
-        node.apply(prettyPrinter);
-        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+        this.setSymbolicResult(node);
     }
 
     @Override
     public void caseAExistsPredicate(
             final AExistsPredicate node) {
-        final PrettyPrinter prettyPrinter = new PrettyPrinter();
-        node.apply(prettyPrinter);
-        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+        this.setSymbolicResult(node);
     }
 
     @Override
     public void caseAForallPredicate(
             final AForallPredicate node) {
-        final PrettyPrinter prettyPrinter = new PrettyPrinter();
-        node.apply(prettyPrinter);
-        this.setResult(new BSymbolic(prettyPrinter.getPrettyPrint()));
+        this.setSymbolicResult(node);
     }
 
     @Override
     public void caseAStringExpression(final AStringExpression node) {
-        this.setResult(new BString(node.getContent().getText()));
+        this.setResult(BValue.string(node.getContent().getText()));
     }
 
     @Override
@@ -238,7 +228,7 @@ final class TranslatingVisitor<T extends BValue>
                               expression.apply(visitor);
                               return visitor.getResult();
                           })
-                          .reduce(BTuple::new)
+                          .reduce(BValue::tuple)
                           .orElseThrow(supplier);
         this.setResult(bValue);
     }
@@ -255,7 +245,7 @@ final class TranslatingVisitor<T extends BValue>
                         Collectors.collectingAndThen(
                                 Collectors.toMap(RecordEntry::getKey,
                                         RecordEntry::getValue),
-                                BRecord::new)));
+                                BValue::record)));
     }
 
     @Override
@@ -281,13 +271,13 @@ final class TranslatingVisitor<T extends BValue>
                 value.apply(vtor);
                 return vtor.getResult();
             }).collect(Collectors.toList());
-        this.setResult(BSequence.sequence(values));
+        this.setResult(BValue.sequence(values));
     }
 
     @Override
     public void caseAEmptySequenceExpression(
             final AEmptySequenceExpression node) {
-        this.setResult(BSequence.sequence());
+        this.setResult(BValue.sequence());
     }
 
     @Override

@@ -21,24 +21,30 @@ public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
         super(bValues);
     }
 
-    public static <T extends BValue> BSequence<T> sequence() {
-        return new BSequence<>(Collections.emptySet());
-    }
-
+    /**
+     * @deprecated use {@link BValue#sequence()}
+     * or {@link BValue#sequence(List)}
+     */
+    @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed")
     public static <T extends BValue> BSequence<T> sequence(
         final List<? extends T> values) {
 
         final Set<BTuple<BNumber, T>> set
             = IntStream
                   .range(0, values.size())
-                  .mapToObj(index -> new BTuple<>(
-                      BNumber.of(index + 1), (T) values.get(index)))
+                  .mapToObj(index -> BValue.tuple(
+                      BValue.number(index + 1), (T) values.get(index)))
                   .collect(Collectors.toSet());
         return new BSequence<>(set);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <V extends BValue> BSequence<V> sequenceFromBValues(
+    /**
+     * @deprecated use {@link BValue#sequenceFromTuples(Set)}
+     */
+    @Deprecated
+    @SuppressWarnings({ "unchecked", "DeprecatedIsStillUsed" })
+    public static <V extends BValue> BSequence<V> sequenceFromTuples(
         final Set<? extends BValue> values) {
 
         check(values);

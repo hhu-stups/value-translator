@@ -4,13 +4,19 @@ import java.util.Objects;
 
 import de.be4.classicalb.core.parser.util.Utils;
 
+@SuppressWarnings("PMD.ShortMethodName")
 public final class BString implements BValue {
 
     private final String value;
 
-    public BString(final String text) {
+    private BString(final String text) {
         super();
         this.value = Objects.requireNonNull(text, "text");
+    }
+
+    /* default */
+    static BString of(final String value) {
+        return new BString(value);
     }
 
     @Override
