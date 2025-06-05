@@ -37,7 +37,7 @@ configurations.all {
 }
 
 dependencies {
-    api group: "de.hhu.stups", name: "bparser", version: "2.15.1-SNAPSHOT"
+    api group: "de.hhu.stups", name: "bparser", version: "2.15.1"
 
     compileOnly group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.6"
     testCompileOnly group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.6"
