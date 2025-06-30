@@ -10,7 +10,7 @@ It **translates** B expressions to Java -- without evaluating them.
 
 ### Snapshot Versions
 
-`implementation "de.hhu.stups:value-translator:0.2.0-SNAPSHOT"`
+`implementation "de.hhu.stups:value-translator:0.2.1-SNAPSHOT"`
 
 Snapshot versions are available on [Sonatype](https://oss.sonatype.org/content/repositories/snapshots/).
 To use a snapshot version you need to add Sonatype as a repository, e.g. using Gradle:
