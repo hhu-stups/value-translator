@@ -27,9 +27,9 @@ repositories {
 
 ### Releases 
 
-**Current Version**: 0.1.4
+**Current Version**: 0.2.0
 
-`implementation "de.hhu.stups:value-translator:0.1.4"`
+`implementation "de.hhu.stups:value-translator:0.2.0"`
 
 Releases are published on [Maven Central](https://central.sonatype.com/artifact/de.hhu.stups/value-translator).
 
