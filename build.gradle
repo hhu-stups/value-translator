@@ -20,12 +20,14 @@ group = "de.hhu.stups"
 version = "0.2.1-SNAPSHOT"
 final isSnapshot = project.version.endsWith("-SNAPSHOT")
 
+final snapshotsRepoUrl = "https://central.sonatype.com/repository/maven-snapshots/"
+final releasesStagingRepoUrl = "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/"
 repositories {
     mavenCentral()
     if (isSnapshot) {
         maven {
-            name = "sonatype snapshots"
-            url = "https://oss.sonatype.org/content/repositories/snapshots"
+            name = "Sonatype snapshots"
+            url = snapshotsRepoUrl
         }
     }
 }
@@ -133,9 +135,7 @@ publishing {
     }
     repositories {
         maven {
-            final def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-            final def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-            url = isSnapshot ? snapshotsRepoUrl : releasesRepoUrl
+            url = isSnapshot ? snapshotsRepoUrl : releasesStagingRepoUrl
             if (project.hasProperty('ossrhUsername') && project.hasProperty('ossrhPassword')) {
                 credentials {
                     username = project.ossrhUsername
