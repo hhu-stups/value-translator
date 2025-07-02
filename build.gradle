@@ -111,12 +111,14 @@ publishing {
                 name = 'Value Translator'
                 description = 'Library to translate Classical B values into Java objects.'
                 url = 'https://github.com/hhu-stups/value-translator'
+
                 licenses {
                     license {
                         name = 'MIT License'
                         url = 'https://github.com/hhu-stups/value-translator/blob/master/LICENSE'
                     }
                 }
+
                 developers {
                     developer {
                         id = 'bivab'
@@ -124,6 +126,7 @@ publishing {
                         email = 'david.schneider@hhu.de'
                     }
                 }
+
                 scm {
                     connection = 'scm:git:git://github.com:hhu-stups/value-translator.git'
                     developerConnection = 'scm:git:ssh://github.com:hhu-stups/value-translator.git'
@@ -131,8 +134,8 @@ publishing {
                 }
             }
         }
-
     }
+
     repositories {
         maven {
             url = isSnapshot ? snapshotsRepoUrl : releasesStagingRepoUrl
