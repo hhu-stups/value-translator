@@ -14,6 +14,8 @@ plugins {
 
     id 'maven-publish'
     id 'signing'
+
+    id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
 }
 
 group = "de.hhu.stups"
@@ -135,16 +137,13 @@ publishing {
             }
         }
     }
+}
 
+nexusPublishing {
     repositories {
-        maven {
-            url = isSnapshot ? snapshotsRepoUrl : releasesStagingRepoUrl
-            if (project.hasProperty("mavenCentralUsername") && project.hasProperty("mavenCentralPassword")) {
-                credentials {
-                    username = project.mavenCentralUsername
-                    password = project.mavenCentralPassword
-                }
-            }
+        mavenCentral {
+            snapshotRepositoryUrl.set(uri(snapshotsRepoUrl))
+            nexusUrl.set(uri(releasesStagingRepoUrl))
         }
     }
 }
