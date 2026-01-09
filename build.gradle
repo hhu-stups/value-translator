@@ -41,7 +41,7 @@ configurations.all {
 }
 
 dependencies {
-    api group: "de.hhu.stups", name: "bparser", version: "2.15.4"
+    api("de.hhu.stups:bparser:2.15.4")
 
     // SuppressFBWarnings annotations are written into the class files (RetentionPolicy.CLASS).
     // If another project uses a value-translator class containing a SuppressFBWarnings annotation,
@@ -55,13 +55,13 @@ dependencies {
     // Currently, we only use SuppressFBWarnings in the tests,
     // so we can ignore all of this and just use testCompileOnly.
     // Change back to compileOnlyApi if needed.
-    testCompileOnly group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.6"
+    testCompileOnly("com.github.spotbugs:spotbugs-annotations:4.8.6")
 
-    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.19.4"
-    testImplementation group: "org.assertj", name: "assertj-core", version: "3.27.6"
-    testImplementation(platform(group: "org.junit", name: "junit-bom", version: "5.14.2"))
-    testImplementation group: "org.junit.jupiter", name: "junit-jupiter"
-    testRuntimeOnly group: "org.junit.platform", name: "junit-platform-launcher"
+    testImplementation("nl.jqno.equalsverifier:equalsverifier:3.19.4")
+    testImplementation("org.assertj:assertj-core:3.27.6")
+    testImplementation(platform("org.junit:junit-bom:5.14.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 java {
@@ -85,7 +85,7 @@ test {
 
 pitest {
     // The junit5PluginVersion setting internally uses the following Maven coordinates:
-    // group: "org.pitest", name: "pitest-junit5-plugin", version: <specified below>
+    // "org.pitest:pitest-junit5-plugin:${pitest.junit5PluginVersion}"
     // https://central.sonatype.com/artifact/org.pitest/pitest-junit5-plugin
     junit5PluginVersion = "1.2.3"
     threads = 4
