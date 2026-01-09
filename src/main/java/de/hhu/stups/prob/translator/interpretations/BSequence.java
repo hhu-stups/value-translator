@@ -14,7 +14,6 @@ import de.hhu.stups.prob.translator.BTuple;
 import de.hhu.stups.prob.translator.BValue;
 import de.hhu.stups.prob.translator.exceptions.InterpretationException;
 
-@SuppressWarnings("PMD.ShortMethodName")
 public final class BSequence<V extends BValue> extends BFunction<BNumber, V> {
 
     private BSequence(final Set<BTuple<BNumber, V>> bValues) {
