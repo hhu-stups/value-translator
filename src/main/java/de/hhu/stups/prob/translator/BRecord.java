@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 @SuppressWarnings("PMD.ShortMethodName")
 public final class BRecord implements BValue {
 
@@ -49,7 +47,6 @@ public final class BRecord implements BValue {
         return this.values.hashCode();
     }
 
-    @SuppressFBWarnings("EI_EXPOSE_REP")
     public Map<String, BValue> toMap() {
         // can just return field because we made it immutable in the constructor
         return this.values;

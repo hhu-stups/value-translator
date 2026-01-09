@@ -11,8 +11,6 @@ import de.hhu.stups.prob.translator.interpretations.BFunction;
 import de.hhu.stups.prob.translator.interpretations.BRelation;
 import de.hhu.stups.prob.translator.interpretations.BSequence;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 @SuppressWarnings({ "PMD.ShortClassName", "PMD.TooManyMethods" })
 public class BSet<T extends BValue> implements BValue {
 
@@ -55,7 +53,6 @@ public class BSet<T extends BValue> implements BValue {
                    .collect(Collectors.joining(", ", "{", "}"));
     }
 
-    @SuppressFBWarnings("EI_EXPOSE_REP")
     public Set<T> toSet() {
         // can just return field because we made it immutable in the constructor
         return this.values;

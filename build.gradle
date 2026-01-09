@@ -51,7 +51,11 @@ dependencies {
     // not just compileOnly or implementation.
     // We can use compileOnlyApi instead of api,
     // because SuppressFBWarnings is not a runtime annotation.
-    compileOnlyApi group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.6"
+
+    // Currently, we only use SuppressFBWarnings in the tests,
+    // so we can ignore all of this and just use testCompileOnly.
+    // Change back to compileOnlyApi if needed.
+    testCompileOnly group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.6"
 
     testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.19.4"
     testImplementation group: "org.assertj", name: "assertj-core", version: "3.27.6"
