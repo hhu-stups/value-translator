@@ -43,9 +43,15 @@ configurations.all {
 dependencies {
     api group: "de.hhu.stups", name: "bparser", version: "2.15.2"
 
-    // SuppressFBWarnings is not a source-only annotation,
-    // so this has to be an implementation dependency and not compileOnly.
-    implementation group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.6"
+    // SuppressFBWarnings annotations are written into the class files (RetentionPolicy.CLASS).
+    // If another project uses a value-translator class containing a SuppressFBWarnings annotation,
+    // that other project also needs to have SuppressFBWarnings on its compile classpath,
+    // otherwise javac will emit a warning.
+    // Thus, spotbugs-annotations needs to be a transitive dependency,
+    // not just compileOnly or implementation.
+    // We can use compileOnlyApi instead of api,
+    // because SuppressFBWarnings is not a runtime annotation.
+    compileOnlyApi group: "com.github.spotbugs", name: "spotbugs-annotations", version: "4.8.6"
 
     testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "3.19.1"
     testImplementation group: "org.assertj", name: "assertj-core", version: "3.27.3"
