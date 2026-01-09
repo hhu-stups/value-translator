@@ -6,7 +6,15 @@ This library provides a Java representation for B value types, i.e. sets,
 strings, numbers, etc.
 It **translates** B expressions to Java -- without evaluating them.
 
-## Installation 
+## Installation
+
+### Releases 
+
+**Current Version**: 0.2.2
+
+`implementation "de.hhu.stups:value-translator:0.2.2"`
+
+Releases are published on [Maven Central](https://central.sonatype.com/artifact/de.hhu.stups/value-translator).
 
 ### Snapshot Versions
 
@@ -24,14 +32,6 @@ repositories {
     }
 }
 ```
-
-### Releases 
-
-**Current Version**: 0.2.2
-
-`implementation "de.hhu.stups:value-translator:0.2.2"`
-
-Releases are published on [Maven Central](https://central.sonatype.com/artifact/de.hhu.stups/value-translator).
 
 ## Usage
 
