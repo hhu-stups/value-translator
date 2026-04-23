@@ -4,8 +4,9 @@ variables:
 
 cache:
   paths:
-    - .gradle/wrapper
     - .gradle/caches
+    - .gradle/notifications
+    - .gradle/wrapper
 
 # For testing with older Java versions.
 # Gradle 9 requires at least Java 17 to run,
