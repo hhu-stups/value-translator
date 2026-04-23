@@ -89,6 +89,13 @@ test {
     useJUnitPlatform()
 }
 
+checkstyle {
+    // Checkstyle 10 and later require at least Java 11
+    // (see https://checkstyle.org/#JRE_and_JDK),
+    // but we still want the ability to test on Java 8.
+    toolVersion = "9.3"
+}
+
 pitest {
     // The junit5PluginVersion setting internally uses the following Maven coordinates:
     // "org.pitest:pitest-junit5-plugin:${pitest.junit5PluginVersion}"
