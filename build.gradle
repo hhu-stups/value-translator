@@ -55,11 +55,11 @@ dependencies {
     // Currently, we only use SuppressFBWarnings in the tests,
     // so we can ignore all of this and just use testCompileOnly.
     // Change back to compileOnlyApi if needed.
-    testCompileOnly("com.github.spotbugs:spotbugs-annotations:4.8.6")
+    testCompileOnly("com.github.spotbugs:spotbugs-annotations:4.9.8")
 
     testImplementation("nl.jqno.equalsverifier:equalsverifier:3.19.4")
-    testImplementation("org.assertj:assertj-core:3.27.6")
-    testImplementation(platform("org.junit:junit-bom:5.14.2"))
+    testImplementation("org.assertj:assertj-core:3.27.7")
+    testImplementation(platform("org.junit:junit-bom:5.14.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
