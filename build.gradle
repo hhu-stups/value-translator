@@ -80,7 +80,7 @@ java {
 javadoc {
     // silence warnings on missing javadoc
     options.addBooleanOption('Xdoclint:all,-missing', true)
-    if (JavaVersion.current().isJava9Compatible()) {
+    if (java.toolchain.languageVersion.getOrElse(JavaLanguageVersion.current()).canCompileOrRun(9)) {
         options.addBooleanOption('html5', true)
     }
 }
