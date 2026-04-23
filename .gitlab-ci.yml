@@ -53,11 +53,11 @@ tests:jdk-11:
     ORG_GRADLE_PROJECT_javaToolchainVersion: "11"
 
 tests:jdk-17:
-  extends: tests
+  extends: .tests
   image: eclipse-temurin:17
 
 tests:jdk-21:
-  extends: tests
+  extends: .tests
   image: eclipse-temurin:21
 
 analysis:
