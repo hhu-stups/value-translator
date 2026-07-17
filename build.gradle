@@ -41,7 +41,7 @@ configurations.all {
 }
 
 dependencies {
-    api("de.hhu.stups:bparser:2.15.4")
+    api("de.hhu.stups:bparser:2.16.0")
 
     // SuppressFBWarnings annotations are written into the class files (RetentionPolicy.CLASS).
     // If another project uses a value-translator class containing a SuppressFBWarnings annotation,
